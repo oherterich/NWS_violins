@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>2A52240C-DFDC-441D-9D8C-20F3B02FFC22</string>
+	<key>IDESourceControlProjectName</key>
+	<string>DuelParticles_initialTest</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>A1F64E5C-1566-4ED4-A6D4-5A959A82C62A</key>
+		<string>https://github.com/oherterich/NWS_violins.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>NWS_violins/Ideas/DuelParticles_initialTest/DuelParticles_initialTest.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>30419722-606C-4E99-BE31-9A809D646581</key>
+		<string>../../../../..</string>
+		<key>A1F64E5C-1566-4ED4-A6D4-5A959A82C62A</key>
+		<string>../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/oherterich/NWS_violins.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>30419722-606C-4E99-BE31-9A809D646581</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A1F64E5C-1566-4ED4-A6D4-5A959A82C62A</string>
+			<key>IDESourceControlWCCName</key>
+			<string>NWS_violins</string>
+		</dict>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>30419722-606C-4E99-BE31-9A809D646581</string>
+			<key>IDESourceControlWCCName</key>
+			<string>of_v0.8</string>
+		</dict>
+	</array>
+</dict>
+</plist>
