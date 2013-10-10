@@ -19,7 +19,7 @@ public:
     void setParams( float px, float py, float vx, float vy, float _size );
     void addForce( ofVec2f force );
     void addDampingForce();
-    void addDampingForce(ofVec2f val);
+    void addDampingForce(float val);
     void addRepulsionForce( float px, float py, float radius, float strength);
     void addAttractionForce( float px, float py, float radius, float strength);
     void addClockwiseForce( float px, float py, float radius, float strength);
@@ -30,6 +30,7 @@ public:
     void resize(float target, float startTime, float endTime);
     void addNoise(float vigor);
     void applyGravity(float g, float floor);
+    void applyBounds();
     void resetForces();
     
     ofVec2f pos;

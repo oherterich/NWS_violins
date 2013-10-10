@@ -71,9 +71,8 @@ void Particle::addDampingForce() {
 }
 
 
-void Particle::addDampingForce(ofVec2f val) {
-    damping = val;
-    frc = frc - vel * damping;
+void Particle::addDampingForce(float val) {
+    frc = frc - vel * val;
 }
 
 
@@ -140,6 +139,24 @@ void Particle::resetForces() {
     frc.set(0,0);
 }
 
+void Particle::applyBounds(){
+    if(pos.x<=size){
+        pos.x=size+.5;
+        vel.x*=-1;
+    }
+    if(pos.x>=ofGetWidth()-size){
+        pos.x=ofGetWidth()-(size+.5);
+        vel.x*=-1;
+    }
+    if(pos.y<=size){
+        pos.y=size+.5;
+        vel.y*=-1;
+    }
+    if(pos.y>=ofGetHeight()-size){
+        pos.y=ofGetHeight()-(size+.5);
+        vel.y*=-1;
+    }
+}
 
 //----------------------------------------------------------
 //Update / Draw
