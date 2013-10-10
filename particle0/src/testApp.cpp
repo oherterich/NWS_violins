@@ -53,6 +53,7 @@ void testApp::update(){
                 break;
                 
             case 7:
+                it->lerpToColor(it->c, ofColor(255,0,0), 0.05);
                 break;
                 
             case 8:
@@ -60,7 +61,6 @@ void testApp::update(){
                 break;
                 
             case 9:
-                it->lerpToColor(ofColor(255,0,0), ofColor(255,255,0), 0.1);
                 break;
                 
             default:
@@ -71,9 +71,11 @@ void testApp::update(){
             it->setParams(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, ofRandom(-5, 5), ofRandom(-5, 5), 2);
         }
         
+        if (bounds) {
+            it->applyBounds();
+        }
 
-
-        it->addDampingForce( ofVec2f( 0.01, 0.01 ) );
+        it->addDampingForce( 0.01 );
         it->update();
         it->resetForces();
 
@@ -89,8 +91,8 @@ void testApp::draw(){
         it->draw();
     }
     
-    ofDrawBitmapString(" 0: Gravity    1: Attraction    2: Repulsion    3: Clockwise    4: Counter-clockwise    5: Force    6: Xeno    7: Nothing for now", ofPoint(10, 20));
-    ofDrawBitmapString("8: Noise    9: Color Lerp    R: Reset    B: Burst", ofPoint(10, 40));
+    ofDrawBitmapString(" 0: Gravity    1: Attraction    2: Repulsion    3: Clockwise    4: Counter-clockwise    5: Force    6: Xeno    7: Color Lerp", ofPoint(10, 20));
+    ofDrawBitmapString("8: Noise    9: Boundary Toggle    R: Reset    B: Burst", ofPoint(10, 40));
 }
 
 //--------------------------------------------------------------
@@ -134,6 +136,7 @@ void testApp::keyPressed(int key){
             
         case '9':
             toggle = 9;
+            bounds = !bounds;
             break;
     }
     
@@ -143,8 +146,12 @@ void testApp::keyPressed(int key){
     
     if (key == 'b' || key =='B') {
         for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); it++) {
-            it->burst(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, 0, 100.0);
+            it->burst(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, 100.0);
         }
+    }
+    
+    if (key == 'l' || key == 'L') {
+        bounds = !bounds;
     }
 }
 

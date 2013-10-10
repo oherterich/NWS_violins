@@ -25,5 +25,6 @@ class testApp : public ofBaseApp{
     int toggle;
     
     bool reset;
+    bool bounds;
 		
 };
