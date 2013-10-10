@@ -29,7 +29,7 @@ public:
     void lerpToColor(ofColor start, ofColor end, float amt);
     void resize(float target, float startTime, float endTime);
     void addNoise(float vigor);
-    void applyGravity(float g, float floor)
+    void applyGravity(float g, float floor);
     void resetForces();
     
     ofVec2f pos;
