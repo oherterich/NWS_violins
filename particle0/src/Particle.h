@@ -28,6 +28,7 @@ public:
     void xenoToPoint(float catchX, float catchY, float catchUpSpeed);
     void lerpToColor(ofColor start, ofColor end, float amt);
     void resize(float target, float startTime, float endTime);
+    void addNoise(float vigor);
     void resetForces();
     
     ofVec2f pos;

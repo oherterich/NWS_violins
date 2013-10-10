@@ -123,6 +123,11 @@ void Particle::resize(float target, float startTime, float endTime){
     ofMap(newSize, size, target, startTime, endTime);
     size=newSize;
 }
+
+void Particle::addNoise(float vigor){
+    float noise = ofNoise(pos.x * 0.005, pos.y*0.005, ofGetElapsedTimef() * 0.1) * 15.0;
+    pos += ofVec2f( cos(noise), sin(noise) ) * vigor;
+}
 //----------------------------------------------------------
 //Utilities
 
