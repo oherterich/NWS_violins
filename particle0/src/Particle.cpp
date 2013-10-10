@@ -23,45 +23,45 @@ void Particle::setParams( float px, float py, float vx, float vy ){
 //Adding Forces (Gradual gain / loss. Use of "resetForces" encouraged.)
 
 void Particle::addAttractionForce( float px, float py, float radius, float strength){
-	ofVec2f posOfForce;
-	posOfForce.set(px, py);
-	
-	ofVec2f diff = pos - posOfForce;
-	
-	if (diff.length() < radius){
-		float pct = 1 - (diff.length() / radius);
-		diff.normalize();
-		frc.x -= diff.x * pct * strength;
-		frc.y -= diff.y * pct * strength;
-	}
+    ofVec2f posOfForce;
+    posOfForce.set(px, py);
+    
+    ofVec2f diff = pos - posOfForce;
+    
+    if (diff.length() < radius){
+        float pct = 1 - (diff.length() / radius);
+        diff.normalize();
+        frc.x -= diff.x * pct * strength;
+        frc.y -= diff.y * pct * strength;
+    }
 }
 
 void Particle::addClockwiseForce( float px, float py, float radius, float strength){
-	ofVec2f posOfForce;
-	posOfForce.set(px, py);
-	
-	ofVec2f diff = pos - posOfForce;
-	
-	if (diff.length() < radius){
-		float pct = 1 - (diff.length() / radius);
-		diff.normalize();
-		frc.x -= diff.y * pct * strength;
-		frc.y += diff.x * pct * strength;
-	}
+    ofVec2f posOfForce;
+    posOfForce.set(px, py);
+    
+    ofVec2f diff = pos - posOfForce;
+    
+    if (diff.length() < radius){
+        float pct = 1 - (diff.length() / radius);
+        diff.normalize();
+        frc.x -= diff.y * pct * strength;
+        frc.y += diff.x * pct * strength;
+    }
 }
 
 void Particle::addCounterClockwiseForce( float px, float py, float radius, float strength){
-	ofVec2f posOfForce;
-	posOfForce.set(px, py);
-	
-	ofVec2f diff = pos - posOfForce;
-	
-	if (diff.length() < radius){
-		float pct = 1 - (diff.length() / radius);
-		diff.normalize();
-		frc.x += diff.y * pct * strength;
-		frc.y -= diff.x * pct * strength;
-	}
+    ofVec2f posOfForce;
+    posOfForce.set(px, py);
+    
+    ofVec2f diff = pos - posOfForce;
+    
+    if (diff.length() < radius){
+        float pct = 1 - (diff.length() / radius);
+        diff.normalize();
+        frc.x += diff.y * pct * strength;
+        frc.y -= diff.x * pct * strength;
+    }
 }
 
 void Particle::addDampingForce() {
@@ -81,22 +81,22 @@ void Particle::addForce( ofVec2f force ){
 
 
 void Particle::addRepulsionForce( float px, float py, float radius, float strength){
-	ofVec2f posOfForce;
-	posOfForce.set(px, py);
-	
-	ofVec2f diff = pos - posOfForce;
-	
-	if (diff.length() < radius){
-		float pct = 1 - (diff.length() / radius);
-		diff.normalize();
-		frc.x += diff.x * pct * strength;
-		frc.y += diff.y * pct * strength;
-	}
+    ofVec2f posOfForce;
+    posOfForce.set(px, py);
+    
+    ofVec2f diff = pos - posOfForce;
+    
+    if (diff.length() < radius){
+        float pct = 1 - (diff.length() / radius);
+        diff.normalize();
+        frc.x += diff.x * pct * strength;
+        frc.y += diff.y * pct * strength;
+    }
 }
 
 void Particle::xenoToPoint(float catchX, float catchY, float catchUpSpeed){
-	pos.x = catchUpSpeed * catchX + (1-catchUpSpeed) * pos.x;
-	pos.y = catchUpSpeed * catchY + (1-catchUpSpeed) * pos.y;
+    pos.x = catchUpSpeed * catchX + (1-catchUpSpeed) * pos.x;
+    pos.y = catchUpSpeed * catchY + (1-catchUpSpeed) * pos.y;
 }
 //----------------------------------------------------------
 //Visuals
@@ -105,9 +105,18 @@ void Particle::lerpToColor(ofColor start, ofColor end, float amt){
     c=start;
     c.lerp(end, amt);
 }
+//----------------------------------------------------------
+//Animations
+
+void Particle::burst(float px, float py, float r, float multiplier){    //Reccomended pairing: Damping
+    float circVal = ofRandom(TWO_PI);
+    float vx = cos( sin(circVal) ) * ofRandom(0,multiplier);
+    float vy = sin( sin(circVal) ) * ofRandom(0,multiplier);
     
-    
-    
+    pos.set(px, py);
+    vel.set(vx, vy);
+}
+
 //----------------------------------------------------------
 //Utilities
 
