@@ -115,8 +115,8 @@ void Particle::lerpToColor(ofColor startColor, ofColor endColor, float amt){
 
 void Particle::burst(float px, float py, float multiplier){    //Reccomended pairing: Damping
     float circVal = ofRandom(TWO_PI);
-    float vx = cos( sin(circVal) ) * ofRandom(0,multiplier);
-    float vy = sin( sin(circVal) ) * ofRandom(0,multiplier);
+    float vx = cos( sin(circVal) ) * ofRandom(-multiplier,multiplier);
+    float vy = sin( sin(circVal) ) * ofRandom(-multiplier,multiplier);
     
     pos.set(px, py);
     vel.set(vx, vy);

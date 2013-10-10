@@ -73,7 +73,7 @@ void testApp::update(){
         
 
 
-        it->addDampingForce( ofVec2f( 0.01, 0.01 ) );
+        it->addDampingForce(0.01);
         it->update();
         it->resetForces();
 
@@ -143,7 +143,7 @@ void testApp::keyPressed(int key){
     
     if (key == 'b' || key =='B') {
         for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); it++) {
-            it->burst(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, 0, 100.0);
+            it->burst(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, 100.0);
         }
     }
 }
