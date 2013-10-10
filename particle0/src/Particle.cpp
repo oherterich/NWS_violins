@@ -106,14 +106,14 @@ void Particle::xenoToPoint(float catchX, float catchY, float catchUpSpeed){
 //----------------------------------------------------------
 //Visuals
 
-void Particle::lerpToColor(ofColor start, ofColor end, float amt){
-    c=start;
-    c.lerp(end, amt);
+void Particle::lerpToColor(ofColor startColor, ofColor endColor, float amt){
+    c=startColor;
+    c.lerp(endColor, amt);
 }
 //----------------------------------------------------------
 //Animations
 
-void Particle::burst(float px, float py, float r, float multiplier){    //Reccomended pairing: Damping
+void Particle::burst(float px, float py, float multiplier){    //Reccomended pairing: Damping
     float circVal = ofRandom(TWO_PI);
     float vx = cos( sin(circVal) ) * ofRandom(0,multiplier);
     float vy = sin( sin(circVal) ) * ofRandom(0,multiplier);

@@ -24,7 +24,7 @@ public:
     void addAttractionForce( float px, float py, float radius, float strength);
     void addClockwiseForce( float px, float py, float radius, float strength);
     void addCounterClockwiseForce( float px, float py, float radius, float strength);
-    void burst(float px, float py, float r, float multiplier);
+    void burst(float px, float py, float multiplier);
     void xenoToPoint(float catchX, float catchY, float catchUpSpeed);
     void lerpToColor(ofColor start, ofColor end, float amt);
     void resize(float target, float startTime, float endTime);
