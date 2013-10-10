@@ -85,8 +85,7 @@ void Particle::applyGravity(float g, float floor) {
     if(pos.y <= floor){
         vel.y += g;
     }
-
-
+}
 void Particle::addRepulsionForce( float px, float py, float radius, float strength){
     ofVec2f posOfForce;
     posOfForce.set(px, py);
