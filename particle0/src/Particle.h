@@ -16,7 +16,7 @@ public:
     void update();
     void draw();
     
-    void setParams( float px, float py, float vx, float vy );
+    void setParams( float px, float py, float vx, float vy, float _size );
     void addForce( ofVec2f force );
     void addDampingForce();
     void addDampingForce(ofVec2f val);
@@ -27,13 +27,18 @@ public:
     void burst(float px, float py, float r, float multiplier);
     void xenoToPoint(float catchX, float catchY, float catchUpSpeed);
     void lerpToColor(ofColor start, ofColor end, float amt);
+    void resize(float target, float startTime, float endTime);
     void resetForces();
     
     ofVec2f pos;
     ofVec2f vel;
     ofVec2f frc;
     
+    ofColor c;
+    float size;
+    float newSize;
+    
     ofVec2f damping;
     
-    ofColor c;
+    
 };

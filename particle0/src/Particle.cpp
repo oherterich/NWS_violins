@@ -9,14 +9,16 @@
 #include "Particle.h"
 
 Particle::Particle() {
-    setParams(0,0,0,0);
+    setParams(0,0,0,0,3);
     damping = ofVec2f( 0.01f );
+    
 }
 
-void Particle::setParams( float px, float py, float vx, float vy ){
+void Particle::setParams( float px, float py, float vx, float vy, float _size ){
     pos.set( px, py );
     vel.set( vx, vy );
     c=ofColor(255);
+    size = _size;
 }
 
 //----------------------------------------------------------
@@ -117,6 +119,10 @@ void Particle::burst(float px, float py, float r, float multiplier){    //Reccom
     vel.set(vx, vy);
 }
 
+void Particle::resize(float target, float startTime, float endTime){
+    ofMap(newSize, size, target, startTime, endTime);
+    size=newSize;
+}
 //----------------------------------------------------------
 //Utilities
 
@@ -129,8 +135,6 @@ void Particle::resetForces() {
 //----------------------------------------------------------
 //Update / Draw
 
-
-
 void Particle::update() {
     vel = vel + frc;
     pos = pos + vel;
@@ -138,5 +142,5 @@ void Particle::update() {
 
 void Particle::draw() {
     ofSetColor(c);
-    ofCircle(pos.x, pos.y, 3);
+    ofCircle(pos.x, pos.y, size);
 }
