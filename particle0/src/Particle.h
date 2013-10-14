@@ -32,14 +32,20 @@ public:
     void applyGravity(float g, float floor);
     void applyBounds();
     void resetForces();
+    void ageVisuals( bool changeTrans, bool changeSize );
+    bool dead();
     
     ofVec2f pos;
     ofVec2f vel;
     ofVec2f frc;
     
     ofColor c;
+    float transparency;
     float size;
+    float initSize;
     float newSize;
+    
+    float age, life;
     
     ofVec2f damping;
     

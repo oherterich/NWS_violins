@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Particle.h"
+#include "Recursor.h"
 
 class testApp : public ofBaseApp{
 
@@ -20,14 +20,6 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    void addParticle();
-    
-    vector<Particle> particleList;
-    
-    int toggle;
-    
-    bool reset;
-    bool bounds;
-    bool moreParticles;
+    Recursor foo;
 		
 };

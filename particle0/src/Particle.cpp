@@ -11,6 +11,9 @@
 Particle::Particle() {
     setParams(0,0,0,0,3);
     damping = ofVec2f( 0.01f );
+    age = 0;
+    life = 0;
+    transparency = 255;
     
 }
 
@@ -19,6 +22,7 @@ void Particle::setParams( float px, float py, float vx, float vy, float _size ){
     vel.set( vx, vy );
     c=ofColor(255);
     size = _size;
+    initSize = size;
 }
 
 //----------------------------------------------------------
@@ -110,13 +114,25 @@ void Particle::lerpToColor(ofColor startColor, ofColor endColor, float amt){
     c=startColor;
     c.lerp(endColor, amt);
 }
+
+void Particle::ageVisuals( bool changeTrans, bool changeSize ) {
+    float pct = 1.0 - age / life;
+    
+    if (changeTrans) {
+        transparency = 255 * pct;
+    }
+    
+    if (changeSize) {
+        size = initSize * pct;
+    }
+}
 //----------------------------------------------------------
 //Animations
 
 void Particle::burst(float px, float py, float multiplier){    //Reccomended pairing: Damping
     float circVal = ofRandom(TWO_PI);
-    float vx = cos( sin(circVal) ) * ofRandom(-multiplier,multiplier);
-    float vy = sin( sin(circVal) ) * ofRandom(-multiplier,multiplier);
+    float vx = cos( sin(circVal) ) * ofRandom(-multiplier, multiplier);
+    float vy = sin( sin(circVal) ) * ofRandom(-multiplier, multiplier);
     
     pos.set(px, py);
     vel.set(vx, vy);
@@ -158,15 +174,24 @@ void Particle::applyBounds(){
     }
 }
 
+bool Particle::dead() {
+    if (age >= life && life > 0) {
+        return true;
+    }
+    else return false;
+}
+
 //----------------------------------------------------------
 //Update / Draw
 
 void Particle::update() {
     vel = vel + frc;
     pos = pos + vel;
+    
+    age++;
 }
 
 void Particle::draw() {
-    ofSetColor(c);
+    ofSetColor(c, transparency);
     ofCircle(pos.x, pos.y, size);
 }
