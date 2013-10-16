@@ -13,6 +13,7 @@ void FFTOctaveAnalyzer::setup(float samplingRate, int nBandsInTheFFT, int nAvera
 		nAveragesPerOctave = 1;
     nAveragesPerOctave = nAveragesPerOctave;
     averageFrequencyIncrement = pow(2.0f, 1.0f/(float)(nAveragesPerOctave));
+    
     // this isn't currently configurable (used once here then no effect), but here's some reasoning:
     // 43 is a good value if you want to approximate "computer" octaves: 44100/2/2/2/2/2/2/2/2/2/2
     // 55 is a good value if you'd rather approximate A-440 octaves: 440/2/2/2

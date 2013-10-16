@@ -1,10 +1,7 @@
-
-#ifndef _FFTANALYZER
-#define _FFTANALYZER
-
-#ifndef M_PI
+#pragma once
+#include "ofMain.h"
 #define	M_PI		3.14159265358979323846  /* pi */
-#endif
+
 
 
 class FFTOctaveAnalyzer {
@@ -42,4 +39,3 @@ public:
 };
 
 
-#endif	
