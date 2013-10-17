@@ -14,7 +14,7 @@ Particle::Particle( ofVec2f _pos, ofVec2f _vel, ofColor _c ) {
     c = _c;
     
     age = 0;
-    life = ofRandom(100,200);
+    life = ofRandom(800,1000);
     
     size = 4;
     trans = 150;

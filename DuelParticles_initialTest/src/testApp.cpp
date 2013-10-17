@@ -57,8 +57,8 @@ void testApp::update(){
         ofVec2f wind;
         wind.set(0, -.03);
         
-        float mappedStrength = ofMap(totalHighEnd, 0.0, 700.0, 0.0, 5.0);
-        it->attractionForce( mappedStrength );
+        //float mappedStrength = ofMap(totalHighEnd, 0.0, 700.0, 0.0, 5.0);
+        it->attractionForce( 2.0 );
         
         it->addForce( wind );
         it->addDamping();
@@ -75,8 +75,8 @@ void testApp::update(){
         ofVec2f wind;
         wind.set(0, -.03);
         
-        float mappedStrength = ofMap(totalLowEnd, 0.0, 500.0, 0.0, 5.0);
-        it->attractionForce( mappedStrength );
+        //float mappedStrength = ofMap(totalLowEnd, 0.0, 500.0, 0.0, 5.0);
+        it->attractionForce( 5.0 );
         
         it->addForce( wind );
         it->addDamping();
@@ -93,15 +93,39 @@ void testApp::update(){
     //Check two halfs of the spectrum. If loud enough, add a particle
     for (int i = 0; i < FFTanalyzer.nAverages / 2; i++ ) {
         if (FFTanalyzer.averages[i] > 8) {
-            addLeftParticle();
+            int rand = (int)ofRandom(0, 4);
+            
+            switch (rand) {
+                case 0:
+                    addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)));
+                    break;
+                    
+                case 1:
+                    addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)));
+                    break;
+                    
+                case 2:
+                    addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)));
+                    break;
+                    
+                case 3:
+                    addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)));
+                    break;
+                    
+            }
+
+
+
+
         }
     }
     
-    for (int i = FFTanalyzer.nAverages / 2; i < FFTanalyzer.nAverages; i++ ) {
-        if (FFTanalyzer.averages[i] > 20) {
-            addRightParticle();
-        }
-    }
+//    for (int i = FFTanalyzer.nAverages / 2; i < FFTanalyzer.nAverages; i++ ) {
+//        if (FFTanalyzer.averages[i] > 20) {
+//            addRightParticle();
+//        }
+//    }
+    
     
 //    addLeftParticle();
 //    addRightParticle();
@@ -127,10 +151,9 @@ void testApp::draw(){
 
 }
 
-void testApp::addLeftParticle() {
-    ofVec2f pos, vel;
+void testApp::addLeftParticle( ofVec2f pos ) {
+    ofVec2f vel;
     float offset = ofRandom( -100.0, 100.0 );
-    pos.set(0, ofGetWindowHeight() + offset);
     vel.set(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0));
     Particle tmp( pos, vel, ofColor(180,255,0) );
     leftParticles.push_back( tmp );

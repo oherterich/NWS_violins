@@ -25,7 +25,7 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    void addLeftParticle();
+    void addLeftParticle( ofVec2f pos );
     void addRightParticle();
     
     vector<Particle> leftParticles;
