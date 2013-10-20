@@ -8,18 +8,34 @@
 
 #include "Particle.h"
 
-Particle::Particle( ofVec2f _pos, ofVec2f _vel, ofColor _c ) {
+Particle::Particle( ofVec2f _pos, ofVec2f _vel, ofColor _c, float _size, float _trans ) {
     pos = _pos;
     vel = _vel;
     c = _c;
     
     age = 0;
-    life = ofRandom(800,1000);
+    life = ofRandom(200,400);
     
-    size = 4;
-    trans = 150;
+    size = _size;
+    initSize = size;
+    trans = _trans;
+    initTrans = trans;
     
     damping = 0.03;
+}
+
+void Particle::setParams( ofVec2f _pos, ofVec2f _vel, ofColor _c, float _size, float _trans ) {
+    pos = _pos;
+    vel = _vel;
+    c = _c;
+    
+    age = 0;
+    life = ofRandom(200,400);
+    
+    size = _size;
+    initSize = size;
+    trans = _trans;
+    initTrans = trans;
 }
 
 void Particle::addForce( ofVec2f force ) {
@@ -48,11 +64,11 @@ void Particle::update() {
     pos += vel;
     
     float pct = 1 - age / life;
-    trans = 255.0 * pct;
+    trans = initTrans * pct;
     
     age += 1.0;
     
-    size = 4 * pct;
+    size = initSize * pct;
     
     acc.set(0.0);
 }

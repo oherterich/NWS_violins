@@ -5,6 +5,11 @@ void testApp::setup(){
     ofSetVerticalSync( true );
     ofBackground( 0 );
     
+    rightParticleSwitch = false;
+    
+    maxParticlesLeft = 40000;
+    maxParticlesRight = 5000;
+    
     // 0 output channels,
 	// 2 input channels
 	// 44100 samples per second
@@ -64,7 +69,26 @@ void testApp::update(){
         it->addDamping();
         it->update();
         if ( it->kill() ) {
-            leftParticles.erase( it );
+            int rand = (int)ofRandom(0, 4);
+            
+            switch (rand) {
+                case 0:
+                    it->setParams( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)), ofVec2f(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0)), ofColor(180,255,0), 2.0, 200.0);
+                    break;
+                    
+                case 1:
+                    it->setParams( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)), ofVec2f(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0)), ofColor(180,255,0), 2.0, 200.0);
+                    break;
+                    
+                case 2:
+                    it->setParams( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)),ofVec2f(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0)), ofColor(180,255,0), 2.0, 200.0);
+                    break;
+                    
+                case 3:
+                    it->setParams( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)),ofVec2f(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0)), ofColor(180,255,0), 2.0, 200.0);
+                    break;
+                    
+            }
         }
         else {
             it++;
@@ -76,14 +100,33 @@ void testApp::update(){
         wind.set(0, -.03);
         
         //float mappedStrength = ofMap(totalLowEnd, 0.0, 500.0, 0.0, 5.0);
-        it->attractionForce( 5.0 );
+        it->attractionForce( 0.5 );
         
         it->addForce( wind );
         it->addDamping();
         it->update();
         
         if ( it->kill() ) {
-            rightParticles.erase( it );
+            int rand = (int)ofRandom(0, 4);
+            
+            switch (rand) {
+                case 0:
+                    it->setParams( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)), ofVec2f(ofRandom(-2.0, 2.0), ofRandom(0, 50.0)), ofColor(0,200,255), 3.0, 240.0);
+                    break;
+                    
+                case 1:
+                    it->setParams( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)), ofVec2f(ofRandom(-2.0, 2.0), ofRandom(0, 50.0)), ofColor(0,200,255), 3.0, 240.0);
+                    break;
+                    
+                case 2:
+                    it->setParams( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)),ofVec2f(ofRandom(-2.0, 2.0), ofRandom(0, 50.0)), ofColor(0,200,255), 3.0, 240.0);
+                    break;
+                    
+                case 3:
+                    it->setParams( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)),ofVec2f(ofRandom(-2.0, 2.0), ofRandom(0, 50.0)), ofColor(0,200,255), 3.0, 240.0);
+                    break;
+                    
+            }
         }
         else {
             it++;
@@ -95,28 +138,34 @@ void testApp::update(){
         if (FFTanalyzer.averages[i] > 8) {
             int rand = (int)ofRandom(0, 4);
             
-            switch (rand) {
-                case 0:
-                    addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)));
-                    break;
-                    
-                case 1:
-                    addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)));
-                    break;
-                    
-                case 2:
-                    addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)));
-                    break;
-                    
-                case 3:
-                    addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)));
-                    break;
-                    
+//            switch (rand) {
+//                case 0:
+//                    addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)));
+//                    break;
+//                    
+//                case 1:
+//                    addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)));
+//                    break;
+//                    
+//                case 2:
+//                    addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)));
+//                    break;
+//                    
+//                case 3:
+//                    addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)));
+//                    break;
+//                    
+//            }
+            if (leftParticles.size() < maxParticlesLeft) {
+            
+            for (int i = 0; i < 2; i++) {
+
+            addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)));
+            addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)));
+            addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)));
+            addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)));
+        }
             }
-
-
-
-
         }
     }
     
@@ -126,6 +175,18 @@ void testApp::update(){
 //        }
 //    }
     
+    if (rightParticleSwitch) {
+        if (rightParticles.size() < maxParticlesRight) {
+
+        for (int i = 0; i < 1; i++) {
+        addRightParticle( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)));
+        addRightParticle( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)));
+        addRightParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)));
+        addRightParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)));
+        }
+        }
+    }
+    
     
 //    addLeftParticle();
 //    addRightParticle();
@@ -133,7 +194,6 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    
     
     //Loop through vectors and draw particles
     for ( vector<Particle>::iterator it = leftParticles.begin(); it != leftParticles.end(); it++ ) {
@@ -148,6 +208,9 @@ void testApp::draw(){
     
     ofSetColor(0, 0, 255);
     ofDrawBitmapString( ofToString( rightParticles.size() ), ofPoint(ofGetWindowWidth() - 40, 20) );
+    
+    ofSetColor(255, 255);
+    ofDrawBitmapString(ofToString(ofGetFrameRate()), ofPoint(ofGetWindowWidth() / 2 - 10, 20));
 
 }
 
@@ -155,22 +218,23 @@ void testApp::addLeftParticle( ofVec2f pos ) {
     ofVec2f vel;
     float offset = ofRandom( -100.0, 100.0 );
     vel.set(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0));
-    Particle tmp( pos, vel, ofColor(180,255,0) );
+    Particle tmp( pos, vel, ofColor(180,255,0), 2.0, 200.0 );
     leftParticles.push_back( tmp );
 }
 
-void testApp::addRightParticle() {
-    ofVec2f pos, vel;
+void testApp::addRightParticle( ofVec2f pos ) {
+    ofVec2f vel;
     float offset = ofRandom( -100.0, 100.0 );
-    pos.set(ofGetWindowWidth(), 0 + offset);
     vel.set(ofRandom(-2.0, 2.0), ofRandom(0.0, 50.0));
-    Particle tmp( pos, vel, ofColor(0,180,255) );
+    Particle tmp( pos, vel, ofColor(0,200,255), 3.0, 240.0 );
     rightParticles.push_back( tmp );
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-
+    if (key == 'a' || key == 'A') {
+        rightParticleSwitch = !rightParticleSwitch;
+    }
 }
 
 //--------------------------------------------------------------

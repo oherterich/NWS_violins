@@ -12,9 +12,10 @@
 
 class Particle {
 public:
-    Particle( ofVec2f _pos, ofVec2f _vel, ofColor _c );
+    Particle( ofVec2f _pos, ofVec2f _vel, ofColor _c, float _size, float _trans );
     void update();
     void draw();
+    void setParams( ofVec2f _pos, ofVec2f _vel, ofColor _c, float _size, float _trans );
     void addForce( ofVec2f force );
     void attractionForce( float strength );
     void addDamping();
@@ -22,8 +23,8 @@ public:
     
     ofVec2f pos, vel, acc;
     ofColor c;
-    float trans;
+    float trans, initTrans;
     float age, life;
-    float size;
+    float size, initSize;
     float damping;
 };

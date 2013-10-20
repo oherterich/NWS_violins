@@ -26,10 +26,15 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
     
     void addLeftParticle( ofVec2f pos );
-    void addRightParticle();
+    void addRightParticle( ofVec2f pos );
     
     vector<Particle> leftParticles;
     vector<Particle> rightParticles;
+    
+    bool rightParticleSwitch;
+    
+    float maxParticlesLeft;
+    float maxParticlesRight;
     
     //Audio stuff
     void audioReceived 	(float * input, int bufferSize, int nChannels);
