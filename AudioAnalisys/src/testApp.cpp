@@ -2,6 +2,9 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
+    
+    Sender.setup(HOST, PORT);
+    
 	// 0 output channels,
 	// 2 input channels
 	// 44100 samples per second
@@ -12,22 +15,11 @@ void testApp::setup(){
 	ofSetCircleResolution(80);
 	ofBackground(54, 54, 54);
 	
-	// 0 output channels,
-	// 2 input channels
-	// 44100 samples per second
-	// 256 samples per buffer
-	// 4 num buffers (latency)
-	
 
-
-
-    
-    
-    
 	ofSoundStreamListDevices();
 
 	
-	AudioIn.setDeviceID(2);
+	AudioIn.setDeviceID(0);
     AudioIn.setup(this, 0, 2, 44100, BUFFER_SIZE, 4);
     AudioIn.start();
     
@@ -73,97 +65,88 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
+    audioAnalisys();
+    SentMessages();
     
-	/* do the FFT on Channel 1	*/
-	Channel01_fft.powerSpectrum(2,(int)BUFFER_SIZE/2, Channel01,BUFFER_SIZE,&Channel01_magnitude[0],&Channel01_phase[0],&Channel01_power[0],&avg_power);
+    Channel01_FFT_size = Channel01_Analyzer.nAverages;
+    Channel02_FFT_size = Channel02_Analyzer.nAverages;
     
-	for (int i = 0; i < (int)(BUFFER_SIZE/2); i++){
-		Channel01_freq[i] = Channel01_magnitude[i];
-	}
-	
-	Channel01_Analyzer.calculate(Channel01_freq);
     
-    /* do the FFT on Channel 2	*/
-    Channel02_fft.powerSpectrum(0,(int)BUFFER_SIZE/2, Channel02,BUFFER_SIZE,&Channel02_magnitude[0],&Channel02_phase[0],&Channel02_power[0],&avg_power);
+    Channel01_Pitch = Channel01_UsefulPitch;
+    Channel01_Attack = Channel01_att;
+    Channel01_Amplitude = Channel01_Aubio.amplitude;
     
-	for (int i = 0; i < (int)(BUFFER_SIZE/2); i++){
-		Channel02_freq[i] = Channel02_magnitude[i];
-	}
-	
-	Channel02_Analyzer.calculate(Channel02_freq);
+    Channel02_Pitch= Channel02_UsefulPitch;
+    Channel02_Attack= Channel02_att;
+    Channel02_Amplitude= Channel02_Aubio.amplitude;
     
-  // init attack detection
-    float tmp = 0;
     
-    for (int i = 0; i < Channel02_Analyzer.nAverages; i++){
-        
-        if(Channel02_Analyzer.averages[i] > Channel02_holdFreq[i] ){
-            Channel02_deltaFreq[i] = Channel02_Analyzer.averages[i] - Channel02_holdFreq[i];
-        }
-        
-        Channel02_holdFreq[i] = Channel02_Analyzer.averages[i];
-        
-        tmp = tmp+Channel02_deltaFreq[i];
-        
-    }
-    
-    tmp = tmp/Channel02_Analyzer.nAverages;
-    Channel02_att = tmp*0.5 + Channel02_att*0.5;
-    
-    if (peakPitch<Channel01_Aubio.pitch && Channel01_Aubio.confidence > 0.5) {
-        peakPitch = Channel01_Aubio.pitch;
-    }
-    
-    UsefulPitch = Channel01_Aubio.pitch*Channel01_Aubio.confidence + UsefulPitch*(1-Channel01_Aubio.confidence);
+    Channel01_LinearPitch = 69 + 12*log2f(Channel01_Pitch/440);
+    Channel02_LinearPitch = 69 + 12*log2f(Channel02_Pitch/440);
     
 }
-
 //--------------------------------------------------------------
 void testApp::draw(){
-    ofBackground(0);
+    //debug view
+    ofPushStyle();
+    ofPushMatrix();
+    ofTranslate((ofGetWindowWidth()/2)-250, ofGetWindowHeight()-100);
+    ofPushMatrix();
+    ofTranslate(100, 0);
+    
+    ofFill();
+    ofDrawBitmapString("Channel01", -90,0);
+    ofSetColor(255,40);
+    ofDrawBitmapString("FFT: "+ ofToString(Channel01_FFT_size) + " freq", 0,15);
+    
+    ofDrawBitmapString("Frequency: " + ofToString(Channel01_Pitch,0), 0,30);
+    ofDrawBitmapString("Linear Pitch: " + ofToString(Channel01_LinearPitch,0), 0,45);
+    ofDrawBitmapString("Amplitude: " + ofToString(Channel01_Amplitude,4), 0,60);
+    ofDrawBitmapString("Attack: " + ofToString(Channel01_Attack,4), 0,75);
     
     
-	
-	
+    for (int i = 0; i < Channel01_FFT_size; i++){
+        ofSetColor(255,20);
+        ofRect((i*6),0,5,-Channel01_Analyzer.averages[i] * 3);
+        ofSetColor(255);
+        ofLine((i*6), -Channel01_Analyzer.averages[i] * 3, ((i+1)*6), -Channel01_Analyzer.averages[i+1] * 3);
+    }
+    ofSetColor(255, 255*Channel01_Amplitude);
+    ofCircle(-50,50, Channel01_Attack*3);
+    ofSetColor(255);
+    ofNoFill();
+    ofCircle(-50, 50, Channel01_Attack*3);
     
-    //ofRect(60, 200, Channel02_att*20,10);
-   // ofRect(60, 230, Channel01_Aubio.amplitude*500,10);
+    ofPopMatrix();
     
-    pitched.setHsb(ofMap(UsefulPitch, 20, 3000, 200, 0), 255, 255*(0.6+Channel01_Aubio.amplitude));
-    ofSetColor(pitched);
-    ofCircle(512, 350, Channel02_att*40);
+    ofPushMatrix();
+    ofTranslate(350, 0);
     
-    ofSetHexColor(0xffffff);
-    //ofCircle(800, 200, Channel01_Aubio.amplitude*500);
+    ofFill();
+    ofDrawBitmapString("Channel02", -90,0);
+    ofSetColor(255,40);
+    ofDrawBitmapString("FFT: "+ ofToString(Channel02_FFT_size) + " freq", 0,15);
     
-//	for (int i = 0; i < (int)(BUFFER_SIZE/2 - 1); i++){
-//		ofRect(200+(i*1),600,1,-Channel01_freq[i]*10.0f);
-//	}
-	
-//    for (int i = 0; i < BUFFER_SIZE; i++){
-//		ofLine(i/2,100,i/2,100+Channel01[i]*200);
-//	}
-//    
-//	for (int i = 0; i < Channel01_Analyzer.nAverages; i++){
-//		ofRect(200+(i*20),600,20,-Channel01_Analyzer.averages[i] * 6);
-//	}
-//
-//    for (int i = 0; i < Channel02_Analyzer.nAverages; i++){
-//		ofRect(200+(i*20),200,20,-Channel02_Analyzer.averages[i] * 6);
-//	}
+    ofDrawBitmapString("Frequency: " + ofToString(Channel02_Pitch,0), 0,30);
+    ofDrawBitmapString("Linear Pitch: " + ofToString(Channel02_LinearPitch,0), 0,45);
+    ofDrawBitmapString("Amplitude: " + ofToString(Channel02_Amplitude,4), 0,60);
+    ofDrawBitmapString("Attack: " + ofToString(Channel02_Attack,4), 0,75);
     
     
-    ofDrawBitmapString(ofToString(Channel01_Aubio.pitch), 100,100);
-    ofDrawBitmapString(ofToString(Channel01_Aubio.amplitude), 100,120);
-    ofDrawBitmapString(ofToString(Channel01_Aubio.confidence), 100,140);
-    ofDrawBitmapString(ofToString(peakPitch), 100,160);
-    
-    
-	ofSetHexColor(0xff0000);
-//	for (int i = 0; i < Channel02_Analyzer.nAverages; i++){
-//		ofRect(200+(i*20),600-Channel02_Analyzer.peaks[i] * 6,20,-4);
-//	}
-//    
+    for (int i = 0; i < Channel02_FFT_size; i++){
+        ofSetColor(255,20);
+        ofRect((i*6),0,5,-Channel02_Analyzer.averages[i] * 3);
+        ofSetColor(255);
+        ofLine((i*6), -Channel02_Analyzer.averages[i] * 3, ((i+1)*6), -Channel02_Analyzer.averages[i+1] * 3);
+    }
+    ofSetColor(255, 255*Channel02_Amplitude);
+    ofCircle(-50,50, Channel02_Attack*3);
+    ofSetColor(255);
+    ofNoFill();
+    ofCircle(-50, 50, Channel02_Attack*3);
+    ofPopMatrix();
+    ofPopMatrix();
+    ofPopStyle();
 }
 //--------------------------------------------------------------
 void testApp::audioReceived 	(float * input, int bufferSize, int nChannels){
@@ -218,5 +201,112 @@ void testApp::gotMessage(ofMessage msg){
 
 //--------------------------------------------------------------
 void testApp::dragEvent(ofDragInfo dragInfo){ 
+
+}
+//--------------------------------------------------------------
+
+void testApp::audioAnalisys(){
+    
+    /* do the FFT on Channel 1  */
+    Channel01_fft.powerSpectrum(2, (int) BUFFER_SIZE / 2, Channel01, BUFFER_SIZE, & Channel01_magnitude[0], & Channel01_phase[0], & Channel01_power[0], & avg_power);
+    
+    for (int i = 0; i < (int)(BUFFER_SIZE / 2); i++) {
+        Channel01_freq[i] = Channel01_magnitude[i];
+    }
+    
+    Channel01_Analyzer.calculate(Channel01_freq);
+    
+    /* do the FFT on Channel 2  */
+    Channel02_fft.powerSpectrum(0, (int) BUFFER_SIZE / 2, Channel02, BUFFER_SIZE, & Channel02_magnitude[0], & Channel02_phase[0], & Channel02_power[0], & avg_power);
+    
+    for (int i = 0; i < (int)(BUFFER_SIZE / 2); i++) {
+        Channel02_freq[i] = Channel02_magnitude[i];
+    }
+    
+    Channel02_Analyzer.calculate(Channel02_freq);
+    
+    /* init attack detection on Channel 02*/
+    float tmp02 = 0;
+    
+    for (int i = 0; i < Channel02_Analyzer.nAverages; i++) {
+        
+        if (Channel02_Analyzer.averages[i] > Channel02_holdFreq[i]) {
+            Channel02_deltaFreq[i] = Channel02_Analyzer.averages[i] - Channel02_holdFreq[i];
+        }
+        
+        Channel02_holdFreq[i] = Channel02_Analyzer.averages[i];
+        tmp02 = tmp02 + Channel02_deltaFreq[i];
+        
+    }
+    
+    tmp02 = tmp02 / Channel02_Analyzer.nAverages;
+    Channel02_att = tmp02 * 0.5 + Channel02_att * 0.5;
+    
+    if (Channel02_peakPitch < Channel02_Aubio.pitch && Channel02_Aubio.confidence > 0.5) {
+        Channel02_peakPitch = Channel02_Aubio.pitch;
+    }
+    
+    Channel02_UsefulPitch = Channel02_Aubio.pitch * Channel02_Aubio.confidence + Channel02_UsefulPitch * (1 - Channel02_Aubio.confidence);
+    
+    
+    /* init attack detection on Channel 01*/
+    float tmp01 = 0;
+    
+    for (int i = 0; i < Channel01_Analyzer.nAverages; i++) {
+        
+        if (Channel01_Analyzer.averages[i] > Channel01_holdFreq[i]) {
+            Channel01_deltaFreq[i] = Channel01_Analyzer.averages[i] - Channel01_holdFreq[i];
+        }
+        
+        Channel01_holdFreq[i] = Channel01_Analyzer.averages[i];
+        tmp01 = tmp01 + Channel01_deltaFreq[i];
+        
+    }
+    
+    tmp01 = tmp01 / Channel01_Analyzer.nAverages;
+    Channel01_att = tmp01 * 0.5 + Channel01_att * 0.5;
+    
+    if (Channel01_peakPitch < Channel01_Aubio.pitch && Channel01_Aubio.confidence > 0.5) {
+        Channel01_peakPitch = Channel01_Aubio.pitch;
+    }
+    
+    Channel01_UsefulPitch = Channel01_Aubio.pitch * Channel01_Aubio.confidence + Channel01_UsefulPitch * (1 - Channel01_Aubio.confidence);
+    
+}
+
+//-------------------------------------------------------
+void testApp::SentMessages(){
+
+    
+    ofxOscMessage Channel01;
+    Channel01.setAddress("/Channel01/AudioAnalysis");
+    Channel01.addFloatArg(Channel01_Aubio.amplitude);
+    Channel01.addFloatArg(Channel01_UsefulPitch);
+    Channel01.addFloatArg(Channel01_att);
+    Sender.sendMessage(Channel01);
+
+    ofxOscMessage Channel02;
+    Channel02.setAddress("/Channel02/AudioAnalysis");
+    Channel02.addFloatArg(Channel02_Aubio.amplitude);
+    Channel02.addFloatArg(Channel02_UsefulPitch);
+    Channel02.addFloatArg(Channel02_att);
+    Sender.sendMessage(Channel02);
+
+    ofxOscMessage FFT01;
+    FFT01.setAddress("/Channel01/FFT");
+    FFT01.addIntArg(Channel01_Analyzer.nAverages);
+    for (int i = 0; i < Channel01_Analyzer.nAverages; i++){
+        FFT01.addFloatArg(Channel01_Analyzer.averages[i]);
+    }
+    Sender.sendMessage(FFT01);
+    
+    ofxOscMessage FFT02;
+    FFT02.setAddress("/Channel02/FFT");
+    FFT02.addIntArg(Channel02_Analyzer.nAverages);
+    for (int i = 0; i < Channel02_Analyzer.nAverages; i++){
+        FFT02.addFloatArg(Channel02_Analyzer.averages[i]);
+    }
+    Sender.sendMessage(FFT02);
+
 
 }

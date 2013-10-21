@@ -9,6 +9,9 @@
 
 #define BUFFER_SIZE 512
 
+#define HOST "localhost"
+#define PORT 12345
+
 class testApp : public ofBaseApp{
 
 	public:
@@ -25,6 +28,9 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+    
+    void audioAnalisys();
+    void SentMessages();
     
     void audioReceived 	(float * input, int bufferSize, int nChannels);
     
@@ -63,9 +69,25 @@ class testApp : public ofBaseApp{
     
     ofSoundStream AudioIn;
     
-    float peakPitch;
-    float UsefulPitch;
+    float Channel01_peakPitch;
+    float Channel01_UsefulPitch;
+    float Channel02_peakPitch;
+    float Channel02_UsefulPitch;
     ofColor pitched;
+    
+    ofxOscSender Sender;
+    
+    int Channel01_FFT_size;
+    int Channel02_FFT_size;
+
+    float Channel01_Pitch;
+    float Channel01_Attack;
+    float Channel01_Amplitude;
+    float Channel02_Pitch;
+    float Channel02_Attack;
+    float Channel02_Amplitude;
+    float Channel01_LinearPitch;
+    float Channel02_LinearPitch;
 		
 };
 
