@@ -12,12 +12,15 @@
 
 class Particle {
 public:
-    Particle( ofVec2f _pos, ofVec2f _vel, ofColor _c, float _size, float _trans );
+    Particle( ofVec2f _pos, ofVec2f _vel, ofColor _c, float _size, float _trans, ofImage *_img);
     void update();
     void draw();
     void setParams( ofVec2f _pos, ofVec2f _vel, ofColor _c, float _size, float _trans );
     void addForce( ofVec2f force );
     void attractionForce( float strength );
+    void addRepulsionForce( float px, float py, float radius, float strength);
+    void addClockwiseForce( float px, float py, float radius, float strength);
+    void addNoise(float vigor);
     void addDamping();
     bool kill();
     
@@ -27,4 +30,8 @@ public:
     float age, life;
     float size, initSize;
     float damping;
+    float noiseOffsetA, noiseOffsetB;
+    
+    ofImage *img;
+    
 };

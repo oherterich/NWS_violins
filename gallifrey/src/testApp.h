@@ -1,7 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
+#include "pointMapper.h"
 #include "rectangle.h"
+
 
 class testApp : public ofBaseApp{
 
@@ -20,5 +22,11 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     circle myCircle;
+    Mapper myMap;
+    
+    ofVec2f cirList[20];
+    
 
+    
+    
 };
