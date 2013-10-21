@@ -23,7 +23,7 @@ void Recursor::branch(int ls) {
     
     if (ls>10) {
         countz++;
-        ls*=.8;
+        ls*=.7;
         width*=.7;
         ofPushMatrix();
         ofRotate(45);
