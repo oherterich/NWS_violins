@@ -36,6 +36,9 @@ class testApp : public ofBaseApp{
     float maxParticlesLeft;
     float maxParticlesRight;
     
+    ofImage green;
+    ofImage blue;
+    
     //Audio stuff
     void audioReceived 	(float * input, int bufferSize, int nChannels);
 	
