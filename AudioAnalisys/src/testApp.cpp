@@ -7,13 +7,31 @@ void testApp::setup(){
 	// 44100 samples per second
 	// BUFFER_SIZE samples per buffer
 	// 4 num buffers (latency)
-	//ofSoundStreamListDevices();
-
-	ofSoundStreamSetup(0,2,this, 44100, BUFFER_SIZE, 4);
-	
     
-	ofSetHexColor(0x666666);
+    ofSetVerticalSync(true);
+	ofSetCircleResolution(80);
+	ofBackground(54, 54, 54);
 	
+	// 0 output channels,
+	// 2 input channels
+	// 44100 samples per second
+	// 256 samples per buffer
+	// 4 num buffers (latency)
+	
+
+
+
+    
+    
+    
+	ofSoundStreamListDevices();
+
+	
+	AudioIn.setDeviceID(2);
+    AudioIn.setup(this, 0, 2, 44100, BUFFER_SIZE, 4);
+    AudioIn.start();
+    
+
 	peakTime =15; // hold longer
     decayRate = 0.95f; // decay slower
     HiGain = 0.9f; // reduced gain at lowest frequency
@@ -90,7 +108,13 @@ void testApp::update(){
     }
     
     tmp = tmp/Channel02_Analyzer.nAverages;
-    Channel02_att = tmp*0.8 + Channel02_att*0.2;
+    Channel02_att = tmp*0.5 + Channel02_att*0.5;
+    
+    if (peakPitch<Channel01_Aubio.pitch && Channel01_Aubio.confidence > 0.5) {
+        peakPitch = Channel01_Aubio.pitch;
+    }
+    
+    UsefulPitch = Channel01_Aubio.pitch*Channel01_Aubio.confidence + UsefulPitch*(1-Channel01_Aubio.confidence);
     
 }
 
@@ -100,13 +124,17 @@ void testApp::draw(){
     
     
 	
-	ofSetHexColor(0xffffff);
+	
     
     //ofRect(60, 200, Channel02_att*20,10);
    // ofRect(60, 230, Channel01_Aubio.amplitude*500,10);
     
-    ofCircle(400, 200, Channel02_att*20);
-    ofCircle(800, 200, Channel01_Aubio.amplitude*500);
+    pitched.setHsb(ofMap(UsefulPitch, 20, 3000, 200, 0), 255, 255*(0.6+Channel01_Aubio.amplitude));
+    ofSetColor(pitched);
+    ofCircle(512, 350, Channel02_att*40);
+    
+    ofSetHexColor(0xffffff);
+    //ofCircle(800, 200, Channel01_Aubio.amplitude*500);
     
 //	for (int i = 0; i < (int)(BUFFER_SIZE/2 - 1); i++){
 //		ofRect(200+(i*1),600,1,-Channel01_freq[i]*10.0f);
@@ -116,9 +144,9 @@ void testApp::draw(){
 //		ofLine(i/2,100,i/2,100+Channel01[i]*200);
 //	}
 //    
-	for (int i = 0; i < Channel01_Analyzer.nAverages; i++){
-		ofRect(200+(i*20),600,20,-Channel01_Analyzer.averages[i] * 6);
-	}
+//	for (int i = 0; i < Channel01_Analyzer.nAverages; i++){
+//		ofRect(200+(i*20),600,20,-Channel01_Analyzer.averages[i] * 6);
+//	}
 //
 //    for (int i = 0; i < Channel02_Analyzer.nAverages; i++){
 //		ofRect(200+(i*20),200,20,-Channel02_Analyzer.averages[i] * 6);
@@ -128,13 +156,14 @@ void testApp::draw(){
     ofDrawBitmapString(ofToString(Channel01_Aubio.pitch), 100,100);
     ofDrawBitmapString(ofToString(Channel01_Aubio.amplitude), 100,120);
     ofDrawBitmapString(ofToString(Channel01_Aubio.confidence), 100,140);
+    ofDrawBitmapString(ofToString(peakPitch), 100,160);
     
     
 	ofSetHexColor(0xff0000);
-	for (int i = 0; i < Channel02_Analyzer.nAverages; i++){
-		ofRect(200+(i*20),600-Channel02_Analyzer.peaks[i] * 6,20,-4);
-	}
-    
+//	for (int i = 0; i < Channel02_Analyzer.nAverages; i++){
+//		ofRect(200+(i*20),600-Channel02_Analyzer.peaks[i] * 6,20,-4);
+//	}
+//    
 }
 //--------------------------------------------------------------
 void testApp::audioReceived 	(float * input, int bufferSize, int nChannels){

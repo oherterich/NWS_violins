@@ -60,6 +60,12 @@ class testApp : public ofBaseApp{
     
     float Channel01_att;
     float Channel02_att;
+    
+    ofSoundStream AudioIn;
+    
+    float peakPitch;
+    float UsefulPitch;
+    ofColor pitched;
 		
 };
 
