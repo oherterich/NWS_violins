@@ -2,17 +2,63 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
+    ofBackground(0);
+    ofSetVerticalSync(true);
+    ofSetFrameRate(60);
+    ofEnableAlphaBlending();
+    l.frequency = ofRandom(1.0, 100.0);
+    l.width = ofRandom(100.0, 200.0);
 
+    gui = new ofxUICanvas(200,500);
+    gui->addLabel("Line Dancing");
+    gui->addSpacer();
+    gui->addSlider("Position", 0, 1000, 1);
+    gui->addSlider("Velocity", 0, 1000, 1);
+    gui->addSlider("Acceleration", 0, 1000, 1);
+    gui->addSlider("Width", 0, 1000, 1);
+    gui->addSlider("Frequency", 0, 1000, 1);
+    
+    ofAddListener(gui->newGUIEvent, this, &testApp::onGuiEvent); // what we're listening for,
+    // who's listening for it,
+    // and the function to run when it happens
+    gui->loadSettings("test_settings.xml");
+}
+
+//--------------------------------------------------------------
+void testApp::exit(){
+//    gui->saveSettings("test_settings.xml");
+    delete gui;
+}
+
+void testApp::onGuiEvent(ofxUIEventArgs &e){
+    if(e.getName() == "Position"){
+        ofxUISlider *radiusSlider = (ofxUISlider*)e.widget;
+        l.pos.x = radiusSlider->getScaledValue();
+        cout<<l.vel.x<<endl;
+    } if(e.getName() == "Velocity"){
+        ofxUISlider *radiusSlider = (ofxUISlider*)e.widget;
+        l.vel.x = radiusSlider->getScaledValue();
+        cout<<l.vel.x<<endl;
+    } if(e.getName() == "Acceleration"){
+        ofxUISlider *numberSlider = (ofxUISlider*)e.widget;
+        l.acc.x = numberSlider->getScaledValue();
+    } if(e.getName() == "Width"){
+        ofxUISlider *sizeSlider = (ofxUISlider*)e.widget;
+         l.width = sizeSlider->getScaledValue();
+    }if(e.getName() == "Frequency"){
+        ofxUISlider *hueSlider = (ofxUISlider*)e.widget;
+        l.frequency = hueSlider->getScaledValue();
+    }
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-    l.update();
+        l.update();
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    l.draw();
+        l.draw();
 }
 
 //--------------------------------------------------------------

@@ -11,7 +11,7 @@
 Line::Line(){
     peak = 20.0;
     pos.set(0, ofGetHeight()/2);
-    vel.set(1,0);
+    vel.set(25,0);
     acc.set(0,0);
     length = 0.0;
     frequency = 1.0; // 2 points (one complete oscillation) per 100 pixels
@@ -23,10 +23,25 @@ void Line::update(){
     vel += acc;
     pos += vel;
     acc.set(0);
-    pts.push_back(pos);
+    if(pos.x<ofGetWidth()){
+        pts.push_back(pos);
+    }
 }
 
 void Line::draw(){
+//    ofTranslate(0, cos(ofGetElapsedTimeMillis()/200.0)*100.0);
+    for(int i=0; i<pts.size()-1; i++){
+        if(pts.size()>1){
+            for(int j=0; j<width; j++){
+//                color = ofColor(ofRandom(100,255),ofRandom(255),ofRandom(50,255));
+//                color.setSaturation(100);
+//                color.setBrightness(150);
+//                ofSetColor(color);
+                ofLine(pts[i].x, pts[i].y+sin(ofGetElapsedTimeMillis()/frequency)*j, pts[i+1].x, pts[i+1].y+cos(ofGetElapsedTimeMillis()/frequency)*j);
+            }
+        }
+    }
+
 
 // Interesting Weirdness
     

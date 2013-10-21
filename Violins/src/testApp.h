@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "Composition.h"
 #include "Line.h"
+#include "ofxUI.h"
 
 class testApp : public ofBaseApp{
 
@@ -10,6 +11,7 @@ public:
     void setup();
     void update();
     void draw();
+    void exit();
 
     void keyPressed(int key);
     void keyReleased(int key);
@@ -23,4 +25,8 @@ public:
     
     Composition composition;
     Line l;
+    vector<Line> ls;
+    
+    void onGuiEvent(ofxUIEventArgs &e);
+    ofxUICanvas *gui;
 };
