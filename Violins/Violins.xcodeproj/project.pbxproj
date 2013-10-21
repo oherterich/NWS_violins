@@ -21,6 +21,7 @@
 		298EAD2C029D9959F5B32246 /* b2CollidePolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E4379C040A2C0896393EEAB /* b2CollidePolygon.cpp */; };
 		2A5D09413FD64EB3AF88EF02 /* b2GearJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 930EB8BAAA6A962411EC197D /* b2GearJoint.cpp */; };
 		2F666321514A2075B12CE4EE /* b2CollideCircle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E5922CF5578D5431F2AB941D /* b2CollideCircle.cpp */; };
+		33AA9AF21814D9D800ADFA2E /* Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33AA9AF01814D9D800ADFA2E /* Line.cpp */; };
 		33B6D86F18104CAD00E516E5 /* Composition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B6D86D18104CAD00E516E5 /* Composition.cpp */; };
 		34BC8BAFAA94BD8CCBA662D1 /* b2LineJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 45EB42F8640CFCAE47AA7E08 /* b2LineJoint.cpp */; };
 		3E76A164B41BCEB11B15C175 /* b2Body.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A296623A714C9F8EDB4BCA26 /* b2Body.cpp */; };
@@ -150,6 +151,8 @@
 		2FD4B0329909D3527F003494 /* UdpSocket.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = UdpSocket.h; path = ../../../addons/ofxOsc/libs/oscpack/src/ip/UdpSocket.h; sourceTree = SOURCE_ROOT; };
 		32BD050A579633ADBCA5AF6B /* ofxUIWidget.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIWidget.h; path = ../../../addons/ofxUI/src/ofxUIWidget.h; sourceTree = SOURCE_ROOT; };
 		334840CA6B3402C8C30CAC4E /* ofxUIOFWrapper.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxUIOFWrapper.h; path = ../../../addons/ofxUI/src/ofxUIOFWrapper.h; sourceTree = SOURCE_ROOT; };
+		33AA9AF01814D9D800ADFA2E /* Line.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Line.cpp; sourceTree = "<group>"; };
+		33AA9AF11814D9D800ADFA2E /* Line.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Line.h; sourceTree = "<group>"; };
 		33B6D86D18104CAD00E516E5 /* Composition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Composition.cpp; sourceTree = "<group>"; };
 		33B6D86E18104CAD00E516E5 /* Composition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Composition.h; sourceTree = "<group>"; };
 		3B2388BEE23F8A1DD0AADBC6 /* ofxBox2dBaseShape.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxBox2dBaseShape.cpp; path = ../../../addons/ofxBox2d/src/ofxBox2dBaseShape.cpp; sourceTree = SOURCE_ROOT; };
@@ -769,10 +772,12 @@
 			isa = PBXGroup;
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
+				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
 				E4B69E1E0A3A1BDC003C02F2 /* testApp.cpp */,
+				33AA9AF01814D9D800ADFA2E /* Line.cpp */,
+				33AA9AF11814D9D800ADFA2E /* Line.h */,
 				33B6D86D18104CAD00E516E5 /* Composition.cpp */,
 				33B6D86E18104CAD00E516E5 /* Composition.h */,
-				E4B69E1F0A3A1BDC003C02F2 /* testApp.h */,
 			);
 			path = src;
 			sourceTree = SOURCE_ROOT;
@@ -975,6 +980,7 @@
 				87C5C3DED336B7BB4A5D06D6 /* b2WeldJoint.cpp in Sources */,
 				4CC0FD96DE77FF40BBCF8DD8 /* del_impl.cpp in Sources */,
 				33B6D86F18104CAD00E516E5 /* Composition.cpp in Sources */,
+				33AA9AF21814D9D800ADFA2E /* Line.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

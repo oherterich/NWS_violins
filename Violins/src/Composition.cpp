@@ -39,11 +39,12 @@ void Composition::track1Join(){
 // Track 2
 
 void Composition::track2Line(){
-    
+    // Joe
+
 }
 
 void Composition::track2SmallLines(){
-    
+    // Joe
 }
 
 void Composition::track2Order(){
@@ -51,7 +52,7 @@ void Composition::track2Order(){
 }
 
 void Composition::track2KillLine(){
-    
+    // Joe
 }
 
 void Composition::track2LineCorpseOrder(){

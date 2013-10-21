@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "Composition.h"
+#include "Line.h"
 
 class testApp : public ofBaseApp{
 
@@ -21,4 +22,5 @@ public:
     void gotMessage(ofMessage msg);
     
     Composition composition;
+    Line l;
 };
