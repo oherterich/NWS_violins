@@ -21,6 +21,8 @@ public:
     void addRepulsionForce( float px, float py, float radius, float strength);
     void addClockwiseForce( float px, float py, float radius, float strength);
     void addNoise(float vigor);
+    void lerpToColor(ofColor startColor, ofColor endColor, float amt);
+    void burst(float px, float py, float multiplier);
     void addDamping();
     bool kill();
     

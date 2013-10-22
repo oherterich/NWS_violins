@@ -32,6 +32,10 @@ class testApp : public ofBaseApp{
     vector<Particle> rightParticles;
     
     bool rightParticleSwitch;
+    float rightParticleAmount;
+    
+    bool colorLerpSwitch;
+    bool forceSwitch;
     
     float maxParticlesLeft;
     float maxParticlesRight;

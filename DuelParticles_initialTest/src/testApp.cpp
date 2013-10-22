@@ -6,12 +6,16 @@ void testApp::setup(){
     ofBackground( 0 );
     
     rightParticleSwitch = false;
+    rightParticleAmount = 15.0;
     
-    maxParticlesLeft = 1200;
-    maxParticlesRight = 700;
+    forceSwitch = false;
+    colorLerpSwitch = false;
     
-    green.loadImage("green-transparent.png");
-    blue.loadImage("blue.png");
+    maxParticlesLeft = 1000;
+    maxParticlesRight = 500;
+    
+    green.loadImage("white-small.png");
+    blue.loadImage("white.png");
     
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     
@@ -75,6 +79,15 @@ void testApp::update(){
         it->addNoise(ofMap(rightParticles.size(), 0, 3000, 0, 20.0));
         //it->addRepulsionForce(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, ofMap(rightParticles.size(), 0, 3000, 0, 50), 1.0);
         it->addDamping();
+        
+        if (colorLerpSwitch) {
+            it->lerpToColor(it->c, ofColor(255,150,130), 0.01);
+        }
+        
+        if (forceSwitch) {
+            it->burst(it->pos.x, it->pos.y, 50.0);
+        }
+        
         it->update();
         if ( it->kill() ) {
             leftParticles.erase(it);
@@ -112,8 +125,13 @@ void testApp::update(){
         it->attractionForce( 0.5 );
         
         it->addForce( wind );
-        it->addRepulsionForce(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, ofMap(leftParticles.size(), 0, 1500, 0, 250), 10.0);
+        it->addRepulsionForce(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, ofMap(leftParticles.size(), 0, 1000, 0, 250), 10.0);
         it->addDamping();
+        
+        if (colorLerpSwitch) {
+            it->lerpToColor(it->c, ofColor(255,200,150), 0.01);
+        }
+        
         it->update();
         
         if ( it->kill() ) {
@@ -187,7 +205,7 @@ void testApp::update(){
 //    }
     
     if (rightParticleSwitch) {
-        if (rightParticles.size() < maxParticlesRight) {
+        if (rightParticles.size() < maxParticlesRight && ofGetElapsedTimeMillis() % (int)rightParticleAmount == 0) {
             
             int rand = (int)ofRandom(0, 4);
 
@@ -224,6 +242,13 @@ void testApp::update(){
     
 //    addLeftParticle();
 //    addRightParticle();
+    
+    
+    if (rightParticleAmount > 1.1 && rightParticleSwitch) {
+        rightParticleAmount -= 0.01;
+    }
+    
+    forceSwitch = false;
 }
 
 //--------------------------------------------------------------
@@ -245,29 +270,51 @@ void testApp::draw(){
     
     ofSetColor(255, 255);
     ofDrawBitmapString(ofToString(ofGetFrameRate()), ofPoint(ofGetWindowWidth() / 2 - 10, 20));
-
+    
+    ofSetColor(255, 255);
+    ofDrawBitmapString(ofToString(rightParticleAmount), ofPoint(ofGetWindowWidth() / 2 - 10, 40));
 }
 
 void testApp::addLeftParticle( ofVec2f pos ) {
     ofVec2f vel;
     float offset = ofRandom( -100.0, 100.0 );
     vel.set(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0));
-    Particle tmp( pos, vel, ofColor(180,255,0), 2.0, 200.0, &green);
-    leftParticles.push_back( tmp );
+    if (colorLerpSwitch) {
+        Particle tmp( pos, vel, ofColor(255,200,100), 2.0, 200.0, &green);
+        leftParticles.push_back( tmp );
+    }
+    else {
+        Particle tmp( pos, vel, ofColor(150,255,50), 2.0, 200.0, &green);
+        leftParticles.push_back( tmp );
+    }
 }
 
 void testApp::addRightParticle( ofVec2f pos ) {
     ofVec2f vel;
     float offset = ofRandom( -100.0, 100.0 );
     vel.set(ofRandom(-2.0, 2.0), ofRandom(0.0, 50.0));
-    Particle tmp( pos, vel, ofColor(0,200,255), 5.0, 240.0, &blue);
-    rightParticles.push_back( tmp );
+    if (colorLerpSwitch) {
+        Particle tmp( pos, vel, ofColor(240,200,120), 5.0, 240.0, &blue);
+        rightParticles.push_back( tmp );
+    }
+    else {
+        Particle tmp( pos, vel, ofColor(150,190,250), 5.0, 240.0, &blue);
+        rightParticles.push_back( tmp );
+    }
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
     if (key == 'a' || key == 'A') {
         rightParticleSwitch = !rightParticleSwitch;
+    }
+    
+    if (key == 's' || key == 'S') {
+        colorLerpSwitch = true;
+    }
+    
+    if (key == 'd' || key == 'D') {
+        forceSwitch = true;
     }
 }
 

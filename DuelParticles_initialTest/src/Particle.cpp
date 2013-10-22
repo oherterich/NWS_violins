@@ -97,12 +97,21 @@ void Particle::addDamping() {
     acc.y = acc.y - vel.y * damping;
 }
 
+void Particle::burst(float px, float py, float multiplier){    //Reccomended pairing: Damping
+    float circVal = ofRandom(TWO_PI);
+    float vx = cos( sin(circVal) ) * ofRandom(-multiplier, multiplier);
+    float vy = sin( sin(circVal) ) * ofRandom(-multiplier, multiplier);
+    
+    pos.set(px, py);
+    vel.set(vx, vy);
+}
+
 void Particle::update() {
     vel += acc;
     pos += vel;
     
     float pct = 1 - age / life;
-    trans = initTrans * pct;
+    //trans = initTrans * pct;
     
     age += 1.0;
     
@@ -111,9 +120,14 @@ void Particle::update() {
     acc.set(0.0);
 }
 
+void Particle::lerpToColor(ofColor startColor, ofColor endColor, float amt){
+    c=startColor;
+    c.lerp(endColor, amt);
+}
+
 void Particle::draw() {
     ofSetRectMode(OF_RECTMODE_CENTER);
-    //ofSetColor( c, trans );
+    ofSetColor( c, trans );
     ofPushMatrix();
     ofTranslate(pos);
     img->draw(0,0);
