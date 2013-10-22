@@ -7,7 +7,7 @@ void testApp::setup(){
     ofBackground(0);
     ofNoFill();
     
-    for (int i = 0; i<20; i++) {
+    for (int i = 0; i<25; i++) {
         cirList[i].set(ofRandomHeight(), ofRandomWidth());
     }
 
@@ -25,11 +25,10 @@ void testApp::update(){
 void testApp::draw(){
     ofPushMatrix();
     ofTranslate(ofGetWindowSize()/2);
-  //myCircle.drawCircle(0,0,250);
+//  myCircle.drawCircle(0,0,250);
     
-    myMap.Place(0,0,250);
-    
-    for (int i = 0; i<20; i++) {
+    for (int i = 0; i<25; i++) {
+        myMap.Place(0,0,250);
         ofCircle(cirList[i].x, cirList[i].y, myMap.posList[i].z);
         cirList[i]-=(cirList[i]-myMap.posList[i]).normalize();
     }

@@ -34,5 +34,5 @@ void Mapper::Place(float x, float y, float r){
 
 
 void Mapper::update(){
-    angle+=(radius*.0016);
+    angle+=(radius*.00008);
 }
