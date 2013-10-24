@@ -47,9 +47,9 @@ void Particle::addForce( ofVec2f force ) {
     acc += force;
 }
 
-void Particle::attractionForce( float strength ) {
+void Particle::attractionForce( float px, float py, float strength ) {
     ofVec2f loc;
-    loc.set(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2);
+    loc.set(px, py);
     
     ofVec2f diff;
     diff = pos - loc;

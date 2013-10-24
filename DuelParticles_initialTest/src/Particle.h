@@ -17,7 +17,7 @@ public:
     void draw();
     void setParams( ofVec2f _pos, ofVec2f _vel, ofColor _c, float _size, float _trans );
     void addForce( ofVec2f force );
-    void attractionForce( float strength );
+    void attractionForce( float px, float py, float strength );
     void addRepulsionForce( float px, float py, float radius, float strength);
     void addClockwiseForce( float px, float py, float radius, float strength);
     void addNoise(float vigor);

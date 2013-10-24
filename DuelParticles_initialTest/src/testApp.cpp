@@ -19,6 +19,8 @@ void testApp::setup(){
     
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     
+    moveCenter.set(300,300);
+    
     // 0 output channels,
 	// 2 input channels
 	// 44100 samples per second
@@ -72,10 +74,10 @@ void testApp::update(){
         wind.set(0, -.03);
         
         //float mappedStrength = ofMap(totalHighEnd, 0.0, 700.0, 0.0, 5.0);
-        it->attractionForce( 2.0 );
+        it->attractionForce( moveCenter.x, moveCenter.y, 2.0 );
         
         it->addForce( wind );
-        it->addClockwiseForce(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, 300, ofMap(rightParticles.size(), 0, 3000, 0, 10.0));
+        it->addClockwiseForce(moveCenter.x, moveCenter.y, 300, ofMap(rightParticles.size(), 0, 3000, 0, 10.0));
         it->addNoise(ofMap(rightParticles.size(), 0, 3000, 0, 20.0));
         //it->addRepulsionForce(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, ofMap(rightParticles.size(), 0, 3000, 0, 50), 1.0);
         it->addDamping();
@@ -122,10 +124,10 @@ void testApp::update(){
         wind.set(0, -.03);
         
         //float mappedStrength = ofMap(totalLowEnd, 0.0, 500.0, 0.0, 5.0);
-        it->attractionForce( 0.5 );
+        it->attractionForce( moveCenter.x, moveCenter.y, 0.5 );
         
         it->addForce( wind );
-        it->addRepulsionForce(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, ofMap(leftParticles.size(), 0, 1000, 0, 250), 10.0);
+        it->addRepulsionForce(moveCenter.x, moveCenter.y, ofMap(leftParticles.size(), 0, 1000, 0, 250), 10.0);
         it->addDamping();
         
         if (colorLerpSwitch) {
@@ -247,6 +249,12 @@ void testApp::update(){
     if (rightParticleAmount > 1.1 && rightParticleSwitch) {
         rightParticleAmount -= 0.01;
     }
+    
+    float moveCenterSpeed = ofMap(sin(ofGetElapsedTimef() * 0.1), -1, 1, 0.05, .2);
+    moveCenter.x = ofNoise(ofGetElapsedTimef() * moveCenterSpeed) * ofGetWindowWidth();
+    moveCenter.y = ofNoise(ofGetElapsedTimef() * moveCenterSpeed) * ofGetWindowHeight();
+
+    
     
     forceSwitch = false;
 }

@@ -43,6 +43,8 @@ class testApp : public ofBaseApp{
     ofImage green;
     ofImage blue;
     
+    ofVec2f moveCenter;
+    
     //Audio stuff
     void audioReceived 	(float * input, int bufferSize, int nChannels);
 	
