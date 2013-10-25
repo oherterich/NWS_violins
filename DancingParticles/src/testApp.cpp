@@ -6,7 +6,7 @@ void testApp::setup(){
     ofBackground( 14, 12, 28 );
     ofSetFrameRate(60);
     
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < 400; i++) {
     Dancer d( ofVec2f(ofRandomWidth(), ofRandomHeight()), ofVec2f(ofRandom(1, 4), ofRandom(1, 4)), 3, 5);
         
     //Dancer d( ofVec2f(0, ofRandomHeight()), ofVec2f(ofRandom(1, 4), ofRandom(1, 4)), 3, 25);
