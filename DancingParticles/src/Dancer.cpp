@@ -79,9 +79,9 @@ void Dancer::update(ofVec2f _mouse) {
     
     //pos = mouse;
     
-    //noiseMovement();
+    noiseMovement();
     //sinMovement(2.0);
-    lissajousMovement();
+    //lissajousMovement();
     updateTrail();
     
     //vel+=frc;

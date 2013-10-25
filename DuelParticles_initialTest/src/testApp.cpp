@@ -4,12 +4,14 @@
 void testApp::setup(){
     ofSetVerticalSync( true );
     ofBackground( 0 );
+    ofEnableAlphaBlending();
     
     rightParticleSwitch = false;
     rightParticleAmount = 15.0;
     
-    forceSwitch = false;
+    suctionSwitch = false;
     colorLerpSwitch = false;
+    singularSwitch = false;
     
     maxParticlesLeft = 1000;
     maxParticlesRight = 500;
@@ -73,46 +75,38 @@ void testApp::update(){
         ofVec2f wind;
         wind.set(0, -.03);
         
-        //float mappedStrength = ofMap(totalHighEnd, 0.0, 700.0, 0.0, 5.0);
-        it->attractionForce( moveCenter.x, moveCenter.y, 2.0 );
-        
-        it->addForce( wind );
-        it->addClockwiseForce(moveCenter.x, moveCenter.y, 300, ofMap(rightParticles.size(), 0, 3000, 0, 10.0));
-        it->addNoise(ofMap(rightParticles.size(), 0, 3000, 0, 20.0));
-        //it->addRepulsionForce(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, ofMap(rightParticles.size(), 0, 3000, 0, 50), 1.0);
+        if (suctionSwitch) {
+            it->attractionForce(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, 5.0);
+            it->damping = .1;
+            if (it->age < 275) {
+                it->age += 500;
+            }
+        }
+        else {
+            
+            if (singularSwitch) {
+                //it->damping = 0.05;
+                it->attractionForce( moveCenter.x, moveCenter.y, 1.5);
+                it->addNoise(2.0);
+                it->addRepulsionForce(moveCenter.x, moveCenter.y, 10, 45.0);
+            }
+            else {
+                it->attractionForce( moveCenter.x, moveCenter.y, 2.0 );
+                
+                it->addForce( wind );
+                it->addClockwiseForce(moveCenter.x, moveCenter.y, 300, ofMap(rightParticles.size(), 0, 3000, 0, 10.0));
+                it->addNoise(ofMap(rightParticles.size(), 0, 3000, 0, 20.0));
+            }
+        }
         it->addDamping();
         
         if (colorLerpSwitch) {
-            it->lerpToColor(it->c, ofColor(255,150,130), 0.01);
-        }
-        
-        if (forceSwitch) {
-            it->burst(it->pos.x, it->pos.y, 50.0);
+            it->lerpToColor(it->c, ofColor(255,150,130), 0.005);
         }
         
         it->update();
         if ( it->kill() ) {
             leftParticles.erase(it);
-//            int rand = (int)ofRandom(0, 4);
-//            
-//            switch (rand) {
-//                case 0:
-//                    it->setParams( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)), ofVec2f(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0)), ofColor(180,255,0), 2.0, 200.0);
-//                    break;
-//                    
-//                case 1:
-//                    it->setParams( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)), ofVec2f(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0)), ofColor(180,255,0), 2.0, 200.0);
-//                    break;
-//                    
-//                case 2:
-//                    it->setParams( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)),ofVec2f(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0)), ofColor(180,255,0), 2.0, 200.0);
-//                    break;
-//                    
-//                case 3:
-//                    it->setParams( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)),ofVec2f(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0)), ofColor(180,255,0), 2.0, 200.0);
-//                    break;
-//                    
-//            }
         }
         else {
             it++;
@@ -124,41 +118,29 @@ void testApp::update(){
         wind.set(0, -.03);
         
         //float mappedStrength = ofMap(totalLowEnd, 0.0, 500.0, 0.0, 5.0);
+        if (suctionSwitch) {
+            it->attractionForce(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, 5.0);
+            it->damping = .1;
+            if (it->age < 275) {
+                it->age += 500;
+            }
+        }
+        else {
         it->attractionForce( moveCenter.x, moveCenter.y, 0.5 );
         
         it->addForce( wind );
         it->addRepulsionForce(moveCenter.x, moveCenter.y, ofMap(leftParticles.size(), 0, 1000, 0, 250), 10.0);
+        }
         it->addDamping();
         
         if (colorLerpSwitch) {
-            it->lerpToColor(it->c, ofColor(255,200,150), 0.01);
+            it->lerpToColor(it->c, ofColor(255,200,150), 0.005);
         }
         
         it->update();
         
         if ( it->kill() ) {
             rightParticles.erase(it);
-
-//            int rand = (int)ofRandom(0, 4);
-//            
-//            switch (rand) {
-//                case 0:
-//                    it->setParams( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)), ofVec2f(ofRandom(-2.0, 2.0), ofRandom(0, 50.0)), ofColor(0,200,255), 3.0, 240.0);
-//                    break;
-//                    
-//                case 1:
-//                    it->setParams( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)), ofVec2f(ofRandom(-2.0, 2.0), ofRandom(0, 50.0)), ofColor(0,200,255), 3.0, 240.0);
-//                    break;
-//                    
-//                case 2:
-//                    it->setParams( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)),ofVec2f(ofRandom(-2.0, 2.0), ofRandom(0, 50.0)), ofColor(0,200,255), 3.0, 240.0);
-//                    break;
-//                    
-//                case 3:
-//                    it->setParams( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)),ofVec2f(ofRandom(-2.0, 2.0), ofRandom(0, 50.0)), ofColor(0,200,255), 3.0, 240.0);
-//                    break;
-//                    
-//            }
         }
         else {
             it++;
@@ -167,7 +149,7 @@ void testApp::update(){
     
     //Check two halfs of the spectrum. If loud enough, add a particle
     for (int i = 0; i < FFTanalyzer.nAverages / 2; i++ ) {
-        if (FFTanalyzer.averages[i] > 8) {
+        if (FFTanalyzer.averages[i] > 8 && !suctionSwitch && !singularSwitch) {
             int rand = (int)ofRandom(0, 4);
             
             if (leftParticles.size() < maxParticlesLeft) {
@@ -190,24 +172,15 @@ void testApp::update(){
                     
             }
             }
-//            if (leftParticles.size() < maxParticlesLeft) {
-//            
-//            addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)));
-//            addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)));
-//            addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)));
-//            addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)));
-//            }
+        }
+        
+        else if (FFTanalyzer.averages[i] > 8 && !suctionSwitch && singularSwitch && leftParticles.size() < maxParticlesLeft) {
+            addLeftParticle( ofVec2f(moveCenter.x, moveCenter.y) );
         }
     }
     
-//    for (int i = FFTanalyzer.nAverages / 2; i < FFTanalyzer.nAverages; i++ ) {
-//        if (FFTanalyzer.averages[i] > 20) {
-//            addRightParticle();
-//        }
-//    }
-    
     if (rightParticleSwitch) {
-        if (rightParticles.size() < maxParticlesRight && ofGetElapsedTimeMillis() % (int)rightParticleAmount == 0) {
+        if (rightParticles.size() < maxParticlesRight && ofGetElapsedTimeMillis() % (int)rightParticleAmount == 0 && !suctionSwitch) {
             
             int rand = (int)ofRandom(0, 4);
 
@@ -231,32 +204,27 @@ void testApp::update(){
                         
                 }
             }
-
-//        for (int i = 0; i < 1; i++) {
-//        addRightParticle( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)));
-//        addRightParticle( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)));
-//        addRightParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)));
-//        addRightParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)));
-//        }
         }
     }
-    
-    
-//    addLeftParticle();
-//    addRightParticle();
     
     
     if (rightParticleAmount > 1.1 && rightParticleSwitch) {
         rightParticleAmount -= 0.01;
     }
     
-    float moveCenterSpeed = ofMap(sin(ofGetElapsedTimef() * 0.1), -1, 1, 0.05, .2);
+    float moveCenterSpeed;
+    
+    if (singularSwitch) {
+        //moveCenterSpeed = ofMap(sin(ofGetElapsedTimef() * 0.2), -1, 1, 0.5, 0.7);
+        moveCenterSpeed = 0.9;
+    }
+    else {
+        moveCenterSpeed = ofMap(sin(ofGetElapsedTimef() * 0.1), -1, 1, 0.08, .2);
+    }
     moveCenter.x = ofNoise(ofGetElapsedTimef() * moveCenterSpeed) * ofGetWindowWidth();
-    moveCenter.y = ofNoise(ofGetElapsedTimef() * moveCenterSpeed) * ofGetWindowHeight();
+    moveCenter.y = ofNoise(ofGetElapsedTimef() * moveCenterSpeed + 1000) * ofGetWindowHeight();
 
     
-    
-    forceSwitch = false;
 }
 
 //--------------------------------------------------------------
@@ -269,6 +237,9 @@ void testApp::draw(){
     for ( vector<Particle>::iterator it = rightParticles.begin(); it != rightParticles.end(); it++ ) {
         it->draw();
     }
+    
+//    ofSetColor(255, 255, 0);
+//    ofCircle(moveCenter, 10);
     
     ofSetColor(0, 255, 0);
     ofDrawBitmapString( ofToString( leftParticles.size() ), ofPoint(20, 20) );
@@ -286,7 +257,7 @@ void testApp::draw(){
 void testApp::addLeftParticle( ofVec2f pos ) {
     ofVec2f vel;
     float offset = ofRandom( -100.0, 100.0 );
-    vel.set(ofRandom(-2.0, 2.0), ofRandom(-50.0, 0));
+    vel.set(ofRandom(-20.0, 20.0), ofRandom(-20.0, 20));
     if (colorLerpSwitch) {
         Particle tmp( pos, vel, ofColor(255,200,100), 2.0, 200.0, &green);
         leftParticles.push_back( tmp );
@@ -318,11 +289,15 @@ void testApp::keyPressed(int key){
     }
     
     if (key == 's' || key == 'S') {
-        colorLerpSwitch = true;
+        colorLerpSwitch = !colorLerpSwitch;
     }
     
     if (key == 'd' || key == 'D') {
-        forceSwitch = true;
+        suctionSwitch = !suctionSwitch;
+    }
+    
+    if (key == 'f' || key == 'F') {
+        singularSwitch = !singularSwitch;
     }
 }
 
