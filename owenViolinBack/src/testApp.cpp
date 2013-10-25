@@ -23,8 +23,6 @@ void testApp::setup(){
 
     moveCenter.set(300,300);
     strength = 10.0f;
-    angle = 1;
-
     // 0 output channels,
 	// 2 input channels
 	// 44100 samples per second
@@ -49,7 +47,6 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
-    angle += 1;
 
     //Audio stuff
     float avg_power = 0.0f;
@@ -82,7 +79,7 @@ void testApp::update(){
         it->attractionForce( moveCenter.x, moveCenter.y, 2.0 );
 
         it->addForce( wind );
-        it->addClockwiseForce(moveCenter.x, moveCenter.y, 300, ofMap(rightParticles.size(), 0, 3000, 0, 10.0));
+        it->addClockwiseForce(moveCenter.x, moveCenter.y, 300, ofMap(rightParticles.size(), 0, 3000, 0, strength));
         it->addNoise(ofMap(rightParticles.size(), 0, 3000, 0, 20.0));
         //it->addRepulsionForce(ofGetWindowWidth() / 2, ofGetWindowHeight() / 2, ofMap(rightParticles.size(), 0, 3000, 0, 50), 1.0);
         it->addDamping();
@@ -96,8 +93,8 @@ void testApp::update(){
         }
 
         if (bNewMotion) {
-            it->newMotion( *it, angle );
-            strength = 10.0f;
+            it->newMotion( *it );
+            //strength = 10.0f;
         }
 
         it->update();
@@ -147,7 +144,7 @@ void testApp::update(){
         it->update();
 
         if ( !rightParticleSwitch ) {
-            it->lerpToColor(it->c, ofColor(0,0,0), 0.7f);
+            it->lerpToColor(it->c, ofColor(0,0,0), 0.03f);
         }
 
         if(it->c.getBrightness() < 10 ){

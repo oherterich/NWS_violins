@@ -46,7 +46,6 @@ class testApp : public ofBaseApp{
 
     ofVec2f moveCenter;
     float strength;
-    int angle;
 
     //Audio stuff
     void audioReceived 	(float * input, int bufferSize, int nChannels);
