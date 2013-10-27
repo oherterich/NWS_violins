@@ -24,7 +24,7 @@ class testApp : public ofBaseApp{
     circle myCircle;
     Mapper myMap;
     
-    ofVec2f cirList[20];
+    vector<ofVec2f> cirList;
     
 
     
