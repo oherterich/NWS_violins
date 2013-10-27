@@ -3,142 +3,98 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     
-    receiver.setup(PORT);
+	receiver.setup(PORT);
     
-    ofBackground(0);
-    ofSetVerticalSync(true);
-    ofSetFrameRate(60);
+    
+    
+	ofBackground(30, 30, 130);
     ofEnableAlphaBlending();
-    l.frequency = ofRandom(1.0, 100.0);
-    l.width = ofRandom(100.0, 200.0);
+    record = false;
 
-    gui = new ofxUICanvas(200,500);
-    gui->addLabel("Line Dancing");
-    gui->addSpacer();
-    gui->addSlider("Position", 0, 1000, 1);
-    gui->addSlider("Velocity", 0, 1000, 1);
-    gui->addSlider("Acceleration", 0, 1000, 1);
-    gui->addSlider("Width", 0, 1000, 1);
-    gui->addSlider("Frequency", 0, 1000, 1);
-    
-    ofAddListener(gui->newGUIEvent, this, &testApp::onGuiEvent); // what we're listening for,
-    // who's listening for it,
-    // and the function to run when it happens
-    gui->loadSettings("test_settings.xml");
-}
-
-//--------------------------------------------------------------
-void testApp::exit(){
-//    gui->saveSettings("test_settings.xml");
-    delete gui;
-}
-
-void testApp::onGuiEvent(ofxUIEventArgs &e){
-    if(e.getName() == "Position"){
-        ofxUISlider *radiusSlider = (ofxUISlider*)e.widget;
-        l.pos.x = radiusSlider->getScaledValue();
-        cout<<l.vel.x<<endl;
-    } if(e.getName() == "Velocity"){
-        ofxUISlider *radiusSlider = (ofxUISlider*)e.widget;
-        l.vel.x = radiusSlider->getScaledValue();
-        cout<<l.vel.x<<endl;
-    } if(e.getName() == "Acceleration"){
-        ofxUISlider *numberSlider = (ofxUISlider*)e.widget;
-        l.acc.x = numberSlider->getScaledValue();
-    } if(e.getName() == "Width"){
-        ofxUISlider *sizeSlider = (ofxUISlider*)e.widget;
-         l.width = sizeSlider->getScaledValue();
-    }if(e.getName() == "Frequency"){
-        ofxUISlider *hueSlider = (ofxUISlider*)e.widget;
-        l.frequency = hueSlider->getScaledValue();
-    }
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+
     GetOSC();
-        l.update();
+    if(record==true){
+    pitchOverTime.push_back(Channel01_Pitch);
+    AttackOverTime.push_back(Channel01_Attack);
+    LinearPitchTime.push_back(Channel01_LinearPitch);
+    AmplitudeTime.push_back(Channel01_Amplitude);
+    }
 }
+
+
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    ofFill();
-     AudioDebug();
-        l.draw();
+    AudioDebug();
+    P.clear();
+    LP.clear();
+    A.clear();
+    V.clear();
+  
+    
+    ofPushMatrix();
+    ofTranslate(0, 100);
+    for (float i = 0; i < pitchOverTime.size(); i++) {
+        ofVec2f tmp = ofVec2f(10+(float)i*((float)ofGetWindowWidth()/(float)pitchOverTime.size()), -pitchOverTime[i]/60);
+        P.addVertex(tmp);
+        P.draw();
+    }
+    ofPopMatrix();
+    
+    ofPushMatrix();
+    ofTranslate(0, 250);
+    for (float i = 0; i < pitchOverTime.size(); i++) {
+        ofVec2f tmp = ofVec2f(10+(float)i*((float)ofGetWindowWidth()/(float)pitchOverTime.size()), -LinearPitchTime[i]);
+        LP.addVertex(tmp);
+        LP.draw();
+    }
+    ofPopMatrix();
+    
+    ofPushMatrix();
+    ofTranslate(0, 350);
+    for (float i = 0; i < pitchOverTime.size(); i++) {
+        ofVec2f tmp = ofVec2f(10+(float)i*((float)ofGetWindowWidth()/(float)pitchOverTime.size()), -AttackOverTime[i]*30);
+        A.addVertex(tmp);
+        A.draw();
+    }
+    ofPopMatrix();
+    
+    ofPushMatrix();
+    ofTranslate(0, 450);
+    for (float i = 0; i < pitchOverTime.size(); i++) {
+        ofVec2f tmp = ofVec2f(10+(float)i*((float)ofGetWindowWidth()/(float)pitchOverTime.size()), -AmplitudeTime[i]*300);
+        V.addVertex(tmp);
+        V.draw();
+    }
+    ofPopMatrix();
+ 
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-
-    // Track 1
-
-    if(key == '1'){
-        composition.track1Order();
-    }
-    if(key == '2'){
-        composition.track1Chaos();
-    }
-    if(key == '3'){
-        composition.track1Join();
+    
+    if (key == 'r') {
+        record = true;
+        pitchOverTime.clear();
+        AttackOverTime.clear();
+        LinearPitchTime.clear();
+        AmplitudeTime.clear();
     }
     
-    // Track 2
-    
-    if(key == 'q'){
-        composition.track2Line();
-    }
-    if(key == 'w'){
-        composition.track2SmallLines();
-    }
-    if(key == 'e'){
-        composition.track2Order();
-    }
-    if(key == 'r'){
-        composition.track2KillLine();
-    }
-    if(key == 't'){
-        composition.track2LineCorpseOrder();
+    if (key == 't'){
+       record = false;
     }
     
-    // Track 3
-    
-    if(key == 'a'){
-        composition.track3Orbit1();
+    if (key == 'y'){
+        pitchOverTime.clear();
+        AttackOverTime.clear();
+        LinearPitchTime.clear();
+        AmplitudeTime.clear();
     }
-    if(key == 's'){
-        composition.track3Corruption1();
-    }
-    if(key == 'd'){
-        composition.track3Orbit2();
-    }
-    if(key == 'f'){
-        composition.track3Corruption2();
-    }
-    if(key == 'g'){
-        composition.track3Orbit3();
-    }
-    if(key == 'h'){
-        composition.track3Corruption3();
-    }
-    if(key == 'j'){
-        composition.track3FinalBattle();
-    }
-    
-    // Track 4
-    
-    if(key == 'z'){
-        composition.track4Pattern1();
-    }
-    if(key == 'x'){
-        composition.track4Pattern2();
-    }
-    if(key == 'c'){
-        composition.track4Pattern3();
-    }
-    if(key == 'v'){
-        composition.track4Finale();
-    }    
-    
 }
 
 //--------------------------------------------------------------
@@ -147,7 +103,7 @@ void testApp::keyReleased(int key){
 }
 
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
+void testApp::mouseMoved(int x, int y){
 
 }
 
@@ -158,7 +114,6 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-
 }
 
 //--------------------------------------------------------------
@@ -177,7 +132,7 @@ void testApp::gotMessage(ofMessage msg){
 }
 
 //--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){ 
+void testApp::dragEvent(ofDragInfo dragInfo){
 
 }
 

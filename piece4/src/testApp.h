@@ -45,6 +45,13 @@ class testApp : public ofBaseApp {
     float Channel01_LinearPitch;
     float Channel02_LinearPitch;
 
+    vector <float> pitchOverTime;
+    vector <float> AttackOverTime;
+    vector <float> LinearPitchTime;
+    vector <float> AmplitudeTime;
     
+    ofPolyline P, A, LP, V;
+    
+    bool record;
     
 };
