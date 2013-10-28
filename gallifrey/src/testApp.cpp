@@ -45,10 +45,10 @@ void testApp::keyPressed(int key){
     float temp = rand()%2;
     float temp2= rand()%2;
     
-    if (temp==0)  x = ofRandom(-.3*ofGetWidth(), -.1*ofGetWidth());
-    if (temp==1)  x = ofRandom(1.1*ofGetWidth(), 1.3*ofGetWidth());
-    if (temp2==0)  y = ofRandom(-.3*ofGetHeight(), -.1*ofGetHeight());
-    if (temp2==1)  y = ofRandom(1.1*ofGetHeight(), 1.3*ofGetHeight());
+    if (temp==0)  x = ofRandom(-.1*ofGetWidth(), -.15*ofGetWidth());
+    if (temp==1)  x = ofRandom(1.1*ofGetWidth(), 1.15*ofGetWidth());
+    if (temp2==0)  y = ofRandom(-.1*ofGetHeight(), -.15*ofGetHeight());
+    if (temp2==1)  y = ofRandom(1.1*ofGetHeight(), 1.15*ofGetHeight());
         
     cirList.push_back(ofVec2f(x,y));
 
