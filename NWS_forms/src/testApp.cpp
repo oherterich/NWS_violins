@@ -1,6 +1,8 @@
 #include "testApp.h"
 
 /*
+ zk+1 = c sin(zk)
+ 
  xk+1 = sin(xk) cosh(yk)
  yk+1 = cos(xk) sinh(yk)
   
@@ -10,7 +12,9 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     ofBackground(0, 0, 0);
-    system.setup ();
+    //system.setup ();
+    ofSetVerticalSync(true);
+    
 }
 
 //--------------------------------------------------------------
