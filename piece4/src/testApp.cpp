@@ -5,11 +5,31 @@ void testApp::setup(){
     
 	receiver.setup(PORT);
     
+    post.init(ofGetWidth(), ofGetHeight());
+    post.createPass<VerticalTiltShifPass>();
+    //post.createPass<DofPass>();
+    post.createPass<GodRaysPass>();
+    post.createPass<FxaaPass>();
+    post.createPass<BloomPass>();
     
     
-	ofBackground(30, 30, 130);
+  
+    
+	ofBackground(0,0,20);
     ofEnableAlphaBlending();
-    record = false;
+    //ofEnableDepthTest();
+    ofSetSphereResolution(24);
+    
+    
+    ofSetSmoothLighting(true);
+    pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+
+    material.setShininess( 120 );
+    material.setAmbientColor(ofColor((255,0,127)));
+    // the light highlight of the material //
+	material.setSpecularColor(ofColor(255, 0, 255, 255));
+
 
 }
 
@@ -17,12 +37,50 @@ void testApp::setup(){
 void testApp::update(){
 
     GetOSC();
-    if(record==true){
-    pitchOverTime.push_back(Channel01_Pitch);
-    AttackOverTime.push_back(Channel01_Attack);
-    LinearPitchTime.push_back(Channel01_LinearPitch);
-    AmplitudeTime.push_back(Channel01_Amplitude);
+    
+    pos.x = ofNoise(ofGetElapsedTimef()/10);
+    pos.y = ofNoise(ofGetElapsedTimef()/10+1000)+ofGetElapsedTimef()/10;
+    pos.z = ofNoise(ofGetElapsedTimef()/10-1000);
+    pos = pos*1000;
+    
+    tmp = pos;
+    
+    Channel01_Attack = 0.1*Channel01_Attack + 0.9*lastChannel01_Attack;
+    
+
+    
+    tmp.x = tmp.x + sin(ofGetElapsedTimef())*100; //+ Channel01_Attack*100;
+    tmp.z = tmp.z + cos(ofGetElapsedTimef())*100;// + Channel01_Attack*-100;
+    //tmp.y = tmp.y + Channel01_Attack*100;
+    
+    
+    //cam.roll( ofRadToDeg(sin(ofGetElapsedTimef()/10)*TWO_PI));
+     cam.lookAt(tmp);
+
+
+    tmp.x = tmp.x + cos(ofGetElapsedTimef())*Channel01_Attack*50;
+    tmp.y = tmp.y + sin(ofGetElapsedTimef())*Channel01_Attack*50;
+    
+    PosList.push_back(tmp);
+   
+    
+    if (PosList.size()>2000) {
+        PosList.erase(PosList.begin());
     }
+    
+    ofVec3f xenoed = pos*0.1 + lastpos*0.9;
+    
+    cam.setPosition(xenoed.x, xenoed.y, xenoed.z);
+    
+   
+   // cam.setPosition(xenoed+200);
+   
+    
+    lastpos = xenoed;
+    lastChannel01_Attack = Channel01_Attack;
+    
+    pointLight.setPosition(pos);
+
 }
 
 
@@ -30,71 +88,36 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     AudioDebug();
+    
+    post.begin(cam);
+    ofEnableLighting();
+    pointLight.enable();
+    
+    
+	material.begin();
+    //cam.begin();
+    
+    ofSetColor(255,0,127*(Channel01_Pitch/10));
+    ofSetLineWidth(10);
+    ofPolyline P;
     P.clear();
-    LP.clear();
-    A.clear();
-    V.clear();
-  
     
-    ofPushMatrix();
-    ofTranslate(0, 100);
-    for (float i = 0; i < pitchOverTime.size(); i++) {
-        ofVec2f tmp = ofVec2f(10+(float)i*((float)ofGetWindowWidth()/(float)pitchOverTime.size()), -pitchOverTime[i]/60);
-        P.addVertex(tmp);
-        P.draw();
+    for( vector<ofVec3f>::iterator it=PosList.begin(); it!=PosList.end(); it++ ){
+        
+        P.addVertex( it->x, it->y, it->z );
+        
     }
-    ofPopMatrix();
+    P.draw();
+    //cam.end();
+    post.end();
     
-    ofPushMatrix();
-    ofTranslate(0, 250);
-    for (float i = 0; i < pitchOverTime.size(); i++) {
-        ofVec2f tmp = ofVec2f(10+(float)i*((float)ofGetWindowWidth()/(float)pitchOverTime.size()), -LinearPitchTime[i]);
-        LP.addVertex(tmp);
-        LP.draw();
-    }
-    ofPopMatrix();
-    
-    ofPushMatrix();
-    ofTranslate(0, 350);
-    for (float i = 0; i < pitchOverTime.size(); i++) {
-        ofVec2f tmp = ofVec2f(10+(float)i*((float)ofGetWindowWidth()/(float)pitchOverTime.size()), -AttackOverTime[i]*30);
-        A.addVertex(tmp);
-        A.draw();
-    }
-    ofPopMatrix();
-    
-    ofPushMatrix();
-    ofTranslate(0, 450);
-    for (float i = 0; i < pitchOverTime.size(); i++) {
-        ofVec2f tmp = ofVec2f(10+(float)i*((float)ofGetWindowWidth()/(float)pitchOverTime.size()), -AmplitudeTime[i]*300);
-        V.addVertex(tmp);
-        V.draw();
-    }
-    ofPopMatrix();
- 
+    //ofDrawBitmapString(ofToString(post. ), 20,20);
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
     
-    if (key == 'r') {
-        record = true;
-        pitchOverTime.clear();
-        AttackOverTime.clear();
-        LinearPitchTime.clear();
-        AmplitudeTime.clear();
-    }
-    
-    if (key == 't'){
-       record = false;
-    }
-    
-    if (key == 'y'){
-        pitchOverTime.clear();
-        AttackOverTime.clear();
-        LinearPitchTime.clear();
-        AmplitudeTime.clear();
-    }
+
 }
 
 //--------------------------------------------------------------

@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxOsc.h"
+#include "ofxPostProcessing.h"
 
 // listen on port 12345
 #define PORT 12345
@@ -44,14 +45,14 @@ class testApp : public ofBaseApp {
     float Channel02_Amplitude;
     float Channel01_LinearPitch;
     float Channel02_LinearPitch;
-
-    vector <float> pitchOverTime;
-    vector <float> AttackOverTime;
-    vector <float> LinearPitchTime;
-    vector <float> AmplitudeTime;
+    vector<ofVec3f> PosList;
+    ofEasyCam cam;
+    ofVec3f pos, tmp, lastpos;
+    float lastChannel01_Attack;
+    float lastChannel01_Amplitude;
     
-    ofPolyline P, A, LP, V;
-    
-    bool record;
+    ofxPostProcessing post;
+    ofMaterial material;
+    ofLight pointLight;
     
 };
