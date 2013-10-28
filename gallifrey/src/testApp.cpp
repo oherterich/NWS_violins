@@ -15,9 +15,9 @@ void testApp::setup(){
 void testApp::addParticle() {
     Particle tmp;
     
-    tmp.setParams(ofRandomWidth(), ofRandomHeight(), ofRandom(-5.0, 5.0), ofRandom(-5.0, 5.0), 2.0);
+    tmp.setParams(ofRandomWidth(), -ofRandom(-2,-10), 0, 0, 2.0);
     
-    tmp.life = ofRandom(400, 500);
+    tmp.life = ofRandom(1000);
     
     particleList.push_back( tmp );
 }
@@ -27,7 +27,21 @@ void testApp::update(){
     myCircle.update();
     
     myMap.update();
+    
+    for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); ) {
+        
+        it->applyGravity(0.1, ofGetWindowHeight());
+        it->ageVisuals(true, true);
+        it->addDampingForce( 0.01 );
+        it->update();
+        it->resetForces();
+        
+        if (it->dead()) {
+            particleList.erase(it);
+        }
+        it++;
 
+    }
 }
 
 //--------------------------------------------------------------
@@ -44,6 +58,11 @@ void testApp::draw(){
     
     cirList[0]=myMap.posList[0];
     ofPopMatrix();
+    
+    
+    for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); it++) {
+        it->draw();
+    }
 }
 
 //--------------------------------------------------------------
@@ -67,7 +86,7 @@ void testApp::keyPressed(int key){
     }
     
     if(key=='s'){
-        for ( int i = 0; i < 1000; i++ ) {
+        for ( int i = 0; i < 100; i++ ) {
             addParticle();
         }
     }
