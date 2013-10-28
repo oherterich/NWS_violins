@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "pointMapper.h"
 #include "rectangle.h"
+#include "Particle.h"
 
 
 class testApp : public ofBaseApp{
@@ -21,12 +22,14 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+        void addParticle();
+    
     circle myCircle;
     Mapper myMap;
     
     vector<ofVec2f> cirList;
+    vector<Particle> particleList;
     
-
     
     
 };

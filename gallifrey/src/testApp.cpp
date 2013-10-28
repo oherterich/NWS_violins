@@ -12,6 +12,16 @@ void testApp::setup(){
 
 }
 
+void testApp::addParticle() {
+    Particle tmp;
+    
+    tmp.setParams(ofRandomWidth(), ofRandomHeight(), ofRandom(-5.0, 5.0), ofRandom(-5.0, 5.0), 2.0);
+    
+    tmp.life = ofRandom(400, 500);
+    
+    particleList.push_back( tmp );
+}
+
 //--------------------------------------------------------------
 void testApp::update(){
     myCircle.update();
@@ -39,6 +49,8 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
     
+    if(key!='s'){
+    
     float x;
     float y;
     
@@ -51,6 +63,14 @@ void testApp::keyPressed(int key){
     if (temp2==1)  y = ofRandom(1.1*ofGetHeight(), 1.15*ofGetHeight());
         
     cirList.push_back(ofVec2f(x,y));
+        
+    }
+    
+    if(key=='s'){
+        for ( int i = 0; i < 1000; i++ ) {
+            addParticle();
+        }
+    }
 
 }
 
