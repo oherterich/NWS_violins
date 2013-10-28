@@ -1,6 +1,5 @@
 #pragma once
 #include "ofMain.h"
-//#include "testApp.h"
 
 class Mapper{
 public:

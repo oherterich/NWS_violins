@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     ofSetCircleResolution(1000);
+    ofEnableSmoothing();
     
     ofBackground(0);
     ofNoFill();
