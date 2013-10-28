@@ -15,7 +15,7 @@ void testApp::setup(){
 void testApp::addParticle() {
     Particle tmp;
     
-    tmp.setParams(ofRandomWidth(), -ofRandom(-2,-10), 0, 0, 2.0);
+    tmp.setParams(ofRandomWidth(), -ofRandom(-5,-200), 0, .1, 2.0);
     
     tmp.life = ofRandom(1000);
     
@@ -30,9 +30,6 @@ void testApp::update(){
     
     for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); ) {
         
-        it->applyGravity(0.1, ofGetWindowHeight());
-        it->ageVisuals(true, true);
-        it->addDampingForce( 0.01 );
         it->update();
         it->resetForces();
         
