@@ -106,6 +106,11 @@ void Particle::burst(float px, float py, float multiplier){    //Reccomended pai
     vel.set(vx, vy);
 }
 
+void Particle::newMotion(Particle &p, float angle){
+    p.c.set(ofColor(255,200,150));
+    p.vel.y = sin( angle * 0.09 );
+}
+
 void Particle::update() {
     vel += acc;
     pos += vel;

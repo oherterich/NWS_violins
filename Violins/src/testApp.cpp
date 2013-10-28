@@ -103,25 +103,28 @@ void testApp::keyPressed(int key){
     // Track 3
     
     if(key == 'a'){
-        composition.track3Orbit1();
+        composition.track3Main();
     }
     if(key == 's'){
-        composition.track3Corruption1();
+        composition.track3Secondary();
     }
     if(key == 'd'){
-        composition.track3Orbit2();
+        composition.track3ColorChange();
     }
     if(key == 'f'){
-        composition.track3Corruption2();
+        composition.track3Implosion();
     }
     if(key == 'g'){
-        composition.track3Orbit3();
+        composition.track3Main2();
     }
     if(key == 'h'){
-        composition.track3Corruption3();
+        composition.track3Solo();
     }
     if(key == 'j'){
-        composition.track3FinalBattle();
+        composition.track3Secondary2();
+    }
+    if(key == 'k'){
+        composition.track3Burst();
     }
     
     // Track 4

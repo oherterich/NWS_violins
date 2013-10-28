@@ -36,7 +36,9 @@ class testApp : public ofBaseApp{
     
     bool colorLerpSwitch;
     bool suctionSwitch;
-    bool singularSwitch;
+    bool bMain2;
+    bool bSolo;
+    bool bForce;
     
     float maxParticlesLeft;
     float maxParticlesRight;

@@ -11,7 +11,8 @@ void testApp::setup(){
     
     suctionSwitch = false;
     colorLerpSwitch = false;
-    singularSwitch = false;
+    bMain2 = false;
+    bSolo = false;
     
     maxParticlesLeft = 1000;
     maxParticlesRight = 500;
@@ -84,12 +85,21 @@ void testApp::update(){
         }
         else {
             
-            if (singularSwitch) {
+            if (bMain2) {
+                it->newMotion( *it, ofGetElapsedTimef() );
+            }
+            
+            if (bSolo) {
                 //it->damping = 0.05;
                 it->attractionForce( moveCenter.x, moveCenter.y, 1.5);
                 it->addNoise(2.0);
                 it->addRepulsionForce(moveCenter.x, moveCenter.y, 10, 45.0);
             }
+            
+            if (bForce) {
+                it->burst(it->pos.x, it->pos.y, 50.0);
+            }
+            
             else {
                 it->attractionForce( moveCenter.x, moveCenter.y, 2.0 );
                 
@@ -137,19 +147,26 @@ void testApp::update(){
             it->lerpToColor(it->c, ofColor(255,200,150), 0.005);
         }
         
+        if ( !rightParticleSwitch ) {
+            it->lerpToColor(it->c, ofColor(0,0,0), 0.01f);
+        }
+        
         it->update();
         
-        if ( it->kill() ) {
+        if(it->c.getBrightness() < 10 ){
             rightParticles.erase(it);
         }
-        else {
+        else if (it->kill()) {
+            rightParticles.erase(it);
+        }
+        else{
             it++;
         }
     }
     
     //Check two halfs of the spectrum. If loud enough, add a particle
     for (int i = 0; i < FFTanalyzer.nAverages / 2; i++ ) {
-        if (FFTanalyzer.averages[i] > 8 && !suctionSwitch && !singularSwitch) {
+        if (FFTanalyzer.averages[i] > 8 && !suctionSwitch && !bSolo) {
             int rand = (int)ofRandom(0, 4);
             
             if (leftParticles.size() < maxParticlesLeft) {
@@ -174,7 +191,7 @@ void testApp::update(){
             }
         }
         
-        else if (FFTanalyzer.averages[i] > 8 && !suctionSwitch && singularSwitch && leftParticles.size() < maxParticlesLeft) {
+        else if (FFTanalyzer.averages[i] > 8 && !suctionSwitch && bSolo && leftParticles.size() < maxParticlesLeft) {
             addLeftParticle( ofVec2f(moveCenter.x, moveCenter.y) );
         }
     }
@@ -214,15 +231,16 @@ void testApp::update(){
     
     float moveCenterSpeed;
     
-    if (singularSwitch) {
-        //moveCenterSpeed = ofMap(sin(ofGetElapsedTimef() * 0.2), -1, 1, 0.5, 0.7);
-        moveCenterSpeed = 0.9;
+    if (bSolo) {
+        moveCenterSpeed = 0.7;
     }
     else {
         moveCenterSpeed = ofMap(sin(ofGetElapsedTimef() * 0.1), -1, 1, 0.08, .2);
     }
     moveCenter.x = ofNoise(ofGetElapsedTimef() * moveCenterSpeed) * ofGetWindowWidth();
     moveCenter.y = ofNoise(ofGetElapsedTimef() * moveCenterSpeed + 1000) * ofGetWindowHeight();
+    
+    bForce = false;
 
     
 }
@@ -244,8 +262,8 @@ void testApp::draw(){
 //    ofSetColor(0, 255, 0);
 //    ofDrawBitmapString( ofToString( leftParticles.size() ), ofPoint(20, 20) );
 //    
-//    ofSetColor(0, 0, 255);
-//    ofDrawBitmapString( ofToString( rightParticles.size() ), ofPoint(ofGetWindowWidth() - 40, 20) );
+    ofSetColor(0, 0, 255);
+    ofDrawBitmapString( ofToString( rightParticles.size() ), ofPoint(ofGetWindowWidth() - 40, 20) );
 //    
 //    ofSetColor(255, 255);
 //    ofDrawBitmapString(ofToString(ofGetFrameRate()), ofPoint(ofGetWindowWidth() / 2 - 10, 20));
@@ -294,10 +312,21 @@ void testApp::keyPressed(int key){
     
     if (key == 'd' || key == 'D') {
         suctionSwitch = !suctionSwitch;
+        rightParticleSwitch = false;
     }
     
     if (key == 'f' || key == 'F') {
-        singularSwitch = !singularSwitch;
+        bMain2 = !bMain2;
+        suctionSwitch = false;
+    }
+    
+    if (key == 'g' || key == 'G') {
+        bSolo = !bSolo;
+        bMain2 = false;
+    }
+    
+    if (key == 'l' || key == 'L') {
+        bForce = true;
     }
 }
 
