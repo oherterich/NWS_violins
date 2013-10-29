@@ -3,6 +3,7 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     ofSetCircleResolution(1000);
+    ofEnableSmoothing();
     
     ofBackground(0);
     ofNoFill();
@@ -11,12 +12,33 @@ void testApp::setup(){
 
 }
 
+void testApp::addParticle() {
+    Particle tmp;
+    
+    tmp.setParams(ofRandomWidth(), -ofRandom(-5,-200), 0, .1, 2.0);
+    
+    tmp.life = ofRandom(1000);
+    
+    particleList.push_back( tmp );
+}
+
 //--------------------------------------------------------------
 void testApp::update(){
     myCircle.update();
     
     myMap.update();
+    
+    for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); ) {
+        
+        it->update();
+        it->resetForces();
+        
+        if (it->dead()) {
+            particleList.erase(it);
+        }
+        it++;
 
+    }
 }
 
 //--------------------------------------------------------------
@@ -33,10 +55,17 @@ void testApp::draw(){
     
     cirList[0]=myMap.posList[0];
     ofPopMatrix();
+    
+    
+    for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); it++) {
+        it->draw();
+    }
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
+    
+    if(key!='s'){
     
     float x;
     float y;
@@ -44,12 +73,20 @@ void testApp::keyPressed(int key){
     float temp = rand()%2;
     float temp2= rand()%2;
     
-    if (temp==0)  x = ofRandom(-.3*ofGetWidth(), -.1*ofGetWidth());
-    if (temp==1)  x = ofRandom(1.1*ofGetWidth(), 1.3*ofGetWidth());
-    if (temp2==0)  y = ofRandom(-.3*ofGetHeight(), -.1*ofGetHeight());
-    if (temp2==1)  y = ofRandom(1.1*ofGetHeight(), 1.3*ofGetHeight());
+    if (temp==0)  x = ofRandom(-.1*ofGetWidth(), -.15*ofGetWidth());
+    if (temp==1)  x = ofRandom(1.1*ofGetWidth(), 1.15*ofGetWidth());
+    if (temp2==0)  y = ofRandom(-.1*ofGetHeight(), -.15*ofGetHeight());
+    if (temp2==1)  y = ofRandom(1.1*ofGetHeight(), 1.15*ofGetHeight());
         
     cirList.push_back(ofVec2f(x,y));
+        
+    }
+    
+    if(key=='s'){
+        for ( int i = 0; i < 100; i++ ) {
+            addParticle();
+        }
+    }
 
 }
 

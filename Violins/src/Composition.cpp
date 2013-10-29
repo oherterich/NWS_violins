@@ -61,33 +61,39 @@ void Composition::track2LineCorpseOrder(){
 
 // Track 3
 
-void Composition::track3Orbit1(){
+void Composition::track3Main(){
     //Owen will work on this, but I welcome help :)
 }
 
-void Composition::track3Corruption1(){
+void Composition::track3Secondary(){
     //Owen will work on this, but I welcome help :)
 }
 
-void Composition::track3Orbit2(){
+void Composition::track3ColorChange(){
     //Owen will work on this, but I welcome help :)
 }
 
-void Composition::track3Corruption2(){
+void Composition::track3Implosion(){
     //Owen will work on this, but I welcome help :)
 }
 
-void Composition::track3Orbit3(){
+void Composition::track3Main2(){
     //Owen will work on this, but I welcome help :)
 }
 
-void Composition::track3Corruption3(){
+void Composition::track3Solo(){
     //Owen will work on this, but I welcome help :)
 }
 
-void Composition::track3FinalBattle(){
+void Composition::track3Secondary2(){
     //Owen will work on this, but I welcome help :)
 }
+
+void Composition::track3Burst(){
+    //Owen will work on this, but I welcome help :)
+}
+
+
 
 // Track 4
 

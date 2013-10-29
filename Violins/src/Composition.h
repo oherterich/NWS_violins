@@ -27,13 +27,16 @@ public:
     void track2KillLine();
     void track2LineCorpseOrder();
     
-    void track3Orbit1();
-    void track3Corruption1();
-    void track3Orbit2();
-    void track3Corruption2();
-    void track3Orbit3();
-    void track3Corruption3();
-    void track3FinalBattle();
+    void track3Main();
+    void track3Secondary();
+    void track3ColorChange();
+    void track3Implosion();
+    void track3Main2();
+    void track3Solo();
+    void track3Secondary2();
+    void track3Solo2();
+    void track3Burst();
+    void track3Implosion2();
     
     void track4Pattern1();
     void track4Pattern2();

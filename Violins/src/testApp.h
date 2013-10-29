@@ -4,6 +4,10 @@
 #include "Composition.h"
 #include "Line.h"
 #include "ofxUI.h"
+#include "ofxOsc.h"
+
+// listen on port 12345
+#define PORT 12345
 
 class testApp : public ofBaseApp{
 
@@ -29,4 +33,26 @@ public:
     
     void onGuiEvent(ofxUIEventArgs &e);
     ofxUICanvas *gui;
+    
+    //---- things to add----
+    
+    void GetOSC();
+    void AudioDebug();
+    
+    
+	ofxOscReceiver receiver;
+    int Channel01_FFT_size;
+    int Channel02_FFT_size;
+    vector<float> Channel01_FFT;
+    vector<float> Channel02_FFT;
+    float Channel01_Pitch;
+    float Channel01_Attack;
+    float Channel01_Amplitude;
+    float Channel02_Pitch;
+    float Channel02_Attack;
+    float Channel02_Amplitude;
+    float Channel01_LinearPitch;
+    float Channel02_LinearPitch;
+
+    
 };
