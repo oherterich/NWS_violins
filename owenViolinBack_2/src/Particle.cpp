@@ -114,12 +114,14 @@ void Particle::newMotion(Particle &p, float angle){
 void Particle::update() {
     vel += acc;
     pos += vel;
-    c.setBrightness( 300 - age * 0.7);
 
     sizePct = 1 - age / life;
     //trans = initTrans * pct;
+
     age += 1.0;
+
     //size = initSize * pct;
+
     acc.set(0.0);
 }
 

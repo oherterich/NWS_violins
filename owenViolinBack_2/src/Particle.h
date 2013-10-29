@@ -34,9 +34,8 @@ public:
     float size, initSize;
     float damping;
     float noiseOffsetA, noiseOffsetB;
+    float sizePct;
 
     ofImage *img;
-
-    float sizePct;
 
 };

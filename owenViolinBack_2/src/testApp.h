@@ -35,22 +35,21 @@ class testApp : public ofBaseApp{
     float rightParticleAmount;
 
     bool colorLerpSwitch;
-    bool forceSwitch;
-    bool bNewMotion;
-    bool bNoBlue;
-    bool rtParticleFromOut, ltParticleFromOut;
-    bool sizing;
+    bool suctionSwitch;
+    bool bMain2;
+    bool bSolo;
+    bool bForce;
+    bool bRtParticleFromOut;
+    bool bSizing;
 
     float maxParticlesLeft;
     float maxParticlesRight;
 
     ofImage green;
     ofImage blue;
-    float pAlpha;
 
     ofVec2f moveCenter;
-    float strength;
-    int angle;
+    float blueRepulsionStr;
 
     //Audio stuff
     void audioReceived 	(float * input, int bufferSize, int nChannels);
@@ -67,8 +66,6 @@ class testApp : public ofBaseApp{
     float power[BUFFER_SIZE];
     float freq[BUFFER_SIZE/2];
 
-    //float leftAddX1, leftAddY1, leftAddX2, leftAddY2, leftAddX3, leftAddY3, leftAddX4, leftAddY4;
-
     ofVec2f rtParticleInitC0, rtParticleInitC1, rtParticleInitC2, rtParticleInitC3;
-    ofVec2f ltParticleInitC0, ltParticleInitC1, ltParticleInitC2, ltParticleInitC3;
+
 };
