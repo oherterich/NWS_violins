@@ -27,6 +27,8 @@ class testApp : public ofBaseApp{
     circle myCircle;
     Mapper myMap;
     
+    float snowStart;
+    
     vector<ofVec2f> cirList;
     vector<Particle> particleList;
     

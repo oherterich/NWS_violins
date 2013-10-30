@@ -176,7 +176,17 @@ void Particle::applyBounds(){
 }
 
 bool Particle::dead() {
-    if (age >= life && life > 0) {
+    
+    if (life!=0){
+        if(age >= life) {
+            return true;
+        }
+    }
+
+        if(pos.x>ofGetWidth()+initSize/2 ||
+            pos.x<-initSize/2 ||
+            pos.y>ofGetHeight()+initSize/2 ||
+            pos.y<-initSize/2){
         return true;
     }
     else return false;
