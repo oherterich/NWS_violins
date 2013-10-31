@@ -6,7 +6,7 @@
 //========================================================================
 int main( ){
 	ofAppGlutWindow window;
-	window.setGlutDisplayString("rgba double samples>=4");
+	window.setGlutDisplayString("rgba double samples>=0");
 	ofSetupOpenGL(&window, 1024, 768, OF_FULLSCREEN);
 
 	// this kicks off the running of my app

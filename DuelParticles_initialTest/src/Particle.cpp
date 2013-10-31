@@ -12,19 +12,19 @@ Particle::Particle( ofVec2f _pos, ofVec2f _vel, ofColor _c, float _size, float _
     pos = _pos;
     vel = _vel;
     c = _c;
-    
+
     age = 0;
     life = ofRandom(200,400);
-    
+
     size = _size;
     initSize = size;
     trans = _trans;
     initTrans = trans;
-    
+
     damping = 0.03;
-    
+
     img = _img;
-    
+
     noiseOffsetA = ofRandom(0.05, 0.15);
     noiseOffsetB = ofRandom(10.0, 20.0);
 }
@@ -33,10 +33,10 @@ void Particle::setParams( ofVec2f _pos, ofVec2f _vel, ofColor _c, float _size, f
     pos = _pos;
     vel = _vel;
     c = _c;
-    
+
     age = 0;
     life = ofRandom(200,400);
-    
+
     size = _size;
     initSize = size;
     trans = _trans;
@@ -50,10 +50,10 @@ void Particle::addForce( ofVec2f force ) {
 void Particle::attractionForce( float px, float py, float strength ) {
     ofVec2f loc;
     loc.set(px, py);
-    
+
     ofVec2f diff;
     diff = pos - loc;
-    
+
     diff.normalize();
     acc.x -= diff.x * strength;
     acc.y -= diff.y * strength;
@@ -62,9 +62,9 @@ void Particle::attractionForce( float px, float py, float strength ) {
 void Particle::addRepulsionForce( float px, float py, float radius, float strength){
     ofVec2f posOfForce;
     posOfForce.set(px, py);
-    
+
     ofVec2f diff = pos - posOfForce;
-    
+
     if (diff.length() < radius){
         float pct = 1 - (diff.length() / radius);
         diff.normalize();
@@ -81,9 +81,9 @@ void Particle::addNoise(float vigor){
 void Particle::addClockwiseForce( float px, float py, float radius, float strength){
     ofVec2f posOfForce;
     posOfForce.set(px, py);
-    
+
     ofVec2f diff = pos - posOfForce;
-    
+
     if (diff.length() < radius){
         float pct = 1 - (diff.length() / radius);
         diff.normalize();
@@ -101,7 +101,7 @@ void Particle::burst(float px, float py, float multiplier){    //Reccomended pai
     float circVal = ofRandom(TWO_PI);
     float vx = cos( sin(circVal) ) * ofRandom(-multiplier, multiplier);
     float vy = sin( sin(circVal) ) * ofRandom(-multiplier, multiplier);
-    
+
     pos.set(px, py);
     vel.set(vx, vy);
 }
@@ -111,17 +111,21 @@ void Particle::newMotion(Particle &p, float angle){
     p.vel.y = sin( angle * 0.09 );
 }
 
+void Particle::sizeOverTime() {
+    size = initSize*0.8 * sizePct;
+}
+
 void Particle::update() {
     vel += acc;
     pos += vel;
-    
-    float pct = 1 - age / life;
+
+    sizePct = 1 - age / life;
     //trans = initTrans * pct;
-    
+
     age += 1.0;
-    
-    size = initSize * pct;
-    
+
+    //size = initSize * pct;
+
     acc.set(0.0);
 }
 
@@ -135,6 +139,7 @@ void Particle::draw() {
     ofSetColor( c, trans );
     ofPushMatrix();
     ofTranslate(pos);
+    ofScale(size,size);
     img->draw(0,0);
     ofPopMatrix();
     //ofRect( pos, size, size );

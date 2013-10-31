@@ -24,44 +24,48 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-    
+
     void addLeftParticle( ofVec2f pos );
     void addRightParticle( ofVec2f pos );
-    
+
     vector<Particle> leftParticles;
     vector<Particle> rightParticles;
-    
+
     bool rightParticleSwitch;
     float rightParticleAmount;
-    
+
     bool colorLerpSwitch;
     bool suctionSwitch;
     bool bMain2;
     bool bSolo;
     bool bForce;
-    
+    bool bRtParticleFromOut;
+    bool bSizing;
+
     float maxParticlesLeft;
     float maxParticlesRight;
-    
+
     ofImage green;
     ofImage blue;
-    
+
     ofVec2f moveCenter;
-    
+    float blueRepulsionStr;
+
     //Audio stuff
     void audioReceived 	(float * input, int bufferSize, int nChannels);
-	
+
     FFTOctaveAnalyzer FFTanalyzer;
-    
+
     float left[BUFFER_SIZE];
     float right[BUFFER_SIZE];
-    
+
     fft		myfft;
-    
+
     float magnitude[BUFFER_SIZE];
     float phase[BUFFER_SIZE];
     float power[BUFFER_SIZE];
     float freq[BUFFER_SIZE/2];
 
-		
+    ofVec2f rtParticleInitC0, rtParticleInitC1, rtParticleInitC2, rtParticleInitC3;
+
 };
