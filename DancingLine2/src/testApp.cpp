@@ -3,115 +3,125 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     
-    receiver.setup(PORT);
+	receiver.setup(PORT);
     
-    ofBackground(0);
-    ofSetVerticalSync(true);
-    ofSetFrameRate(60);
+    post.init(ofGetWidth(), ofGetHeight());
+    post.createPass<VerticalTiltShifPass>();
+    //post.createPass<DofPass>();
+    post.createPass<GodRaysPass>();
+    post.createPass<FxaaPass>();
+    post.createPass<BloomPass>();
+    
+    
+  
+    
+	ofBackground(0,0,20);
     ofEnableAlphaBlending();
+    //ofEnableDepthTest();
+    ofSetSphereResolution(24);
+    
+    
+    ofSetSmoothLighting(true);
+    pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
 
-    ofAddListener(gui->newGUIEvent, this, &testApp::onGuiEvent); // what we're listening for,
-    // who's listening for it,
-    // and the function to run when it happens
-    gui->loadSettings("test_settings.xml");
-}
+    material.setShininess( 120 );
+    material.setAmbientColor(ofColor((255,0,127)));
+    // the light highlight of the material //
+	material.setSpecularColor(ofColor(255, 0, 255, 255));
 
-//--------------------------------------------------------------
-void testApp::exit(){
-//    gui->saveSettings("test_settings.xml");
-    delete gui;
-}
-
-void testApp::onGuiEvent(ofxUIEventArgs &e){
-    cout<<"if we need"<<endl;
+    jitter = 3;
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
+
     GetOSC();
+    
+    pos.x = ofNoise(ofGetElapsedTimef()/10);
+    pos.y = ofNoise(ofGetElapsedTimef()/10+1000)+ofGetElapsedTimef()/10;
+    pos.z = ofNoise(ofGetElapsedTimef()/10-1000);
+    pos = pos*1000;
+    
+    tmp = pos;
+    
+//    Channel01_Attack = 0.1*Channel01_Attack + 0.9*lastChannel01_Attack;
+    
+
+    
+    tmp.x = tmp.x + sin(ofGetElapsedTimef())*100; //+ Channel01_Attack*100;
+    tmp.z = tmp.z + cos(ofGetElapsedTimef())*100;// + Channel01_Attack*-100;
+    //tmp.y = tmp.y + Channel01_Attack*100;
+    
+    
+    //cam.roll( ofRadToDeg(sin(ofGetElapsedTimef()/10)*TWO_PI));
+     cam.lookAt(tmp);
+
+
+    tmp.x = tmp.x + cos(ofGetElapsedTimef())*Channel01_Attack*50;
+    tmp.y = tmp.y + sin(ofGetElapsedTimef())*Channel01_Attack*50;
+    
+    PosList.push_back(tmp);
+   
+    
+    if (PosList.size()>2000) {
+        PosList.erase(PosList.begin());
+    }
+    
+    ofVec3f xenoed = pos*0.01 + lastpos*0.99;
+    
+    cam.setPosition(xenoed.x, xenoed.y, xenoed.z);
+    
+   
+   // cam.setPosition(xenoed+200);
+   
+    
+    lastpos = xenoed;
+    lastChannel01_Attack = Channel01_Attack;
+    
+    pointLight.setPosition(pos);
+
 }
+
+
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    ofFill();
-     AudioDebug();
+    AudioDebug();
+    
+    post.begin(cam);
+    ofEnableLighting();
+    pointLight.enable();
+    
+    
+	material.begin();
+    //cam.begin();
+    
+    ofSetColor(ofRandom(255),ofRandom(255),ofRandom(10)*(Channel01_Pitch/10));
+    ofSetLineWidth(10);
+    ofPolyline P;
+    P.clear();
+    
+    for( vector<ofVec3f>::iterator it=PosList.begin(); it!=PosList.end(); it++ ){
+        
+        P.addVertex( it->x, it->y, it->z );
+        
+    }
+    P.draw();
+    for(int i=0; i<20; i++){
+        ofTranslate(ofRandom(-jitter,jitter),ofRandom(-jitter,jitter),ofRandom(-jitter,jitter));
+        P.draw();
+    }
+    //cam.end();
+    post.end();
+    
+    //ofDrawBitmapString(ofToString(post. ), 20,20);
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
+    
 
-    // Track 1
-
-    if(key == '1'){
-        composition.track1Order();
-    }
-    if(key == '2'){
-        composition.track1Chaos();
-    }
-    if(key == '3'){
-        composition.track1Join();
-    }
-    
-    // Track 2
-    
-    if(key == 'q'){
-        composition.track2Line();
-    }
-    if(key == 'w'){
-        composition.track2SmallLines();
-    }
-    if(key == 'e'){
-        composition.track2Order();
-    }
-    if(key == 'r'){
-        composition.track2KillLine();
-    }
-    if(key == 't'){
-        composition.track2LineCorpseOrder();
-    }
-    
-    // Track 3
-    
-    if(key == 'a'){
-        composition.track3Main();
-    }
-    if(key == 's'){
-        composition.track3Secondary();
-    }
-    if(key == 'd'){
-        composition.track3ColorChange();
-    }
-    if(key == 'f'){
-        composition.track3Implosion();
-    }
-    if(key == 'g'){
-        composition.track3Main2();
-    }
-    if(key == 'h'){
-        composition.track3Solo();
-    }
-    if(key == 'j'){
-        composition.track3Secondary2();
-    }
-    if(key == 'k'){
-        composition.track3Burst();
-    }
-    
-    // Track 4
-    
-    if(key == 'z'){
-        composition.track4Pattern1();
-    }
-    if(key == 'x'){
-        composition.track4Pattern2();
-    }
-    if(key == 'c'){
-        composition.track4Pattern3();
-    }
-    if(key == 'v'){
-        composition.track4Finale();
-    }    
-    
 }
 
 //--------------------------------------------------------------
@@ -120,7 +130,7 @@ void testApp::keyReleased(int key){
 }
 
 //--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
+void testApp::mouseMoved(int x, int y){
 
 }
 
@@ -131,7 +141,6 @@ void testApp::mouseDragged(int x, int y, int button){
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-
 }
 
 //--------------------------------------------------------------
@@ -150,7 +159,7 @@ void testApp::gotMessage(ofMessage msg){
 }
 
 //--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){ 
+void testApp::dragEvent(ofDragInfo dragInfo){
 
 }
 

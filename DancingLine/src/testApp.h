@@ -1,10 +1,9 @@
 #pragma once
 
 #include "ofMain.h"
-#include "Composition.h"
-#include "Line.h"
-#include "ofxUI.h"
 #include "ofxOsc.h"
+#include "ofxPostProcessing.h"
+//#include "Line.h"
 
 // listen on port 12345
 #define PORT 12345
@@ -15,7 +14,6 @@ public:
     void setup();
     void update();
     void draw();
-    void exit();
 
     void keyPressed(int key);
     void keyReleased(int key);
@@ -26,11 +24,10 @@ public:
     void windowResized(int w, int h);
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
+//    FlowField           myField;
+//    bool debug;
+//    Line l;
     
-    Composition composition;
-    
-    void onGuiEvent(ofxUIEventArgs &e);
-    ofxUICanvas *gui;
     
     //---- things to add----
     
@@ -51,6 +48,14 @@ public:
     float Channel02_Amplitude;
     float Channel01_LinearPitch;
     float Channel02_LinearPitch;
-
+    vector<ofVec3f> PosList;
+    ofEasyCam cam;
+    ofVec3f pos, tmp, lastpos;
+    float lastChannel01_Attack;
+    float lastChannel01_Amplitude;
     
+    ofxPostProcessing post;
+    ofMaterial material;
+    ofLight pointLight;
+    float jitter;
 };
