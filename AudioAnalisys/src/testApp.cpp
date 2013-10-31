@@ -15,15 +15,15 @@ void testApp::setup(){
 	ofSetCircleResolution(80);
 	ofBackground(54, 54, 54);
 	
-
+    
 	ofSoundStreamListDevices();
-
+    
 	
-	AudioIn.setDeviceID(2);
+	//AudioIn.setDeviceID(0);
     AudioIn.setup(this, 0, 2, 44100, BUFFER_SIZE, 4);
     AudioIn.start();
     
-
+    
 	peakTime =15; // hold longer
     decayRate = 0.95f; // decay slower
     HiGain = 0.9f; // reduced gain at lowest frequency
@@ -61,7 +61,22 @@ void testApp::setup(){
         Channel02_deltaFreq.push_back(tmp);
 	}
     
-   }
+
+//------- acelerometers ------
+
+//create the socket and bind to port 11999
+
+udpConnection.Create();
+udpConnection.Bind(11999);
+udpConnection.SetNonBlocking(true);
+
+//second connection on port 11998
+udpConnection2.Create();
+udpConnection2.Bind(11998);
+udpConnection2.SetNonBlocking(true);
+
+}
+
 
 //--------------------------------------------------------------
 void testApp::update(){
@@ -84,13 +99,64 @@ void testApp::update(){
     Channel01_LinearPitch = 69 + 12*log2f(Channel01_Pitch/440);
     Channel02_LinearPitch = 69 + 12*log2f(Channel02_Pitch/440);
     
+    
+    //----- acelerometers
+    
+    char udpMessage[100000];
+	udpConnection.Receive(udpMessage,100000);
+	string message=udpMessage;
+	if(message!=""){
+        
+        //get incomming string, split string into pieces then assign pieces to x, y, z, magx, magy and magz
+		vector<string> strPoints = ofSplitString(message,"[/p]");
+        
+        vector<string> point = ofSplitString(strPoints[0],"|");
+        if( point.size() == 6 ){
+            x=ofMap(atof(point[0].c_str()), -2000, 2000, 0, 1000);
+            y=ofMap(atof(point[1].c_str()), -2000, 2000, 0, 1000);
+            z=ofMap(atof(point[2].c_str()), -2000, 2000, 0, 1000);
+            magx=atof(point[3].c_str());
+            magy=atof(point[4].c_str());
+            magz=atof(point[5].c_str());
+            
+            
+        }
+        
+	}
+    
+    
+	char udpMessage2[100000];
+	udpConnection2.Receive(udpMessage2,100000);
+	string message2=udpMessage2;
+	if(message2!=""){
+        
+        
+        //get incomming string, split string into pieces then assign pieces to x, y, z, magx, magy and magz
+		vector<string> strPoints2 = ofSplitString(message2,"[/p]");
+        
+        vector<string> point2 = ofSplitString(strPoints2[0],"|");
+        if( point2.size() == 6 ){
+            x2=ofMap(atof(point2[0].c_str()), -2000, 2000, 0, 1000);
+            y2=ofMap(atof(point2[1].c_str()), -2000, 2000, 0, 1000);
+            z2=ofMap(atof(point2[2].c_str()), -2000, 2000, 0, 1000);
+            magx2=atof(point2[3].c_str());
+            magy2=atof(point2[4].c_str());
+            magz2=atof(point2[5].c_str());
+            
+        }
+        
+	}
+    
+    
+    
+    
 }
 //--------------------------------------------------------------
 void testApp::draw(){
     //debug view
     ofPushStyle();
     ofPushMatrix();
-    ofTranslate((ofGetWindowWidth()/2)-250, ofGetWindowHeight()-100);
+    ofTranslate((ofGetWindowWidth()/2)-250, ofGetWindowHeight()-130);
     ofPushMatrix();
     ofTranslate(100, 0);
     
@@ -103,7 +169,9 @@ void testApp::draw(){
     ofDrawBitmapString("Linear Pitch: " + ofToString(Channel01_LinearPitch,0), 0,45);
     ofDrawBitmapString("Amplitude: " + ofToString(Channel01_Amplitude,4), 0,60);
     ofDrawBitmapString("Attack: " + ofToString(Channel01_Attack,4), 0,75);
-    
+    ofDrawBitmapString("x: "+ ofToString(x,2), 0, 90);
+    ofDrawBitmapString("y: "+ ofToString(y,2), 0, 100);
+    ofDrawBitmapString("z: "+ ofToString(z,2), 0, 110);
     
     for (int i = 0; i < Channel01_FFT_size; i++){
         ofSetColor(255,20);
@@ -131,7 +199,9 @@ void testApp::draw(){
     ofDrawBitmapString("Linear Pitch: " + ofToString(Channel02_LinearPitch,0), 0,45);
     ofDrawBitmapString("Amplitude: " + ofToString(Channel02_Amplitude,4), 0,60);
     ofDrawBitmapString("Attack: " + ofToString(Channel02_Attack,4), 0,75);
-    
+    ofDrawBitmapString("x: "+ ofToString(x2,2), 0, 90);
+    ofDrawBitmapString("y: "+ ofToString(y2,2), 0, 100);
+    ofDrawBitmapString("z: "+ ofToString(z2,2), 0, 110);
     
     for (int i = 0; i < Channel02_FFT_size; i++){
         ofSetColor(255,20);
@@ -161,47 +231,47 @@ void testApp::audioReceived 	(float * input, int bufferSize, int nChannels){
 }
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::keyReleased(int key){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::mouseDragged(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::mousePressed(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::mouseReleased(int x, int y, int button){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::windowResized(int w, int h){
-
+    
 }
 
 //--------------------------------------------------------------
 void testApp::gotMessage(ofMessage msg){
-
+    
 }
 
 //--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){ 
-
+void testApp::dragEvent(ofDragInfo dragInfo){
+    
 }
 //--------------------------------------------------------------
 
@@ -276,7 +346,7 @@ void testApp::audioAnalisys(){
 
 //-------------------------------------------------------
 void testApp::SentMessages(){
-
+    
     
     ofxOscMessage Channel01;
     Channel01.setAddress("/Channel01/AudioAnalysis");
@@ -284,14 +354,14 @@ void testApp::SentMessages(){
     Channel01.addFloatArg(Channel01_UsefulPitch);
     Channel01.addFloatArg(Channel01_att);
     Sender.sendMessage(Channel01);
-
+    
     ofxOscMessage Channel02;
     Channel02.setAddress("/Channel02/AudioAnalysis");
     Channel02.addFloatArg(Channel02_Aubio.amplitude);
     Channel02.addFloatArg(Channel02_UsefulPitch);
     Channel02.addFloatArg(Channel02_att);
     Sender.sendMessage(Channel02);
-
+    
     ofxOscMessage FFT01;
     FFT01.setAddress("/Channel01/FFT");
     FFT01.addIntArg(Channel01_Analyzer.nAverages);
@@ -307,6 +377,19 @@ void testApp::SentMessages(){
         FFT02.addFloatArg(Channel02_Analyzer.averages[i]);
     }
     Sender.sendMessage(FFT02);
-
-
+    
+    ofxOscMessage Acel01;
+    Acel01.setAddress("/sensor01/acel");
+    Acel01.addFloatArg(x);
+    Acel01.addFloatArg(y);
+    Acel01.addFloatArg(z);
+    Sender.sendMessage(Acel01);
+    
+    ofxOscMessage Acel02;
+    Acel02.setAddress("/sensor02/acel");
+    Acel02.addFloatArg(x2);
+    Acel02.addFloatArg(y2);
+    Acel02.addFloatArg(z2);
+    Sender.sendMessage(Acel02);
+    
 }
