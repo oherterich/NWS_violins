@@ -50,6 +50,7 @@ class testApp : public ofBaseApp{
     ofVec2f rtParticleInitC1;
     ofVec2f rtParticleInitC2;
     ofVec2f rtParticleInitC3;
+    float ltInitYPos;
     
     ofImage green;
     ofImage blue;
