@@ -147,7 +147,7 @@ void testApp::update(){
         it->update();
 
         if ( !rightParticleSwitch ) {
-            it->lerpToColor(it->c, ofColor(0,0,0), 0.7f);
+            it->lerpToColor(it->c, ofColor(0,0,0), 0.01f);
         }
 
         if(it->c.getBrightness() < 10 ){

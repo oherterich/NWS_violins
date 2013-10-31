@@ -23,9 +23,11 @@ public:
     void addNoise(float vigor);
     void lerpToColor(ofColor startColor, ofColor endColor, float amt);
     void burst(float px, float py, float multiplier);
+    void newMotion(Particle &p, float angle);
+    void sizeOverTime();
     void addDamping();
     bool kill();
-    
+
     ofVec2f pos, vel, acc;
     ofColor c;
     float trans, initTrans;
@@ -33,7 +35,8 @@ public:
     float size, initSize;
     float damping;
     float noiseOffsetA, noiseOffsetB;
-    
+    float sizePct;
+
     ofImage *img;
-    
+
 };

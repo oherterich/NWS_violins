@@ -9,18 +9,7 @@ void testApp::setup(){
     ofSetVerticalSync(true);
     ofSetFrameRate(60);
     ofEnableAlphaBlending();
-    l.frequency = ofRandom(1.0, 100.0);
-    l.width = ofRandom(100.0, 200.0);
 
-    gui = new ofxUICanvas(200,500);
-    gui->addLabel("Line Dancing");
-    gui->addSpacer();
-    gui->addSlider("Position", 0, 1000, 1);
-    gui->addSlider("Velocity", 0, 1000, 1);
-    gui->addSlider("Acceleration", 0, 1000, 1);
-    gui->addSlider("Width", 0, 1000, 1);
-    gui->addSlider("Frequency", 0, 1000, 1);
-    
     ofAddListener(gui->newGUIEvent, this, &testApp::onGuiEvent); // what we're listening for,
     // who's listening for it,
     // and the function to run when it happens
@@ -34,37 +23,18 @@ void testApp::exit(){
 }
 
 void testApp::onGuiEvent(ofxUIEventArgs &e){
-    if(e.getName() == "Position"){
-        ofxUISlider *radiusSlider = (ofxUISlider*)e.widget;
-        l.pos.x = radiusSlider->getScaledValue();
-        cout<<l.vel.x<<endl;
-    } if(e.getName() == "Velocity"){
-        ofxUISlider *radiusSlider = (ofxUISlider*)e.widget;
-        l.vel.x = radiusSlider->getScaledValue();
-        cout<<l.vel.x<<endl;
-    } if(e.getName() == "Acceleration"){
-        ofxUISlider *numberSlider = (ofxUISlider*)e.widget;
-        l.acc.x = numberSlider->getScaledValue();
-    } if(e.getName() == "Width"){
-        ofxUISlider *sizeSlider = (ofxUISlider*)e.widget;
-         l.width = sizeSlider->getScaledValue();
-    }if(e.getName() == "Frequency"){
-        ofxUISlider *hueSlider = (ofxUISlider*)e.widget;
-        l.frequency = hueSlider->getScaledValue();
-    }
+    cout<<"if we need"<<endl;
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
     GetOSC();
-        l.update();
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
     ofFill();
      AudioDebug();
-        l.draw();
 }
 
 //--------------------------------------------------------------
@@ -103,25 +73,28 @@ void testApp::keyPressed(int key){
     // Track 3
     
     if(key == 'a'){
-        composition.track3Orbit1();
+        composition.track3Main();
     }
     if(key == 's'){
-        composition.track3Corruption1();
+        composition.track3Secondary();
     }
     if(key == 'd'){
-        composition.track3Orbit2();
+        composition.track3ColorChange();
     }
     if(key == 'f'){
-        composition.track3Corruption2();
+        composition.track3Implosion();
     }
     if(key == 'g'){
-        composition.track3Orbit3();
+        composition.track3Main2();
     }
     if(key == 'h'){
-        composition.track3Corruption3();
+        composition.track3Solo();
     }
     if(key == 'j'){
-        composition.track3FinalBattle();
+        composition.track3Secondary2();
+    }
+    if(key == 'k'){
+        composition.track3Burst();
     }
     
     // Track 4

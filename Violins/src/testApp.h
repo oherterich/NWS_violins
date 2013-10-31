@@ -28,8 +28,6 @@ public:
     void gotMessage(ofMessage msg);
     
     Composition composition;
-    Line l;
-    vector<Line> ls;
     
     void onGuiEvent(ofxUIEventArgs &e);
     ofxUICanvas *gui;

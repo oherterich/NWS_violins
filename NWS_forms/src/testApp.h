@@ -20,9 +20,17 @@ class testApp : public ofBaseApp{
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
     
-    int xk;
-    int yk;
+    float x;
+    float y;
+    float k;
+    float oldX;
+    float oldY;
     
     class system system;
+    
+    
+    /* xk+1 = sin(xk) cosh(yk)
+      yk+1 = cos(xk) sinh(yk) */
+
 		
 };
