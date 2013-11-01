@@ -35,7 +35,7 @@ void testApp::update(){
         
         
         if(storm){
-            it->addClockwiseForce(ofGetWidth()/2, ofGetHeight()/2, 250, .1);
+            it->addClockwiseForce(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2, .1);
             it->addAttractionForce(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2,
                                    ofMap(ofDist(it->pos.x, it->pos.y, ofGetWidth()/2,ofGetHeight()/2), ofGetWidth()/2, 0, .3,1));
             
@@ -90,7 +90,7 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
     
-    if(key!='s' && key!='t'){
+    if(key=='c'){
     
     float x;
     float y;
@@ -113,7 +113,6 @@ void testApp::keyPressed(int key){
     
     if(key=='t'){
         storm=!storm;
-        ofLog()<<storm;
     }
 
 }
