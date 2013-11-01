@@ -79,9 +79,10 @@ void testApp::draw(){
         it->draw();
     }
     
-    if(snowStart+3>ofGetElapsedTimef()&& snowStart!=0){
-
+    if(snow){
+        if(ofGetElapsedTimeMillis()%3==0 ){
             addParticle();
+        }
     }
     
 }
@@ -107,7 +108,7 @@ void testApp::keyPressed(int key){
     }
     
     if(key=='s'){
-        snowStart=ofGetElapsedTimef();
+        snow=!snow;
     }
     
     if(key=='t'){

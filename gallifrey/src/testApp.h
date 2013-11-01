@@ -29,7 +29,7 @@ class testApp : public ofBaseApp{
     circle myCircle;
     Mapper myMap;
     
-    float snowStart;
+    bool snow = false;
     
     vector<ofVec2f> cirList;
     vector<Particle> particleList;
