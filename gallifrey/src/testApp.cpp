@@ -4,9 +4,9 @@
 void testApp::setup(){
     ofSetCircleResolution(1000);
     ofEnableSmoothing();
+    ofEnableAlphaBlending();
     
     ofBackground(0);
-    ofNoFill();
     
     cirList.push_back(ofVec2f(ofGetWidth()/2, ofGetHeight()/2));
 
@@ -15,9 +15,9 @@ void testApp::setup(){
 void testApp::addParticle() {
     Particle tmp;
     
-    tmp.setParams(ofRandomWidth(), ofGetHeight(), 0, -1, .7);
+    tmp.setParams(ofRandomWidth(), ofGetHeight(), 0, -1, 2);
     
-    tmp.life = 0;
+    tmp.life = 300;
     
     particleList.push_back( tmp );
 }
@@ -44,6 +44,7 @@ void testApp::update(){
             }
             
         }
+        it->ageVisuals(true, false);
         
         it->update();
         it->resetForces();
@@ -65,6 +66,7 @@ void testApp::draw(){
     ofTranslate(ofGetWindowSize()/2);
 //  myCircle.drawCircle(0,0,250);
     
+    ofNoFill();
     for (int i = 0; i<cirList.size(); i++) {
         myMap.Place(0,0,250);
         ofCircle(cirList[i].x, cirList[i].y, myMap.posList[i].z);
@@ -74,7 +76,7 @@ void testApp::draw(){
     cirList[0]=myMap.posList[0];
     ofPopMatrix();
     
-    
+
     for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); it++) {
         it->draw();
     }

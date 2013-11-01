@@ -208,5 +208,6 @@ void Particle::update() {
 
 void Particle::draw() {
     ofSetColor(c, transparency);
+    ofFill();
     ofCircle(pos.x, pos.y, size);
 }
