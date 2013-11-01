@@ -15,7 +15,7 @@ void testApp::setup(){
 void testApp::addParticle() {
     Particle tmp;
     
-    tmp.setParams(ofRandomWidth(), 100, 0, 1, .7);
+    tmp.setParams(ofRandomWidth(), 0, 0, 1, .7);
     
     tmp.life = 0;
     
@@ -32,8 +32,21 @@ void testApp::update(){
     for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end();it++) {
         
         it->addNoise(ofMap(it->pos.y, 0, ofGetHeight()+1+it->initSize/2, 0, .3));
-        it->resetForces();
+        
+        
+        if(storm){
+            it->addClockwiseForce(ofGetWidth()/2, ofGetHeight()/2, 250, .1);
+            it->addAttractionForce(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2,
+                                   ofMap(ofDist(it->pos.x, it->pos.y, ofGetWidth()/2,ofGetHeight()/2), ofGetWidth()/2, 0, .3,1));
+            
+            if(ofDist(it->pos.x, it->pos.y, ofGetWidth()/2,ofGetHeight()/2)<50){
+                it->consigned=true;
+            }
+            
+        }
+        
         it->update();
+        it->resetForces();
     }
     
     for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end();it++) {
@@ -43,6 +56,7 @@ void testApp::update(){
             break;
         }
     }
+    
 }
 
 //--------------------------------------------------------------
@@ -75,7 +89,7 @@ void testApp::draw(){
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
     
-    if(key!='s'){
+    if(key!='s' && key!='t'){
     
     float x;
     float y;
@@ -97,7 +111,8 @@ void testApp::keyPressed(int key){
     }
     
     if(key=='t'){
-        
+        storm=!storm;
+        ofLog()<<storm;
     }
 
 }

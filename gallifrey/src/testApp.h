@@ -24,6 +24,8 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
         void addParticle();
     
+    bool storm;
+    
     circle myCircle;
     Mapper myMap;
     

@@ -14,6 +14,7 @@ Particle::Particle() {
     age = 0;
     life = 0;
     transparency = 255;
+    consigned=false;
     
 }
 
@@ -189,6 +190,9 @@ bool Particle::dead() {
             pos.y<-initSize/2){
         return true;
     }
+    
+    if(consigned) return true;
+    
     else return false;
 }
 
