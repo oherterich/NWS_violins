@@ -9,6 +9,7 @@
 #pragma once
 
 #include "ofMain.h"
+#include "DancingLine.h"
 
 class Composition {
     
@@ -21,7 +22,7 @@ public:
     void track1Chaos();
     void track1Join();
     
-    void track2Line();
+    void track2Line(float attack, float pitch);
     void track2SmallLines();
     void track2Order();
     void track2KillLine();
@@ -42,5 +43,11 @@ public:
     void track4Pattern2();
     void track4Pattern3();
     void track4Finale();
+    int track, status;
+    DancingLine line1, line2;
     
+    float pitch01, pitch02, attack01, attack02, amp01, amp02;
+    
+    double started;
+
 };

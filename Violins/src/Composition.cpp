@@ -11,15 +11,97 @@
 
 
 void Composition::setup(){
-    
+    track = 0;
+    status = 0;
 }
 
 void Composition::update(){
-    
+    if(track == 1){
+        if(status == 1){
+            
+        } else if (status == 2){
+            
+        } else if (status == 3){
+            
+        }
+    } else if (track == 2){
+        if(status == 1){
+            line1.update(attack01, started);
+            line2.update(attack02, started);
+        } else if (status == 2){
+            
+        } else if (status == 3){
+
+        } else if (status == 4){
+            
+        } else if (status == 5){
+            
+        }
+    } else if (track == 3){
+        if (status == 1){
+            
+        } else if (status == 2){
+            
+        } else if (status == 3){
+            
+        } else if (status == 4){
+            
+        }
+    } else if (track == 4){
+        if (status == 1){
+            
+        } else if (status == 2){
+            
+        } else if (status == 3){
+            
+        }
+    }
 }
 
 void Composition::draw(){
-    
+    if(track == 1){
+        if(status == 1){
+            
+        } else if (status == 2){
+            
+        } else if (status == 3){
+            
+        }
+    } else if (track == 2){
+        if(status == 1){
+            line1.draw(pitch01);
+            line2.draw(pitch02);
+        } else if (status == 2){
+            line1.draw(pitch01);
+            line2.draw(pitch02);
+        } else if (status == 3){
+            line1.draw(pitch01);
+            line2.draw(pitch02);
+        } else if (status == 4){
+            line1.drawPiece(300,300);
+            line2.drawPiece(600,600);
+        } else if (status == 5){
+            
+        }
+    } else if (track == 3){
+        if (status == 1){
+            
+        } else if (status == 2){
+            
+        } else if (status == 3){
+            
+        } else if (status == 4){
+            
+        }
+    } else if (track == 4){
+        if (status == 1){
+            
+        } else if (status == 2){
+            
+        } else if (status == 3){
+            
+        }
+    }
 }
 
 // Track 1
@@ -38,7 +120,7 @@ void Composition::track1Join(){
 
 // Track 2
 
-void Composition::track2Line(){
+void Composition::track2Line(float attack, float pitch){
     // Joe
 
 }
