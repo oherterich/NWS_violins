@@ -108,23 +108,19 @@ void Particle::burst(float px, float py, float multiplier){    //Reccomended pai
 
 void Particle::newMotion(Particle &p, float angle){
     p.c.set(ofColor(255,200,150));
-    p.vel.y = sin( angle * 0.09 ) * 2.0;
+    p.vel.y = sin( angle * 0.09 );
 }
 
 void Particle::update() {
     vel += acc;
     pos += vel;
-    
-    float pct = 1 - age / life;
-    
     age += 1.0;
-    
     acc.set(0.0);
 }
 
 void Particle::changeSizeOverTime() {
     float pct = 1 - age / life;
-    size *= pct;
+    size = initSize * 0.8 * pct;
 }
 
 void Particle::lerpToColor(ofColor startColor, ofColor endColor, float amt){

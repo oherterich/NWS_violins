@@ -37,6 +37,7 @@ void testApp::update(){
     //-----AUDIO---------------
     
     GetOSC();
+    
     //-------------------------
     
     
@@ -56,7 +57,7 @@ void testApp::update(){
             
             if (bMain2) {
                 it->newMotion( *it, ofGetElapsedTimef() );
-                it->attractionForce(moveCenter.x, moveCenter.y, 1.8);
+                it->attractionForce(moveCenter.x, moveCenter.y, 1.9);
             }
             
             if (bSolo) {
@@ -67,6 +68,10 @@ void testApp::update(){
             
             if (bForce) {
                 it->burst(it->pos.x, it->pos.y, 50.0);
+            }
+            
+            if (Channel01_Attack > 2.6) {
+                it->addRepulsionForce(moveCenter.x, moveCenter.y, 100, 15.0);
             }
             
             else {
@@ -81,6 +86,9 @@ void testApp::update(){
         
         if (colorLerpSwitch) {
             it->lerpToColor(it->c, ofColor(255,150,130), 0.005);
+        }
+        else {
+            it->lerpToColor(it->c, ofColor(235,150,240), 0.01);
         }
         
         it->update();
@@ -147,32 +155,43 @@ void testApp::update(){
         }
     }
     
-        if (!suctionSwitch && !bSolo) {
+        if ((Channel01_Amplitude * 100) > 2.2 && !suctionSwitch && !bSolo) {
             int rand = (int)ofRandom(0, 4);
+            
+            if( bMain2 ){
+                float tmp = ofRandomf();
+                if(tmp >= 0){
+                    ltInitYPos = ofRandom(-500, 0);
+                }else{
+                    ltInitYPos = ofRandom(800, 1300);
+                }
+            }else{
+                ltInitYPos = ofGetWindowHeight() / 2 + ofRandom(-10,10);
+            }
             
             if (leftParticles.size() < maxParticlesLeft) {
                 switch (rand) {
                     case 0:
-                        addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(-500, 0)));
+                        addLeftParticle( ofVec2f(ofRandom(-500, 0), ltInitYPos));
                         break;
                         
                     case 1:
-                        addLeftParticle( ofVec2f(ofRandom(-500, 0), ofRandom(800, 1300)));
+                        addLeftParticle( ofVec2f(ofRandom(-500, 0), ltInitYPos));
                         break;
                         
                     case 2:
-                        addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(-500, 0)));
+                        addLeftParticle( ofVec2f(ofRandom(1300, 1800), ltInitYPos));
                         break;
                         
                     case 3:
-                        addLeftParticle( ofVec2f(ofRandom(1300, 1800), ofRandom(800, 1300)));
+                        addLeftParticle( ofVec2f(ofRandom(1300, 1800), ltInitYPos));
                         break;
                     
                 }
             }
         }
         
-        else if (!suctionSwitch && bSolo && leftParticles.size() < maxParticlesLeft) {
+        else if (Channel01_Attack > 1.0 && !suctionSwitch && bSolo && leftParticles.size() < maxParticlesLeft) {
             addLeftParticle( ofVec2f(moveCenter.x, moveCenter.y) );
         }
     
@@ -241,6 +260,7 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    AudioDebug();
     
     //Loop through vectors and draw particles
     for ( vector<Particle>::iterator it = leftParticles.begin(); it != leftParticles.end(); it++ ) {
@@ -269,13 +289,14 @@ void testApp::draw(){
 void testApp::addLeftParticle( ofVec2f pos ) {
     ofVec2f vel;
     float offset = ofRandom( -100.0, 100.0 );
-    vel.set(ofRandom(-20.0, 20.0), ofRandom(-20.0, 20));
+    //float attackVel = ofMap(Channel01_Attack, .75, 2.5, 5, 20);
+    vel.set(ofRandom(-20.0, 20.0), ofRandom(0.0, 0.0));
     if (colorLerpSwitch) {
         Particle tmp( pos, vel, ofColor(255,200,100), 1.0, 200.0, &green);
         leftParticles.push_back( tmp );
     }
     else {
-        Particle tmp( pos, vel, ofColor(150,255,50), 1.0, 200.0, &green);
+        Particle tmp( pos, vel, ofColor(230,200,100), 1.0, 200.0, &green);
         leftParticles.push_back( tmp );
     }
 }
