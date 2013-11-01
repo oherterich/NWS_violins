@@ -177,7 +177,7 @@ void Particle::applyBounds(){
 
 bool Particle::dead() {
     
-    if (life!=0){
+    if (life>0){
         if(age >= life) {
             return true;
         }

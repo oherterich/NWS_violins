@@ -15,7 +15,7 @@ void testApp::setup(){
 void testApp::addParticle() {
     Particle tmp;
     
-    tmp.setParams(ofRandomWidth(), -ofRandom(-50,-300), 0, 1, .7);
+    tmp.setParams(ofRandomWidth(), 100, 0, 1, .7);
     
     tmp.life = 0;
     
@@ -28,18 +28,20 @@ void testApp::update(){
     
     myMap.update();
     
-    for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); ) {
-        
-        if (it->dead()==true) {
-            particleList.erase(it);
-        }
+
+    for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end();it++) {
         
         it->addNoise(ofMap(it->pos.y, 0, ofGetHeight()+1+it->initSize/2, 0, .3));
         it->resetForces();
         it->update();
-
-        it++;
-
+    }
+    
+    for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end();it++) {
+        
+        if (it->dead()==true) {
+            particleList.erase(it);
+            break;
+        }
     }
 }
 
@@ -60,9 +62,6 @@ void testApp::draw(){
     
     
     for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); it++) {
-        if (it->dead()) {
-            particleList.erase(it);
-        }
         it->draw();
     }
     
@@ -95,6 +94,10 @@ void testApp::keyPressed(int key){
     
     if(key=='s'){
         snowStart=ofGetElapsedTimef();
+    }
+    
+    if(key=='t'){
+        
     }
 
 }
