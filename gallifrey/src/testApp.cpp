@@ -8,7 +8,8 @@ void testApp::setup(){
     
     ofBackground(0);
     
-    cirList.push_back(ofVec2f(ofGetWidth()/2, ofGetHeight()/2));
+    circle p;
+    cirList.push_back(p);
 
 }
 
@@ -29,6 +30,19 @@ void testApp::update(){
    // myCircle.update();
     
     myMap.update();
+    
+    if(vac && cirList.size()>0){
+//        cirList[cirList.size()-1]-=ofVec2f(ofGetWidth()/2, ofGetHeight()/2).normalized()*
+//        ofMap(ofDist(cirList[cirList.size()-1].x, cirList[cirList.size()-1].y, 0,0), 250, 50, 1, 3);
+//        
+//        if(ofDist(cirList[cirList.size()-1].x, cirList[cirList.size()-1].y, 0,0)<50){
+        
+
+            cirList.pop_back();
+            vac=false;
+        }
+    
+ //   }
     
 
     for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end();it++) {
@@ -82,11 +96,15 @@ void testApp::draw(){
     ofSetColor(255, 255, 255, 255);
     for (int i = 0; i<cirList.size(); i++) {
         myMap.Place(0,0,250);
-        ofCircle(cirList[i].x, cirList[i].y, myMap.posList[i].z);
-        cirList[i]-=(cirList[i]-myMap.posList[i]).normalized();
+      //  ofCircle(cirList[i].x, cirList[i].y, myMap.posList[i].z);
+        cirList[i].drawCircle(myMap.posList[i].z);
+        cirList[i].update();
+        cirList[i].pos-=(cirList[i].pos-myMap.posList[i]).normalized();
+        cirList[i].rota(.5);
+
     }
     
-    cirList[0]=myMap.posList[0];
+    cirList[0].pos=myMap.posList[0];
     ofPopMatrix();
     
     if(snow){
@@ -112,8 +130,11 @@ void testApp::keyPressed(int key){
     if (temp==1)  x = ofRandom(.65*ofGetWidth(), .75*ofGetWidth());
     if (temp2==0)  y = ofRandom(-.75*ofGetHeight(), -.65*ofGetHeight());
     if (temp2==1)  y = ofRandom(-.65*ofGetHeight(), -.75*ofGetHeight());
-        
-    cirList.push_back(ofVec2f(x,y));
+     
+    circle p;
+        p.pos.x=x;
+        p.pos.y=y;
+    cirList.push_back(p);
         
     }
     
@@ -123,6 +144,10 @@ void testApp::keyPressed(int key){
     
     if(key=='t'){
         storm=!storm;
+    }
+    
+    if(key=='v'){
+        vac=!vac;
     }
 
 }

@@ -4,7 +4,9 @@
 class circle{
 public:
     circle();
-    void drawCircle(float x, float y, float r);
+    void drawCircle(float r);
+    void move(float x, float y);
+    void rota(float a);
     void update();
     ofPoint pos;
     float radius;

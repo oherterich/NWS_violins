@@ -14,10 +14,10 @@ circle::circle(){
     
 }
 
-void circle::drawCircle(float x, float y, float r){
+void circle::drawCircle(float r){
     ofNoFill();
     ofSetColor(c, t);
-    ofCircle(x, y, r);
+    ofCircle(pos.x, pos.y, r);
     
 //    ofRotate(angle);
     
@@ -32,4 +32,12 @@ void circle::drawCircle(float x, float y, float r){
 
 void circle::update(){
 //    angle+=.5f;
+}
+
+void circle::move(float x, float y){
+    
+}
+
+void circle::rota(float a){
+    ofRotate(a);
 }
