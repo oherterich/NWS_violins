@@ -10,12 +10,14 @@
 
 #include "ofMain.h"
 #include "ofxPostProcessing.h"
+#include "LinePiece.h"
 
 class DancingLine {
 public:
     DancingLine();
     void update(float attack, double start);
     void draw(float pitch);
+    void updatePiece();
     
     void drawPiece(float x=0, float y=0);
     
@@ -31,4 +33,5 @@ public:
     float jitter;
     bool separate;
     double started;
+    vector<LinePiece> pieces;
 };

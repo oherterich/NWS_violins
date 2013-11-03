@@ -25,6 +25,10 @@ DancingLine::DancingLine(){
 	material.setSpecularColor(ofColor(255, 0, 255, 255));
     jitter = 5;
     separate = false;
+    for(int i=0; i<500; i++){
+        LinePiece l;
+        pieces.push_back(l);
+    }
 }
 
 void DancingLine::update(float attack, double start){
@@ -123,6 +127,7 @@ void DancingLine::draw(float pitch){
 
 
 void DancingLine::drawPiece(float x, float y){
+    post.begin(cam);
     ofEnableLighting();
     pointLight.enable();
     pointLight.setPosition(ofVec3f(x,y,0));
@@ -131,15 +136,25 @@ void DancingLine::drawPiece(float x, float y){
     ofSetColor(255);
     ofSetLineWidth(10);
     ofPushMatrix();
-    ofTranslate(x,y);
-    for(int i=0; i<100; i++){
-        ofPolyline P;
-        P.clear();
-        P.addVertex(0+i/20*ofRandom(-jitter,jitter),0+i/20*ofRandom(-jitter,jitter),0+i/20*ofRandom(-jitter,jitter));
-        P.addVertex(50+i/20*ofRandom(-jitter,jitter),0+i/20*ofRandom(-jitter,jitter),0+i/20*ofRandom(-jitter,jitter));
-        P.draw();
+//    ofTranslate(x,y);
 
+    for(int i=0; i<100; i++){
+        pieces[i].draw();
     }
     ofPopMatrix();
+    post.end();
+
+}
+
+void DancingLine::updatePiece(){
+    for( vector<ofVec3f>::iterator it=floatList.begin(); it!=floatList.end(); it++ ){
+        float ind = it-floatList.begin();
+        pieces[ind].pos.set(ofVec3f(it->x,it->y,it->z));
+        pieces[ind].update();
+        it->x = pieces[ind].pos.x;
+        it->y = pieces[ind].pos.y;
+        it->z = pieces[ind].pos.z;
+
+    }
 
 }

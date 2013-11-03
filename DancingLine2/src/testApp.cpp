@@ -6,6 +6,7 @@ void testApp::setup(){
 	receiver.setup(PORT);
 	ofBackground(0,0,20);
     ofEnableAlphaBlending();
+    composition.setup();
 }
 
 //--------------------------------------------------------------
@@ -69,6 +70,13 @@ void testApp::keyPressed(int key){
     if(key == 'r'){
         composition.track = 2;
         composition.status = 4;
+        composition.started = ofGetElapsedTimef();
+        composition.line1.floatList.clear();
+        composition.line2.floatList.clear();
+        composition.line1.separate = true;
+        composition.line2.separate = true;
+        composition.line1.floatList = composition.line1.PosList;
+        composition.line2.floatList = composition.line2.PosList;
     }
     if(key == 't'){
         composition.track = 2;

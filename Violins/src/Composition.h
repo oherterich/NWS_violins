@@ -10,6 +10,7 @@
 
 #include "ofMain.h"
 #include "DancingLine.h"
+#include "Dart.h"
 
 class Composition {
     
@@ -49,5 +50,6 @@ public:
     float pitch01, pitch02, attack01, attack02, amp01, amp02;
     
     double started;
+    vector<Dart> darts;
 
 };
