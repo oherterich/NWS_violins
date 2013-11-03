@@ -11,5 +11,8 @@ public:
     float angle;
     float red,green,blue;
     
-    ofPolyline pline;
+    ofColor c;
+    
+    int t=255;
+    
 };

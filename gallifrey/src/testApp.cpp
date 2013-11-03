@@ -16,7 +16,6 @@ void testApp::addParticle() {
     Particle tmp;
     
     double ax = ofRandom(TWO_PI);
-    double ay = ofRandom(TWO_PI);
     
     tmp.setParams(250*cos(ax)+ofGetWidth()/2, 250*sin(ax)+ofGetHeight()/2, 0, 0, 1.5);
     
@@ -69,11 +68,18 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    
+    
+    for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); it++) {
+        it->draw();
+    }
+    
     ofPushMatrix();
     ofTranslate(ofGetWindowSize()/2);
 //  myCircle.drawCircle(0,0,250);
     
     ofNoFill();
+    ofSetColor(255, 255, 255, 255);
     for (int i = 0; i<cirList.size(); i++) {
         myMap.Place(0,0,250);
         ofCircle(cirList[i].x, cirList[i].y, myMap.posList[i].z);
@@ -82,11 +88,6 @@ void testApp::draw(){
     
     cirList[0]=myMap.posList[0];
     ofPopMatrix();
-    
-
-    for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); it++) {
-        it->draw();
-    }
     
     if(snow){
     //    if(ofGetElapsedTimeMillis()%3==0 ){
@@ -107,10 +108,10 @@ void testApp::keyPressed(int key){
     float temp = rand()%2;
     float temp2= rand()%2;
     
-    if (temp==0)  x = ofRandom(-.1*ofGetWidth(), -.15*ofGetWidth());
-    if (temp==1)  x = ofRandom(1.1*ofGetWidth(), 1.15*ofGetWidth());
-    if (temp2==0)  y = ofRandom(-.1*ofGetHeight(), -.15*ofGetHeight());
-    if (temp2==1)  y = ofRandom(1.1*ofGetHeight(), 1.15*ofGetHeight());
+    if (temp==0)  x = ofRandom(-.75*ofGetWidth(), -.65*ofGetWidth());
+    if (temp==1)  x = ofRandom(.65*ofGetWidth(), .75*ofGetWidth());
+    if (temp2==0)  y = ofRandom(-.75*ofGetHeight(), -.65*ofGetHeight());
+    if (temp2==1)  y = ofRandom(-.65*ofGetHeight(), -.75*ofGetHeight());
         
     cirList.push_back(ofVec2f(x,y));
         
