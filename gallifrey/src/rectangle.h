@@ -10,4 +10,6 @@ public:
     float radius;
     float angle;
     float red,green,blue;
+    
+    ofPolyline pline;
 };

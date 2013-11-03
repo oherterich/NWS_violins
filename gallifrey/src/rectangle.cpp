@@ -13,6 +13,7 @@ circle::circle(){
 }
 
 void circle::drawCircle(float x, float y, float r){
+    ofNoFill();
     ofCircle(x, y, r);
     ofSetColor(200,170,0);
     

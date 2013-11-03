@@ -24,10 +24,12 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
         void addParticle();
     
+    bool storm;
+    
     circle myCircle;
     Mapper myMap;
     
-    float snowStart;
+    bool snow = false;
     
     vector<ofVec2f> cirList;
     vector<Particle> particleList;
