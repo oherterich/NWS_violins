@@ -14,8 +14,8 @@ circle::circle(){
 
 void circle::drawCircle(float x, float y, float r){
     ofNoFill();
+    ofSetColor(200,170,0,255);
     ofCircle(x, y, r);
-    ofSetColor(200,170,0);
     
     ofRotate(angle);
     

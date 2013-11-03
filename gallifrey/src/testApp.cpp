@@ -15,29 +15,36 @@ void testApp::setup(){
 void testApp::addParticle() {
     Particle tmp;
     
-    tmp.setParams(ofRandomWidth(), ofGetHeight(), 0, -1, 2);
+    double ax = ofRandom(TWO_PI);
+    double ay = ofRandom(TWO_PI);
     
-    tmp.life = 300;
+    tmp.setParams(250*cos(ax)+ofGetWidth()/2, 250*sin(ax)+ofGetHeight()/2, 0, 0, 1.5);
+    
+    tmp.life = 75;
     
     particleList.push_back( tmp );
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-    myCircle.update();
+   // myCircle.update();
     
     myMap.update();
     
 
     for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end();it++) {
         
-        it->addNoise(ofMap(it->pos.y, ofGetHeight()+1+it->initSize/2, 0, 0, .3));
+      //  it->addNoise(ofMap(it->pos.y, ofGetHeight()+1+it->initSize/2, 0, 0, .3));
         
         
         if(storm){
-            it->addClockwiseForce(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2, .01);
+            it->addClockwiseForce(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2, .1);
             it->addAttractionForce(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2,
-                                   ofMap(ofDist(it->pos.x, it->pos.y, ofGetWidth()/2,ofGetHeight()/2), ofGetWidth()/2, 0, .01,.1));
+                                   ofMap(ofDist(it->pos.x, it->pos.y, ofGetWidth()/2,ofGetHeight()/2), ofGetWidth()/2, 0, .3,.1));
+            
+            if(ofDist(it->pos.x, it->pos.y, ofGetWidth()/2, ofGetHeight()/2)>250){
+                it->pos-=ofVec2f(ofGetWidth()/2, ofGetHeight()/2).normalized()*2*it->vel;
+            }
             
             if(ofDist(it->pos.x, it->pos.y, ofGetWidth()/2,ofGetHeight()/2)<50){
                 it->consigned=true;
@@ -82,9 +89,9 @@ void testApp::draw(){
     }
     
     if(snow){
-        if(ofGetElapsedTimeMillis()%3==0 ){
+    //    if(ofGetElapsedTimeMillis()%3==0 ){
             addParticle();
-        }
+       // }
     }
     
 }
