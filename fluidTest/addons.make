@@ -1,0 +1,8 @@
+ofxOsc
+ofxXmlSettings
+ofxFft-master
+ofxMSACore
+ofxMSAFluid
+ofxMSAInteractiveObject
+ofxSimpleGuiToo
+ofxTuio
