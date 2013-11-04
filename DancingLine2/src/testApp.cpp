@@ -7,6 +7,7 @@ void testApp::setup(){
 	ofBackground(0,0,20);
     ofEnableAlphaBlending();
     composition.setup();
+    ofSetFrameRate(60);
 }
 
 //--------------------------------------------------------------
@@ -136,6 +137,24 @@ void testApp::keyPressed(int key){
         composition.track = 4;
         composition.status = 4;
     }
+    
+    if(key=='u'){
+        composition.g.U();
+    }
+    
+    if(key=='i'){
+        composition.g.I();
+    }
+    
+    if(key=='o'){
+        composition.g.O();
+    }
+    
+    if(key=='p'){
+        composition.g.P();
+    }
+    
+    
 }
 
 //--------------------------------------------------------------

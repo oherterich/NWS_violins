@@ -12,6 +12,9 @@
 		3352DF46182449E900549A2C /* LinePiece.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3352DF44182449E900549A2C /* LinePiece.cpp */; };
 		3352DF4A1825D52600549A2C /* Dart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3352DF481825D52600549A2C /* Dart.cpp */; };
 		33B30192182710E200F86C13 /* Vine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B30190182710E200F86C13 /* Vine.cpp */; };
+		33B30197182825D600F86C13 /* Particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B30195182825D600F86C13 /* Particle.cpp */; };
+		33B3019A182825DE00F86C13 /* rectangle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B30198182825DE00F86C13 /* rectangle.cpp */; };
+		33B3019D1828273200F86C13 /* Gallifrey.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B3019B1828273200F86C13 /* Gallifrey.cpp */; };
 		33BD0E67182340D60083E344 /* DancingLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BD0E65182340D60083E344 /* DancingLine.cpp */; };
 		33BD0E6B182342E00083E344 /* Composition.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33BD0E69182342E00083E344 /* Composition.cpp */; };
 		4adb88e2fb52e76a471065de /* ofxOscParameterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0aed834ce4dec5260af302a2 /* ofxOscParameterSync.cpp */; };
@@ -116,6 +119,12 @@
 		3352DF491825D52600549A2C /* Dart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dart.h; sourceTree = "<group>"; };
 		33B30190182710E200F86C13 /* Vine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Vine.cpp; sourceTree = "<group>"; };
 		33B30191182710E200F86C13 /* Vine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vine.h; sourceTree = "<group>"; };
+		33B30195182825D600F86C13 /* Particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Particle.cpp; path = ../../gallifrey/src/Particle.cpp; sourceTree = "<group>"; };
+		33B30196182825D600F86C13 /* Particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Particle.h; path = ../../gallifrey/src/Particle.h; sourceTree = "<group>"; };
+		33B30198182825DE00F86C13 /* rectangle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = rectangle.cpp; path = ../../gallifrey/src/rectangle.cpp; sourceTree = "<group>"; };
+		33B30199182825DE00F86C13 /* rectangle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rectangle.h; path = ../../gallifrey/src/rectangle.h; sourceTree = "<group>"; };
+		33B3019B1828273200F86C13 /* Gallifrey.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gallifrey.cpp; sourceTree = "<group>"; };
+		33B3019C1828273200F86C13 /* Gallifrey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gallifrey.h; sourceTree = "<group>"; };
 		33BD0E65182340D60083E344 /* DancingLine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DancingLine.cpp; sourceTree = "<group>"; };
 		33BD0E66182340D60083E344 /* DancingLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DancingLine.h; sourceTree = "<group>"; };
 		33BD0E69182342E00083E344 /* Composition.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Composition.cpp; path = ../../Violins/src/Composition.cpp; sourceTree = "<group>"; };
@@ -373,8 +382,14 @@
 				33BD0E66182340D60083E344 /* DancingLine.h */,
 				3352DF481825D52600549A2C /* Dart.cpp */,
 				3352DF491825D52600549A2C /* Dart.h */,
+				33B3019B1828273200F86C13 /* Gallifrey.cpp */,
+				33B3019C1828273200F86C13 /* Gallifrey.h */,
+				33B30198182825DE00F86C13 /* rectangle.cpp */,
+				33B30199182825DE00F86C13 /* rectangle.h */,
 				33B30190182710E200F86C13 /* Vine.cpp */,
 				33B30191182710E200F86C13 /* Vine.h */,
+				33B30195182825D600F86C13 /* Particle.cpp */,
+				33B30196182825D600F86C13 /* Particle.h */,
 				33BD0E69182342E00083E344 /* Composition.cpp */,
 				33BD0E6A182342E00083E344 /* Composition.h */,
 				3352DF44182449E900549A2C /* LinePiece.cpp */,
@@ -649,6 +664,9 @@
 				3352DF46182449E900549A2C /* LinePiece.cpp in Sources */,
 				3352DF4A1825D52600549A2C /* Dart.cpp in Sources */,
 				33B30192182710E200F86C13 /* Vine.cpp in Sources */,
+				33B30197182825D600F86C13 /* Particle.cpp in Sources */,
+				33B3019A182825DE00F86C13 /* rectangle.cpp in Sources */,
+				33B3019D1828273200F86C13 /* Gallifrey.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,9 +10,10 @@
 
 Vine::Vine() {
     mass = 1.0;
-    pos = ofVec3f(ofRandomWidth(), ofGetHeight(), 0);
+    float r = ofRandom(500);
+    pos = ofVec3f(ofRandom(ofGetWidth()/2-250, ofGetWidth()/2+250), ofGetHeight(), 0);
     vel = ofVec3f(0,ofRandom(-1.0,-5.0));
-    heightY = ofRandom(100.0, 200.0);
+    heightY = ofRandom(300.0, 400.0);
     color = ofColor(255,0,0);
     color.setSaturation(0);
     color.setBrightness(ofRandom(150,255));

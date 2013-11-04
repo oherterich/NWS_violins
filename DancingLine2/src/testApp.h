@@ -48,5 +48,5 @@ class testApp : public ofBaseApp {
     float Channel02_LinearPitch;
     
     Composition composition;
-
+    
 };

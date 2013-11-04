@@ -13,17 +13,19 @@
 void Composition::setup(){
     track = 0;
     status = 0;
-    for(int i=0;i<100;i++){
+    for(int i=0;i<30;i++){
         Dart d;
         darts.push_back(d);
         Vine v;
         vines.push_back(v);
     }
+    
 }
 
 void Composition::update(){
     if(track == 1){
         if(status == 1){
+            g.update();
             for(int i=0; i<vines.size(); i++){
                 vines[i].update();
             }
@@ -78,6 +80,7 @@ void Composition::update(){
 void Composition::draw(){
     if(track == 1){
         if(status == 1){
+            g.draw();
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw();
             }
