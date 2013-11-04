@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "pointMapper.h"
 #include "rectangle.h"
 #include "Particle.h"
 
@@ -27,7 +26,6 @@ class testApp : public ofBaseApp{
     bool storm;
     
     circle myCircle;
-    Mapper myMap;
     
     bool snow = false;
     bool vac = false;
