@@ -17,8 +17,8 @@ Adafruit_LSM303 lsm;
 
 
 /* Change these to match your WiFi network */
-const char mySSID[] = "INTERWEBZ";
-const char myPassword[] = "obeythecats";
+const char mySSID[] = "VictoriasSecret";
+const char myPassword[] = "activate";
 
 WiFly wifly;
 
@@ -33,7 +33,7 @@ void setup()
   //    Serial.print("Free memory: ");
   //    Serial.println(wifly.getFreeMemory(),DEC);
 
-  //    wifiSerial.begin(9600);
+      Serial1.begin(9600);
 
   // Try to initialise and warn if we couldn't detect the chip
   if (!lsm.begin())
@@ -46,7 +46,7 @@ void setup()
   pinMode(A5,OUTPUT);
   digitalWrite(A5,LOW);
 
-  if (!wifly.begin(&Serial)) {
+  if (!wifly.begin(&Serial1,&Serial)) {
     Serial.println("Failed to start wifly");
     //terminal();
   }
@@ -80,13 +80,13 @@ void setup()
 
   /* Setup for UDP packets, sent automatically */
   wifly.setIpProtocol(WIFLY_PROTOCOL_UDP);
-  wifly.setHost("192.168.1.4", 11999);	// Send UDP packet to this server and port
+  wifly.setHost("192.168.1.111", 11999);	// Send UDP packet to this server and port
 
 
 
   wifly.setDeviceID("Wifly-UDP");
 
-  wifly.setHost("192.168.1.4", 11999);	// Send UPD packets to this server and port
+  wifly.setHost("192.168.1.111", 11999);	// Send UPD packets to this server and port
 
   //Serial.println("WiFly ready");
 }
