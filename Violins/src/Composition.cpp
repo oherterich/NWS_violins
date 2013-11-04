@@ -26,13 +26,16 @@ void Composition::update(){
     if(track == 1){
         if(status == 1){
             g.update();
+        } else if (status == 2){
+            g.update();
             for(int i=0; i<vines.size(); i++){
                 vines[i].update();
             }
-        } else if (status == 2){
-            
         } else if (status == 3){
-            
+            g.update();
+            for(int i=0; i<vines.size(); i++){
+                vines[i].update();
+            }
         }
     } else if (track == 2){
         if(status == 1){
@@ -81,13 +84,16 @@ void Composition::draw(){
     if(track == 1){
         if(status == 1){
             g.draw();
+        } else if (status == 2){
+            g.draw();
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw();
             }
-        } else if (status == 2){
-            
         } else if (status == 3){
-            
+            g.draw();
+            for(int i=0; i<vines.size(); i++){
+                vines[i].draw();
+            }
         }
     } else if (track == 2){
         if(status == 1){

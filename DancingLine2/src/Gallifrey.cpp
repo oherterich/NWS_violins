@@ -22,7 +22,7 @@ Gallifrey::Gallifrey(){
     p.pos.y=ofGetHeight()/2;
     p.pRad = 0;
     cirList.push_back(p);
-    
+    flickering = false;
 }
 
 void Gallifrey::addParticle() {
@@ -79,6 +79,9 @@ void Gallifrey::update(){
 void Gallifrey::draw(){
     
     ofPushStyle();
+    if(flickering == true){
+        ofSetCircleResolution((int)ofRandom(10));
+    }
     for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); it++) {
         it->draw();
     }

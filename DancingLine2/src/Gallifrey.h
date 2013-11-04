@@ -33,5 +33,6 @@ public:
     
     vector<circle> cirList;
     vector<Particle> particleList;
+    bool flickering;
 };
 

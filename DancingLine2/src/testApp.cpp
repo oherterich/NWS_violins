@@ -32,14 +32,21 @@ void testApp::keyPressed(int key){
     if(key == '1'){
         composition.track = 1;
         composition.status = 1;
+        composition.g.flickering = false;
+        for(int i=0; i<composition.vines.size(); i++){
+            composition.vines[i].ps.clear();
+            composition.vines[i].rs.clear();
+        }
     }
     if(key == '2'){
         composition.track = 1;
         composition.status = 2;
+        composition.g.flickering = false;
     }
     if(key == '3'){
         composition.track = 1;
         composition.status = 3;
+        composition.g.flickering = true;
     }
     
     // Track 2

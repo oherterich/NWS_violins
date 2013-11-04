@@ -17,6 +17,7 @@ Vine::Vine() {
     color = ofColor(255,0,0);
     color.setSaturation(0);
     color.setBrightness(ofRandom(150,255));
+
 }
 
 void Vine::applyForce(ofVec2f force){
@@ -55,9 +56,12 @@ void Vine::update(){
 }
 
 void Vine::draw() {
+    ofPushStyle();
+    ofSetCircleResolution(5);
     ofSetColor(255);
     for(int i=0; i<ps.size(); i++){
         ofSetColor(color);
         ofCircle( ps[i], ofClamp(rs[i], 0, 10.0));
     }
+    ofPopStyle();
 }

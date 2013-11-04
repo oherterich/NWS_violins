@@ -10,9 +10,10 @@
 
 DancingLine::DancingLine(){
     post.init(ofGetWidth(), ofGetHeight());
+//  post.createPass<PixelatePass>();
     post.createPass<VerticalTiltShifPass>();
-  post.createPass<PixelatePass>();
-//    post.createPass<GodRaysPass>();
+//    post.createPass<DofPass>();
+    post.createPass<GodRaysPass>();
 //    post.createPass<FxaaPass>();
 //    post.createPass<BloomPass>();
     ofSetSphereResolution(24);
