@@ -109,6 +109,8 @@ void testApp::keyPressed(int key){
     if (temp2==0)  y = ofRandom(-.75*ofGetHeight(), -.65*ofGetHeight());
     if (temp2==1)  y = ofRandom(-.65*ofGetHeight(), -.75*ofGetHeight());
      
+        
+// Adding the circles
     circle p;
         
         if(cirList.size()<10){
