@@ -9,13 +9,16 @@
 #include "Vine.h"
 
 Vine::Vine() {
+    float temp;
+    temp = ofRandom(TWO_PI);
+    
     mass = 1.0;
     float r = ofRandom(500);
-    pos = ofVec3f(ofRandom(ofGetWidth()/2-250, ofGetWidth()/2+250), ofGetHeight(), 0);
+    pos = ofVec3f(240*cos(temp)+ofGetWidth()/2, ofGetHeight(), 0);
     vel = ofVec3f(0,ofRandom(-1.0,-5.0));
-    heightY = ofRandom(300.0, 400.0);
-    color = ofColor(255,0,0);
-    color.setSaturation(0);
+    heightY = 250*sin(temp)+ofGetHeight()/2-45;
+    color = ofColor(0,255,0);
+    color.setSaturation(ofRandomf());
     color.setBrightness(ofRandom(150,255));
 
 }
