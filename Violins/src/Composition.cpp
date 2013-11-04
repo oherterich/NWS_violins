@@ -16,14 +16,17 @@ void Composition::setup(){
     for(int i=0;i<100;i++){
         Dart d;
         darts.push_back(d);
+        Vine v;
+        vines.push_back(v);
     }
-    cout<<darts.size()<<endl;
 }
 
 void Composition::update(){
     if(track == 1){
         if(status == 1){
-            
+            for(int i=0; i<vines.size(); i++){
+                vines[i].update();
+            }
         } else if (status == 2){
             
         } else if (status == 3){
@@ -75,7 +78,9 @@ void Composition::update(){
 void Composition::draw(){
     if(track == 1){
         if(status == 1){
-            
+            for(int i=0; i<vines.size(); i++){
+                vines[i].draw();
+            }
         } else if (status == 2){
             
         } else if (status == 3){

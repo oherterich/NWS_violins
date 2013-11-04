@@ -11,16 +11,17 @@
 DancingLine::DancingLine(){
     post.init(ofGetWidth(), ofGetHeight());
     post.createPass<VerticalTiltShifPass>();
-    //post.createPass<DofPass>();
-    post.createPass<GodRaysPass>();
-    post.createPass<FxaaPass>();
-    post.createPass<BloomPass>();
+  post.createPass<PixelatePass>();
+//    post.createPass<GodRaysPass>();
+//    post.createPass<FxaaPass>();
+//    post.createPass<BloomPass>();
     ofSetSphereResolution(24);
     ofSetSmoothLighting(true);
     pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
     pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    material.setShininess( 120 );
-    material.setAmbientColor(ofColor((255,0,127)));
+    pointLight.setSpotlight(800.0, 20.0);
+    material.setShininess( 220 );
+    material.setAmbientColor(ofColor((255)));
     // the light highlight of the material //
 	material.setSpecularColor(ofColor(255, 0, 255, 255));
     jitter = 5;

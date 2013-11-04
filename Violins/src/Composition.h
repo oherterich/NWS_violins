@@ -11,6 +11,7 @@
 #include "ofMain.h"
 #include "DancingLine.h"
 #include "Dart.h"
+#include "Vine.h"
 
 class Composition {
     
@@ -51,5 +52,5 @@ public:
     
     double started;
     vector<Dart> darts;
-
+    vector<Vine> vines;    
 };
