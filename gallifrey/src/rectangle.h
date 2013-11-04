@@ -4,12 +4,23 @@
 class circle{
 public:
     circle();
-    void drawCircle(float x, float y, float r);
+    void drawCircle();
+    void move();
+    void rota(float a);
     void update();
-    ofPoint pos;
-    float radius;
-    float angle;
-    float red,green,blue;
+    void addCircle(float r);
     
-    ofPolyline pline;
+    ofPoint pos;
+    float rad;
+    float tRad;
+    float pRad;
+    float angle;
+    float cirSpeed;
+    float disp;
+    
+    
+    ofColor c;
+    
+    int t=255;
+    int fSpeed;
 };

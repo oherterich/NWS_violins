@@ -13,4 +13,6 @@ public:
     
         vector<ofVec3f> posList;
     
+    float disp;
+    
 };

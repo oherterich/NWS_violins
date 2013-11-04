@@ -30,8 +30,9 @@ class testApp : public ofBaseApp{
     Mapper myMap;
     
     bool snow = false;
+    bool vac = false;
     
-    vector<ofVec2f> cirList;
+    vector<circle> cirList;
     vector<Particle> particleList;
     
     
