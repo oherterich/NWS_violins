@@ -21,7 +21,7 @@ public:
     
     void drawPiece(float x=0, float y=0);
     
-    vector<ofVec3f> PosList, floatList;
+    vector<ofVec3f> PosList, floatList, explodeList;
     ofEasyCam cam;
     ofVec3f pos, tmp, lastpos;
     float lastChannel01_Attack;
@@ -29,9 +29,10 @@ public:
     
     ofxPostProcessing post;
     ofMaterial material;
-    ofLight pointLight;
+    ofLight pointLight, pointLight2, pointLight3;
     float jitter;
-    bool separate;
+    bool separate, rage;
     double started;
     vector<LinePiece> pieces;
+    ofColor c, lastc;
 };

@@ -10,27 +10,36 @@
 
 DancingLine::DancingLine(){
     post.init(ofGetWidth(), ofGetHeight());
-//  post.createPass<PixelatePass>();
+    post.createPass<RimHighlightingPass>();
     post.createPass<VerticalTiltShifPass>();
-//    post.createPass<DofPass>();
     post.createPass<GodRaysPass>();
-//    post.createPass<FxaaPass>();
+//    post.createPass<ContrastPass>();
+
+    post.createPass<FxaaPass>();
 //    post.createPass<BloomPass>();
+//    post.createPass<SSAOPass>();
+
     ofSetSphereResolution(24);
     ofSetSmoothLighting(true);
     pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
     pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    pointLight.setSpotlight(800.0, 20.0);
-    material.setShininess( 220 );
+    pointLight.setSpotlight(800.0, 2.0);
+    pointLight2.setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    pointLight2.setSpotlight(1000.0, 0.2);
+    material.setShininess( 200 );
     material.setAmbientColor(ofColor((255)));
     // the light highlight of the material //
-	material.setSpecularColor(ofColor(255, 0, 255, 255));
+	material.setSpecularColor(ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
     jitter = 5;
     separate = false;
+    rage = true;
     for(int i=0; i<500; i++){
         LinePiece l;
         pieces.push_back(l);
     }
+    c = ofColor(255,0,0);
+    lastc = ofColor(255,0,0);
 }
 
 void DancingLine::update(float attack, double start){
@@ -78,21 +87,27 @@ void DancingLine::update(float attack, double start){
     lastChannel01_Attack = attack;
     
     pointLight.setPosition(pos);
+    pointLight2.setPosition(pos+200);
+
+
 }
 
 void DancingLine::draw(float pitch){
     post.begin(cam);
     ofEnableLighting();
     pointLight.enable();
-    
-    
+    pointLight2.enable();
 	material.begin();
     //cam.begin();
     
     ofSetLineWidth(10);
-
-    ofSetColor(ofClamp(pitch,0,255), ofClamp(pitch/10, 0, 255), ofClamp(30*(pitch/180), 0, 255));
-
+    ofColor newc = ofColor(255,0,0);
+    newc.setHue(ofClamp(ofMap(pitch,0,3000,0,255),0,255));
+    c=lastc;
+    c.lerp(newc, 50);
+    lastc = newc;
+// c = ofColor(ofClamp(ofMap(pitch,0,3000,0,255),0,255),ofClamp(ofMap(pitch,0,3000,0,255),0,255),ofClamp(ofMap(pitch,0,3000,0,255),0,255));
+    ofSetColor(c);
         if(separate){
 //            ofTranslate(sin(ofNoise(ofGetElapsedTimeMillis(), ofGetElapsedTimeMillis())), cos(ofNoise(ofGetElapsedTimeMillis(), ofGetElapsedTimeMillis())));
             float counter = 0;
@@ -104,9 +119,18 @@ void DancingLine::draw(float pitch){
                     float y = it->y+i/20*ofRandom(-jitter,jitter);
                     float z = it->z+i/20*ofRandom(-jitter,jitter);
                     P.addVertex(x,y,z);
-                    it->x = x;
-                    it->y = y;
-                    it->z = z;
+                    if(rage){
+                        it->x = x;
+                        it->y = y;
+                        it->z = z;
+                    } else {
+                        float r = ofRandom(10.0);
+                        if(r>9.97){
+                            it->x = 0;
+                            it->y = 0;
+                            it->z = 0;
+                        }
+                    }
                 }
                 P.draw();
             }
@@ -140,7 +164,7 @@ void DancingLine::drawPiece(float x, float y){
     ofPushMatrix();
 //    ofTranslate(x,y);
 
-    for(int i=0; i<100; i++){
+    for(int i=0; i<20; i++){
         pieces[i].draw();
     }
     ofPopMatrix();
@@ -149,13 +173,14 @@ void DancingLine::drawPiece(float x, float y){
 }
 
 void DancingLine::updatePiece(){
-    for( vector<ofVec3f>::iterator it=floatList.begin(); it!=floatList.end(); it++ ){
-        float ind = it-floatList.begin();
+    for( vector<ofVec3f>::iterator it=explodeList.begin(); it!=explodeList.end(); it++ ){
+        float ind = it-explodeList.begin();
         pieces[ind].pos.set(ofVec3f(it->x,it->y,it->z));
         pieces[ind].update();
         it->x = pieces[ind].pos.x;
         it->y = pieces[ind].pos.y;
         it->z = pieces[ind].pos.z;
+        cam.setPosition(500,100,1000);
 
     }
 

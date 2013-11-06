@@ -23,6 +23,29 @@ Gallifrey::Gallifrey(){
     p.pRad = 0;
     cirList.push_back(p);
     flickering = false;
+    post.init(ofGetWidth(), ofGetHeight());
+    post.createPass<RimHighlightingPass>();
+    post.createPass<VerticalTiltShifPass>();
+    post.createPass<GodRaysPass>();
+    //    post.createPass<ContrastPass>();
+    
+    post.createPass<FxaaPass>();
+    //    post.createPass<BloomPass>();
+    //    post.createPass<SSAOPass>();
+    
+    ofSetSphereResolution(24);
+    ofSetSmoothLighting(true);
+    pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    pointLight.setSpotlight(800.0, 2.0);
+    pointLight2.setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    pointLight2.setSpotlight(1000.0, 2.0);
+    material.setShininess( 200 );
+    material.setAmbientColor(ofColor((255)));
+    // the light highlight of the material //
+	material.setSpecularColor(ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
+    cam.setPosition(0,0,4000);
 }
 
 void Gallifrey::addParticle() {
@@ -77,7 +100,11 @@ void Gallifrey::update(){
 
 //--------------------------------------------------------------
 void Gallifrey::draw(){
-    
+    post.begin();
+    ofEnableLighting();
+    pointLight.enable();
+    pointLight2.enable();
+	material.begin();
     ofPushStyle();
     if(flickering == true){
         ofSetCircleResolution((int)ofRandom(10));
@@ -102,6 +129,40 @@ void Gallifrey::draw(){
         // }
     }
     ofPopStyle();
+    post.end();
+}
+
+void Gallifrey::drawLines(){
+    post.begin();
+    ofEnableLighting();
+    pointLight.enable();
+    pointLight2.enable();
+	material.begin();
+    ofPushStyle();
+    if(flickering == true){
+        ofSetCircleResolution((int)ofRandom(10));
+    }
+    for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end(); it++) {
+        it->draw();
+    }
+    
+    ofNoFill();
+    ofSetColor(255, 255, 255, 255);
+    for (int i = 0; i<cirList.size(); i++) {
+        
+        cirList[i].drawLines();
+        cirList[i].update();
+        cirList[i].move();
+        
+    }
+    
+    if(snow){
+        //    if(ofGetElapsedTimeMillis()%3==0 ){
+        addParticle();
+        // }
+    }
+    ofPopStyle();
+    post.end();
 }
 
 void Gallifrey::U(){
@@ -111,10 +172,10 @@ void Gallifrey::U(){
     float temp = rand()%2;
     float temp2= rand()%2;
     
-    if (temp==0)  x = ofRandom(-.75*ofGetWidth(), -.65*ofGetWidth());
-    if (temp==1)  x = ofRandom(.65*ofGetWidth(), .75*ofGetWidth());
-    if (temp2==0)  y = ofRandom(-.75*ofGetHeight(), -.65*ofGetHeight());
-    if (temp2==1)  y = ofRandom(-.65*ofGetHeight(), -.75*ofGetHeight());
+    if (temp==0)  x = ofRandom(-.2*ofGetWidth(), -.3*ofGetWidth());
+    if (temp==1)  x = ofRandom(.25*ofGetWidth(), .35*ofGetWidth());
+    if (temp2==0)  y = ofRandom(-.35*ofGetHeight(), -.25*ofGetHeight());
+    if (temp2==1)  y = ofRandom(-.25*ofGetHeight(), -.35*ofGetHeight());
     
     circle p;
     

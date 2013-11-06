@@ -11,7 +11,7 @@
 LinePiece::LinePiece(){
     
 //    pos = ofVec3f(ofRandom(ofGetWidth(),ofGetHeight()),ofRandom(ofGetWidth(),ofGetHeight()),ofRandom(ofGetWidth(),ofGetHeight()));
-    vel = ofVec3f(ofRandom(-10,10),ofRandom(-10,10),ofRandom(-10,10));
+    vel = ofVec3f(ofRandom(-20,20),ofRandom(-20,20),ofRandom(-20,20));
 }
 
 void LinePiece::update(){
@@ -29,12 +29,7 @@ void LinePiece::draw(){
     jitter = ofRandom(-10,10);
     ofPushMatrix();
     for(int i=0; i<100; i++){
-        ofPolyline P;
-        P.clear();
-        P.addVertex(pos.x+i/20.0*ofRandom(-jitter,jitter),pos.y+i/20.0*ofRandom(-jitter,jitter),pos.z+i/20.0*ofRandom(-jitter,jitter));
-        P.addVertex(pos.x+100.0+i/20.0*ofRandom(-jitter,jitter),pos.y+i/20.0*ofRandom(-jitter,jitter),pos.z+i/20*ofRandom(-jitter,jitter));
-        P.draw();
-        
+        ofLine(pos.x+i/20.0*ofRandom(-jitter,jitter),pos.y+i/20.0*ofRandom(-jitter,jitter),pos.z+i/20.0*ofRandom(-jitter,jitter), pos.x+100.0+i/20.0*ofRandom(-jitter,jitter),pos.y+i/20.0*ofRandom(-jitter,jitter),pos.z+i/20*ofRandom(-jitter,jitter));        
     }
     ofPopMatrix();
 }

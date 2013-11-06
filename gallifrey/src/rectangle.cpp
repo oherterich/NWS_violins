@@ -29,9 +29,22 @@ void circle::addCircle(float r){
 
 void circle::drawCircle(){
     ofNoFill();
+    ofSetLineWidth(5);
     ofSetColor(c, t);
     ofCircle(pos.x, pos.y, rad);
     
+}
+
+void circle::drawLines(){
+    ofNoFill();
+    ofSetColor(c, t);
+    //    ofCircle(pos.x, pos.y, rad);
+    ofSetLineWidth(10);
+    for(int i=0; i<100; i++){
+        float jitter = 5.0;
+        
+        ofLine(pos.x+ofRandom(-jitter, jitter), pos.y+ofRandom(-jitter, jitter), ofRandom(-100,100), pos.x+ofRandom(-jitter, jitter)+rad, pos.y+ofRandom(-jitter, jitter), ofRandom(-100,100));
+    }
 }
 
 

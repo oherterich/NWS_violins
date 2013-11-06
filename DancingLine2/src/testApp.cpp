@@ -4,10 +4,11 @@
 void testApp::setup(){
     
 	receiver.setup(PORT);
-	ofBackground(0,0,20);
+//	ofBackground(0,0,20);
     ofEnableAlphaBlending();
     composition.setup();
     ofSetFrameRate(60);
+    mastercam.setPosition(-ofGetWidth()/2,0,-8000);
 }
 
 //--------------------------------------------------------------
@@ -22,7 +23,9 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
 //    AudioDebug();
+//    mastercam.begin();
     composition.draw();
+//    mastercam.end();
 }
 
 //--------------------------------------------------------------
@@ -48,6 +51,11 @@ void testApp::keyPressed(int key){
         composition.status = 3;
         composition.g.flickering = true;
     }
+    if(key == '4'){
+        composition.track = 1;
+        composition.status = 4;
+        composition.g.flickering = false;
+    }
     
     // Track 2
     
@@ -58,6 +66,8 @@ void testApp::keyPressed(int key){
         composition.line2.PosList.clear();
         composition.line1.separate = false;
         composition.line2.separate = false;
+        composition.line1.rage = true;
+        composition.line2.rage = true;
         composition.started = ofGetElapsedTimef();
     }
     if(key == 'w'){
@@ -65,6 +75,8 @@ void testApp::keyPressed(int key){
         composition.status = 2;
         composition.line1.separate = false;
         composition.line2.separate = false;
+        composition.line1.rage = true;
+        composition.line2.rage = true;
     }
     if(key == 'e'){
         composition.track = 2;
@@ -72,6 +84,8 @@ void testApp::keyPressed(int key){
         composition.started = ofGetElapsedTimef();
         composition.line1.separate = true;
         composition.line2.separate = true;
+        composition.line1.rage = true;
+        composition.line2.rage = true;
         composition.line1.floatList = composition.line1.PosList;
         composition.line2.floatList = composition.line2.PosList;
     }
@@ -79,12 +93,14 @@ void testApp::keyPressed(int key){
         composition.track = 2;
         composition.status = 4;
         composition.started = ofGetElapsedTimef();
-        composition.line1.floatList.clear();
-        composition.line2.floatList.clear();
+        composition.line1.explodeList.clear();
+        composition.line2.explodeList.clear();
         composition.line1.separate = true;
         composition.line2.separate = true;
-        composition.line1.floatList = composition.line1.PosList;
-        composition.line2.floatList = composition.line2.PosList;
+        composition.line1.rage = false;
+        composition.line2.rage = false;
+        composition.line1.explodeList = composition.line1.PosList;
+        composition.line2.explodeList = composition.line2.PosList;
     }
     if(key == 't'){
         composition.track = 2;

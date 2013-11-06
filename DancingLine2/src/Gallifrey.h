@@ -17,6 +17,7 @@ public:
     Gallifrey();
     void update();
     void draw();
+    void drawLines();
     void addParticle();
     
     void U();
@@ -34,5 +35,13 @@ public:
     vector<circle> cirList;
     vector<Particle> particleList;
     bool flickering;
+    vector<ofVec3f> PosList, floatList, explodeList;
+    ofEasyCam cam;
+    ofVec3f tmp, lastpos;
+    float lastChannel01_Attack;
+    float lastChannel01_Amplitude;
+    ofxPostProcessing post;
+    ofMaterial material;
+    ofLight pointLight, pointLight2, pointLight3;
 };
 
