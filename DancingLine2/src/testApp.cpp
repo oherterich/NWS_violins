@@ -33,6 +33,7 @@ void testApp::keyPressed(int key){
     // Track 1
     
     if(key == '1'){
+        composition.camstart = composition.cam.getGlobalPosition();
         composition.track = 1;
         composition.status = 1;
         composition.g.flickering = false;

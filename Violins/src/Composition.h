@@ -56,5 +56,14 @@ public:
     vector<Vine> vines;
     Gallifrey g;
     
+    vector<ofVec3f> PosList, floatList, explodeList;
+    ofEasyCam cam;
+    ofVec3f pos, tmp, lastpos, camstart;
+    float lastChannel01_Attack;
+    float lastChannel01_Amplitude;
+    
+    ofxPostProcessing post;
+    ofMaterial material;
+    ofLight pointLight, pointLight2, pointLight3;
 
 };

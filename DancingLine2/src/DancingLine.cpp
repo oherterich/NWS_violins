@@ -9,28 +9,6 @@
 #include "DancingLine.h"
 
 DancingLine::DancingLine(){
-    post.init(ofGetWidth(), ofGetHeight());
-    post.createPass<RimHighlightingPass>();
-    post.createPass<VerticalTiltShifPass>();
-    post.createPass<GodRaysPass>();
-//    post.createPass<ContrastPass>();
-
-    post.createPass<FxaaPass>();
-//    post.createPass<BloomPass>();
-//    post.createPass<SSAOPass>();
-
-    ofSetSphereResolution(24);
-    ofSetSmoothLighting(true);
-    pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
-    pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    pointLight.setSpotlight(800.0, 2.0);
-    pointLight2.setDiffuseColor( ofFloatColor(.85, .85, .55) );
-    pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    pointLight2.setSpotlight(1000.0, 0.2);
-    material.setShininess( 200 );
-    material.setAmbientColor(ofColor((255)));
-    // the light highlight of the material //
-	material.setSpecularColor(ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
     jitter = 5;
     separate = false;
     rage = true;
@@ -62,8 +40,6 @@ void DancingLine::update(float attack, double start){
     
     
     //cam.roll( ofRadToDeg(sin(ofGetElapsedTimef()/10)*TWO_PI));
-    cam.lookAt(tmp);
-    
     
     tmp.x = tmp.x + cos(ofGetElapsedTimef()-start)*attack*ofRandom(30,80);
     tmp.y = tmp.y + sin(ofGetElapsedTimef()-start)*attack*ofRandom(30,80);
@@ -75,9 +51,8 @@ void DancingLine::update(float attack, double start){
         PosList.erase(PosList.begin());
     }
     
-    ofVec3f xenoed = pos*0.001 + lastpos*0.999;
+    ofVec3f xenoed = pos*0.1 + lastpos*0.9;
     
-    cam.setPosition(xenoed.x+400, xenoed.y+400, xenoed.z+400);
     
     
     // cam.setPosition(xenoed+200);
@@ -93,11 +68,7 @@ void DancingLine::update(float attack, double start){
 }
 
 void DancingLine::draw(float pitch){
-    post.begin(cam);
-    ofEnableLighting();
-    pointLight.enable();
-    pointLight2.enable();
-	material.begin();
+
     //cam.begin();
     
     ofSetLineWidth(10);
@@ -146,19 +117,12 @@ void DancingLine::draw(float pitch){
 
         }
     //cam.end();
-    post.end();
     
     //ofDrawBitmapString(ofToString(post. ), 20,20);
 }
 
 
 void DancingLine::drawPiece(float x, float y){
-    post.begin(cam);
-    ofEnableLighting();
-    pointLight.enable();
-    pointLight.setPosition(ofVec3f(x,y,0));
-	material.begin();
-    //cam.begin();
     ofSetColor(255);
     ofSetLineWidth(10);
     ofPushMatrix();
@@ -168,7 +132,6 @@ void DancingLine::drawPiece(float x, float y){
         pieces[i].draw();
     }
     ofPopMatrix();
-    post.end();
 
 }
 
@@ -180,8 +143,6 @@ void DancingLine::updatePiece(){
         it->x = pieces[ind].pos.x;
         it->y = pieces[ind].pos.y;
         it->z = pieces[ind].pos.z;
-        cam.setPosition(500,100,1000);
-
     }
 
 }

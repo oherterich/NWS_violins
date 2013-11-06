@@ -19,11 +19,34 @@ void Composition::setup(){
         Vine v;
         vines.push_back(v);
     }
+    post.init(ofGetWidth(), ofGetHeight());
+    post.createPass<RimHighlightingPass>();
+    post.createPass<VerticalTiltShifPass>();
+    post.createPass<GodRaysPass>();
+    //    post.createPass<ContrastPass>();
     
+    post.createPass<FxaaPass>();
+    //    post.createPass<BloomPass>();
+    //    post.createPass<SSAOPass>();
+    
+    ofSetSphereResolution(24);
+    ofSetSmoothLighting(true);
+    pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    pointLight.setSpotlight(800.0, 2.0);
+    pointLight2.setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    pointLight2.setSpotlight(1000.0, 0.2);
+    material.setShininess( 200 );
+    material.setAmbientColor(ofColor((255)));
+    // the light highlight of the material //
+	material.setSpecularColor(ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
 }
 
 void Composition::update(){
     if(track == 1){
+        cam.resetTransform();
+        cam.setPosition(652, 384, 650);
         if(status == 1){
             g.update();
         } else if (status == 2){
@@ -40,8 +63,9 @@ void Composition::update(){
             g.update();
         }
     } else if (track == 2){
+        ofPushMatrix();
         if(status == 1){
-            line1.update(attack01, started);
+            line1.update(attack01*2, started);
             line2.update(attack02, started);
         } else if (status == 2){
             for(int i=0; i<darts.size(); i++){
@@ -63,6 +87,10 @@ void Composition::update(){
         } else if (status == 5){
             
         }
+        ofVec3f xenoed = line1.pos*0.001 + line1.lastpos*0.999;
+        cam.lookAt(line1.tmp);
+        cam.setPosition(xenoed.x+400, xenoed.y+400, xenoed.z+400);
+        ofPopMatrix();
     } else if (track == 3){
         if (status == 1){
             
@@ -85,6 +113,11 @@ void Composition::update(){
 }
 
 void Composition::draw(){
+    post.begin(cam);
+    ofEnableLighting();
+    pointLight.enable();
+    pointLight2.enable();
+	material.begin();
     if(track == 1){
         if(status == 1){
             g.draw();
@@ -102,8 +135,9 @@ void Composition::draw(){
             g.drawLines();
         }
     } else if (track == 2){
+        ofPushMatrix();
         if(status == 1){
-            line1.draw(pitch01);
+            line1.draw(pitch01*2);
             line2.draw(pitch02);
         } else if (status == 2){
             line1.draw(pitch01);
@@ -126,6 +160,7 @@ void Composition::draw(){
         } else if (status == 5){
             
         }
+        ofPopMatrix();
     } else if (track == 3){
         if (status == 1){
             
@@ -145,6 +180,7 @@ void Composition::draw(){
             
         }
     }
+    post.end();
 }
 
 // Track 1
