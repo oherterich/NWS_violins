@@ -206,13 +206,18 @@ void Gallifrey::U(){
 }
 
 void Gallifrey::I(){
-    snow=!snow;
+    for(int i=0;i<cirList.size();i++){
+        cirList[i].slowToStop=!cirList[i].slowToStop;
+    }
+
+
 }
 
 void Gallifrey::O(){
-    storm=!storm;
+
 }
 
 void Gallifrey::P(){
-    vac=!vac;
+    snow=!snow;
+    storm=!storm;
 }

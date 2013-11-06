@@ -24,7 +24,7 @@ void circle::addCircle(float r){
     if(rand()%3==0){
         disp*=-1;
     }
-    
+    sDisp=disp;
 }
 
 void circle::drawCircle(){
@@ -42,16 +42,31 @@ void circle::update(){
         pRad-=2;
     }
     
+    //Slow code
+    if(slowToStop){
+        stopped=true;
+        if(abs(sDisp)>.0002){
+            sDisp-=(sDisp-0)/50;
+            
+            if(abs(sDisp)<.0002){
+                sDisp=0;
+            }
+        }
+    }else if(!slowToStop && abs(sDisp)<abs(disp*mod)){
+        sDisp+=((disp*mod)-sDisp)/150;
+        if(stopped) mod+=.003;
+    }
+    
 }
 
 void circle::move(){
-    if(disp>0){
+    if(sDisp>0){
         if(angle>TWO_PI)angle=0;
-    }else if(disp<=0){
+    }else if(sDisp<=0){
         if(angle<0)angle=TWO_PI;
     }
     
-    angle+=disp;
+    angle+=sDisp;
     
     pos.x=(pRad*cos(angle))+ofGetWidth()/2;
     pos.y=(pRad*sin(angle))+ofGetHeight()/2;
