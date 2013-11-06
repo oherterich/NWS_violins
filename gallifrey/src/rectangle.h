@@ -19,11 +19,15 @@ public:
     float angle;
     float cirSpeed;
     float disp;
+    float sDisp;
+    float mod;
     
     
     ofColor c;
     
     int t=255;
     int fSpeed;
-
+    
+    bool slowToStop;
+    bool stopped;
 };
