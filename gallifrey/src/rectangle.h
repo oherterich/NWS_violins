@@ -1,10 +1,12 @@
 #pragma once
 #include "ofMain.h"
+#include "ofxPostProcessing.h"
 
 class circle{
 public:
     circle();
     void drawCircle();
+    void drawLines();
     void move();
     void rota(float a);
     void update();

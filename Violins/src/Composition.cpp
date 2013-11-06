@@ -36,6 +36,8 @@ void Composition::update(){
             for(int i=0; i<vines.size(); i++){
                 vines[i].update();
             }
+        } else if (status == 4){
+            g.update();
         }
     } else if (track == 2){
         if(status == 1){
@@ -54,8 +56,10 @@ void Composition::update(){
                 darts[i].update();
             }
         } else if (status == 4){
-            line1.updatePiece();
-            line2.updatePiece();
+            g.update();
+
+//            line1.updatePiece();
+//            line2.updatePiece();
         } else if (status == 5){
             
         }
@@ -94,6 +98,8 @@ void Composition::draw(){
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw();
             }
+        } else if (status == 4){
+            g.drawLines();
         }
     } else if (track == 2){
         if(status == 1){
@@ -112,8 +118,11 @@ void Composition::draw(){
                 darts[i].draw();
             }
         } else if (status == 4){
-            line1.drawPiece();
-            line2.drawPiece();
+            line1.draw(pitch01);
+            line2.draw(pitch02);
+
+//            line1.drawPiece();
+//            line2.drawPiece();
         } else if (status == 5){
             
         }
