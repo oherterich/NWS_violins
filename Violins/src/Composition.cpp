@@ -36,6 +36,8 @@ void Composition::update(){
             for(int i=0; i<vines.size(); i++){
                 vines[i].update();
             }
+        } else if (status == 4){
+            g.update();
         }
     } else if (track == 2){
         if(status == 1){

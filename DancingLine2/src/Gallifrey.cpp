@@ -179,7 +179,7 @@ void Gallifrey::U(){
     
     circle p;
     
-    if(cirList.size()<=17){
+    if(cirList.size()<10){
         p.pos.x=x;
         p.pos.y=y;
         
@@ -190,14 +190,14 @@ void Gallifrey::U(){
         }
     }
     
-    if(cirList.size()>17){
+    if(cirList.size()>10){
         p.pos.x=x;
         p.pos.y=y;
         
-        if(rand()%4>2){
-            p.addCircle(ofRandom(60,100));
+        if(rand()%3>1){
+            p.addCircle(ofRandom(40,100));
         } else{
-            p.addCircle(ofRandom(2,40));
+            p.addCircle(ofRandom(2,30));
         }
         p.tRad=200-p.rad;
     }
@@ -214,8 +214,5 @@ void Gallifrey::O(){
 }
 
 void Gallifrey::P(){
-    for(int i=0;i<cirList.size();i++){
-    cirList[i].slowToStop=!cirList[i].slowToStop;
-    }
- //   vac=!vac;
+    vac=!vac;
 }
