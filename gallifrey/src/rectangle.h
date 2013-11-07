@@ -33,4 +33,7 @@ public:
     
     bool slowToStop;
     bool stopped;
+    
+    bool falling;
+    
 };
