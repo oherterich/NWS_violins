@@ -23,6 +23,9 @@ Gallifrey::Gallifrey(){
     p.pRad = 0;
     cirList.push_back(p);
     flickering = false;
+    state = 0; // 0=dead, 1=moving, 2=stopped, 3=falling, 4=reverse falling
+    state_motion = 0; // 0=stopped, 1=seeking, 2=falling
+    state_time = 1; // 0=backward, 1=forward
 }
 
 void Gallifrey::addParticle() {
@@ -77,7 +80,6 @@ void Gallifrey::update(){
 
 //--------------------------------------------------------------
 void Gallifrey::draw(float pitch1, float pitch2, int type){
-    cout<<cirList.size()<<endl;
     ofPushStyle();
     if(flickering == true){
         ofSetCircleResolution((int)ofRandom(10));
@@ -88,9 +90,9 @@ void Gallifrey::draw(float pitch1, float pitch2, int type){
     
     ofNoFill();
     ofSetColor(255, 255, 255, 255);
-    for (int i = 0; i<cirList.size(); i++) {
+    for (vector<circle>::iterator it = cirList.begin(); it != cirList.end(); it++) {
         float pitch;
-        if(i==0){
+        if(cirList.begin()==it){
             pitch = pitch1;
         } else {
             pitch = pitch2;
@@ -103,38 +105,38 @@ void Gallifrey::draw(float pitch1, float pitch2, int type){
         // c = ofColor(ofClamp(ofMap(pitch,0,3000,0,255),0,255),ofClamp(ofMap(pitch,0,3000,0,255),0,255),ofClamp(ofMap(pitch,0,3000,0,255),0,255));
         ofSetColor(newc);
         if(type == 1){
-            cirList[i].drawLines();            
+            it->drawLines();
         } else if (type == 2){
-            cirList[i].drawCircles();
+            it->drawCircles();
         } else {
-            cirList[i].drawCircle();
+            it->drawCircle();
         }
-        cirList[i].update();
-        cirList[i].move();
+        it->update();
+        it->move();
         
-}
+    }
     
     if(chainFall){
         float thresh[cirList.size()-1];
-        for(int i=1; i<cirList.size();i++){
-            thresh[i]=ofRandom(ofGetHeight()/3)+ofGetHeight()/2;
+        for (vector<circle>::iterator it = cirList.begin(); it != cirList.end(); it++) {
+            thresh[it-cirList.begin()]=ofRandom(ofGetHeight()/3)+ofGetHeight()/2;
         }
         
-        for(int i=1; i<cirList.size();i++){
-        if(i==cirList.size()-1) break;
-        else if(cirList[i].pos.y >= thresh[i]) cirList[i+1].falling=true;
+        for (vector<circle>::iterator it = cirList.begin(); it != cirList.end(); it++) {
+        if(it-cirList.begin()==cirList.size()-1) break;
+        else if(cirList[it-cirList.begin()].pos.y >= thresh[it-cirList.begin()]) cirList[it-cirList.begin()+1].falling=true;
         }
     }
     
     if(chainFix){
         float thresh[cirList.size()-1];
-        for(int i=1; i<cirList.size();i++){
-            thresh[i]=ofRandom(ofGetHeight()/2)+ofGetHeight()/2;
+        for (vector<circle>::iterator it = cirList.begin(); it != cirList.end(); it++) {
+            thresh[it-cirList.begin()]=ofRandom(ofGetHeight()/2)+ofGetHeight()/2;
         }
         
-        for(int i=1; i<cirList.size();i++){
-            if(i==cirList.size()-1) break;
-            else if(cirList[i].pos.y <= thresh[i]) cirList[i+1].fixing=true;
+        for (vector<circle>::iterator it = cirList.begin(); it != cirList.end(); it++) {
+            if(it-cirList.begin()==cirList.size()-1) break;
+            else if(cirList[it-cirList.begin()].pos.y <= thresh[it-cirList.begin()]) cirList[it-cirList.begin()+1].fixing=true;
         }
     }
     
@@ -147,8 +149,7 @@ void Gallifrey::draw(float pitch1, float pitch2, int type){
 }
 
 void Gallifrey::U(){
-    chainFix=false;
-    chainFall=false;
+
     float x;
     float y;
     

@@ -51,6 +51,7 @@ public:
     float w,h;
     ofColor newc, lastc, c;
     void clearCircles();
+    float state, state_motion, state_time;
  //   float startR;
 };
 
