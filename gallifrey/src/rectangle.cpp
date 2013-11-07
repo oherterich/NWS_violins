@@ -14,6 +14,8 @@ circle::circle(){
     vel=0;
     grav=.08f;
     
+    falling=false;
+    
 }
 
 void circle::addCircle(float r){
@@ -71,8 +73,11 @@ void circle::move(){
     
     angle+=sDisp;
     
+    if(!falling){
     pos.x=(pRad*cos(angle))+ofGetWidth()/2;
     pos.y=(pRad*sin(angle))+ofGetHeight()/2;
+    }
+    
     
 }
 
@@ -81,6 +86,9 @@ void circle::rota(float a){
 }
 
 void circle::fall(){
+    
+    falling=true;
+    
     if(slowToStop){
     pos.y+=vel;
     vel+=grav;
@@ -88,7 +96,6 @@ void circle::fall(){
         if(pos.x>=ofGetHeight()-rad){
             vel*=-.9;
         }
-        
         
     }
     
