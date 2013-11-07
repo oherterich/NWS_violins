@@ -60,7 +60,7 @@ void Composition::stationary(bool fading){
     pointLight2.setPosition(g.myCircle.pos+200);
     material.setShininess( 500 );
     cam.resetTransform();
-    cam.setPosition(ofGetWidth()/2, ofGetHeight()/2, 1.5*ofGetWidth()/3+65);
+    cam.setPosition(ofGetWidth()/2, ofGetHeight()/2, 1.5*ofGetWidth()/3-10);
     cam.roll(180);
 }
 

@@ -34,5 +34,5 @@ void Dart::update(){
 
 void Dart::draw() {
     ofSetColor(255);
-    ofCircle( pos, 4 );
+    ofCircle( pos, 10 );
 }
