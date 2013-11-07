@@ -132,12 +132,12 @@ void circle::antiFall(){
 }
 void circle::drawLines(){
     ofNoFill();
-    ofSetColor(c, t);
+//    ofSetColor(c, t);
     //    ofCircle(pos.x, pos.y, rad);
     ofSetLineWidth(10);
     for(int i=0; i<20; i++){
         float jitter = 5.0;
             // use mesh here
-        ofLine(pos.x+ofRandom(-jitter, jitter), pos.y+ofRandom(-jitter, jitter), ofRandom(-100,100), pos.x+ofRandom(-jitter, jitter)+rad, pos.y+ofRandom(-jitter, jitter), ofRandom(-100,100));
+        ofLine(pos.x+ofRandom(-jitter, jitter)-rad, pos.y+ofRandom(-jitter, jitter), ofRandom(-100,100), pos.x+ofRandom(-jitter, jitter)+(rad), pos.y+ofRandom(-jitter, jitter), ofRandom(-100,100));
     }
 }

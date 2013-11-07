@@ -17,7 +17,7 @@ public:
     Gallifrey();
     void update();
     void draw(float pitch1, float pitch2);
-    void drawLines();
+    void drawLines(float pitch1, float pitch2);
     void addParticle();
     
     void U();

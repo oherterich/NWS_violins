@@ -28,12 +28,27 @@ void Vine::applyForce(ofVec2f force){
 }
 
 void Vine::wither(){
-    for(int i=0; i<ps.size(); i++){
-        rs[i] -= 0.1;
+    if(rs[0] > 0){
+        for(int i=0; i<rs.size(); i++){
+            rs[i] -= 0.1;
+        }
+    }
+}
+
+void Vine::regen(){
+    for(int j=0; j<rs.size(); j++){
+        rs[j] = (5.0-(rs.size()*0.02));
     }
 }
 
 void Vine::update(){
+    
+    if(alive){
+        
+    } else {
+        
+    }
+    
     if(ps.size()>0){
         pos.x = ps[ps.size()-1].x;
     }
@@ -54,13 +69,6 @@ void Vine::update(){
     pos += vel;
 
     acc.set(0);
-    
-    //    if(pos.x<0 || pos.x>ofGetWidth()){
-    //        vel.x *= -1.0;
-    //    }
-    //    if(pos.y<0 || pos.y>ofGetWidth()){
-    //        vel.y *- -1.0;
-    //    }
 
 }
 

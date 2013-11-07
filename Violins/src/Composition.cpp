@@ -43,16 +43,42 @@ void Composition::setup(){
 	material.setSpecularColor(ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
 }
 
+void Composition::stationary(){
+    pointLight.setSpotlight(800.0, 200.0);
+    pointLight2.setSpotlight(1200.0, 200.0);
+    pointLight.setPosition(g.myCircle.pos);
+    pointLight2.setPosition(g.myCircle.pos+200);
+    material.setShininess( 500 );
+    cam.resetTransform();
+    cam.setPosition(ofGetWidth()/2, ofGetHeight()/2, 1.5*ofGetWidth()/3+65);
+    cam.roll(180);
+}
+
+void Composition::moving(){
+    pointLight.setPosition(line1.pos);
+    pointLight2.setPosition(line2.pos);
+    pointLight.setSpotlight(800.0, 2.0);
+    pointLight2.setSpotlight(1000.0, 0.2);
+    material.setShininess( 200 );
+    ofVec3f xenoed = line1.pos*0.001 + line1.lastpos*0.999;
+    cam.lookAt(line1.flat);
+    cam.setPosition(xenoed.x+400, xenoed.y+400, xenoed.z+400);
+}
+
+
+void Composition::transition(){
+    ofVec3f xenoed_pos = ofVec3f(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2);
+    ofVec3f xenoed_rot = ofVec3f(0,0,0);
+    cam.resetTransform();
+
+    cam.roll(180);
+    cam.lookAt(xenoed_rot);
+    cam.setPosition(xenoed_pos.x, xenoed_pos.y, xenoed_pos.z);
+}
+
 void Composition::update(){
     if(track == 1){
-        pointLight.setSpotlight(800.0, 200.0);
-        pointLight2.setSpotlight(1200.0, 200.0);
-        pointLight.setPosition(g.myCircle.pos);
-        pointLight2.setPosition(g.myCircle.pos+200);
-        material.setShininess( 500 );
-        cam.resetTransform();
-        cam.setPosition(ofGetWidth()/2, ofGetHeight()/2, 1.5*ofGetWidth()/3+65);
-        cam.roll(180);
+        stationary();
         if(status == 1){
             g.update();
         } else if (status == 2){
@@ -73,14 +99,10 @@ void Composition::update(){
             }
         }
     } else if (track == 2){
-        g.clearCircles();
+        moving();
         ofPushMatrix();
-        pointLight.setPosition(line1.pos);
-        pointLight2.setPosition(line2.pos);
-        pointLight.setSpotlight(800.0, 2.0);
-        pointLight2.setSpotlight(1000.0, 0.2);
-        material.setShininess( 200 );
         if(status == 1){
+            g.clearCircles();
             line1.update(attack01*2, started);
             line2.update(attack02, started);
         } else if (status == 2){
@@ -96,16 +118,26 @@ void Composition::update(){
                 darts[i].update();
             }
         } else if (status == 4){
+            stationary();
             g.update();
-
 //            line1.updatePiece();
 //            line2.updatePiece();
+
         } else if (status == 5){
-            
+            stationary();
+            g.update();
+            for(int i=0; i<vines.size(); i++){
+                vines[i].update();
+            }
+        } else if (status == 6){
+            stationary();
+            g.update();
+            for(int i=0; i<vines.size(); i++){
+                vines[i].update();
+                vines[i].wither();
+            }
         }
-        ofVec3f xenoed = line1.pos*0.001 + line1.lastpos*0.999;
-        cam.lookAt(line1.flat);
-        cam.setPosition(xenoed.x+400, xenoed.y+400, xenoed.z+400);
+
         ofPopMatrix();
     } else if (track == 3){
         if (status == 1){
@@ -146,14 +178,13 @@ void Composition::draw(){
             material.setShininess( 500 );
         } else if (status == 3){
             g.draw(pitch01*2, pitch02);
-            material.setShininess( 200 );
             material.setShininess( 10 );
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw((pitch01+pitch02)/2);
             }
             material.setShininess( 500 );
         } else if (status == 4){
-            g.drawLines();
+            g.draw(pitch01*2, pitch02);
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw((pitch01+pitch02)/2);
             }
@@ -178,11 +209,19 @@ void Composition::draw(){
         } else if (status == 4){
             line1.draw(pitch01);
             line2.draw(pitch02);
-
+            g.drawLines(pitch01, pitch02);
 //            line1.drawPiece();
 //            line2.drawPiece();
         } else if (status == 5){
-            
+            g.drawLines(pitch01*2, pitch02);
+            for(int i=0; i<vines.size(); i++){
+                vines[i].draw((pitch01+pitch02)/2);
+            }
+        } else if (status == 6){
+            g.drawLines(pitch01*2, pitch02);
+            for(int i=0; i<vines.size(); i++){
+                vines[i].draw((pitch01+pitch02)/2);
+            }
         }
         ofPopMatrix();
     }
