@@ -127,7 +127,7 @@ void Gallifrey::draw(float pitch1, float pitch2){
     ofPopStyle();
 }
 
-void Gallifrey::drawLines(){
+void Gallifrey::drawLines(float pitch1, float pitch2){
     ofPushStyle();
     if(flickering == true){
         ofSetCircleResolution((int)ofRandom(10));
@@ -137,13 +137,36 @@ void Gallifrey::drawLines(){
     }
     
     ofNoFill();
-    ofSetColor(255, 255, 255, 255);
+
     for (int i = 0; i<cirList.size(); i++) {
-        
+        float pitch;
+        if(i==0){
+            pitch = pitch1;
+        } else {
+            pitch = pitch2;
+        }
+        ofColor newc = ofColor(255,0,0);
+        newc.setHue(ofMap(pitch,0,3000,0,255));
+        c=lastc;
+        c.lerp(newc, 50);
+        lastc = newc;
+        // c = ofColor(ofClamp(ofMap(pitch,0,3000,0,255),0,255),ofClamp(ofMap(pitch,0,3000,0,255),0,255),ofClamp(ofMap(pitch,0,3000,0,255),0,255));
+        ofSetColor(newc);
         cirList[i].drawLines();
         cirList[i].update();
         cirList[i].move();
         
+    }
+    if(chainFall){
+        float thresh[cirList.size()];
+        for(int i=1; i<cirList.size();i++){
+            thresh[i]=ofRandom(ofGetHeight()/2)+ofGetHeight()/2;
+        }
+        
+        for(int i=1; i<cirList.size();i++){
+            if(i==cirList.size()) break;
+            else if(cirList[i].pos.y >= thresh[i]) cirList[i+1].falling=true;
+        }
     }
     
     if(snow){

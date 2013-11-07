@@ -209,16 +209,16 @@ void Composition::draw(){
         } else if (status == 4){
             line1.draw(pitch01);
             line2.draw(pitch02);
-            g.drawLines();
+            g.drawLines(pitch01, pitch02);
 //            line1.drawPiece();
 //            line2.drawPiece();
         } else if (status == 5){
-            g.drawLines();
+            g.drawLines(pitch01*2, pitch02);
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw((pitch01+pitch02)/2);
             }
         } else if (status == 6){
-            g.drawLines();
+            g.drawLines(pitch01*2, pitch02);
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw((pitch01+pitch02)/2);
             }
