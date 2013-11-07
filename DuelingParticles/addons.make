@@ -1,0 +1,5 @@
+ofxOsc
+ofxXmlSettings
+ofxPostProcessing
+ofxSyphon
+ofxUI

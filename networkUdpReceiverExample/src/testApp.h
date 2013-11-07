@@ -23,23 +23,12 @@ class testApp : public ofBaseApp{
 
 		ofxUDPManager udpConnection;
         ofxUDPManager udpConnection2;
-    
-		ofTrueTypeFont  mono;
-		ofTrueTypeFont  monosm;
 
-		vector<ofPoint> stroke;
-        vector<float> age;
-
-        vector<ofPoint> stroke2;
-        vector<float> age2;
-    
-        //first violin values
+    //first violin values
         float x,y,z,magx,magy,magz;
     
         //second violin values
         float x2,y2,z2,magx2,magy2,magz2;
-        
-        float messageInTime;
-        float tempTimeStamp;
+
 };
 

@@ -123,7 +123,7 @@ void circle::antiFall(){
         touchdown=false;
         pos.x = .15 * ((pRad*cos(angle))+ofGetWidth()/2) + (1-.15) * pos.x;
         pos.y = .15 * ((pRad*sin(angle))+ofGetHeight()/2) + (1-.15) * pos.y;
-        if(ofDist(pos.x, pos.y, (pRad*cos(angle))+ofGetWidth()/2,(pRad*sin(angle))+ofGetHeight()/2)<=5){
+        if(ofDist(pos.x, pos.y, (pRad*cos(angle))+ofGetWidth()/2,(pRad*sin(angle))+ofGetHeight()/2)<=1){
             fixing=false;
             pos.x=(pRad*cos(angle))+ofGetWidth()/2;
             pos.y=(pRad*sin(angle))+ofGetHeight()/2;

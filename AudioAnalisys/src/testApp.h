@@ -6,6 +6,7 @@
 #include "FFTOctaveAnalyzer.h"
 #include "aubioAnalyzer.h"
 #include "ofxOsc.h"
+#include "ofxNetwork.h"
 
 #define BUFFER_SIZE 512
 
@@ -88,6 +89,20 @@ class testApp : public ofBaseApp{
     float Channel02_Amplitude;
     float Channel01_LinearPitch;
     float Channel02_LinearPitch;
+    
+    
+
+    
+    
+    ofxUDPManager udpConnection2;
+    ofxUDPManager udpConnection;
+    
+    
+    //first violin values
+    float x,y,z,magx,magy,magz;
+    
+    //second violin values
+    float x2,y2,z2,magx2,magy2,magz2;
 		
 };
 

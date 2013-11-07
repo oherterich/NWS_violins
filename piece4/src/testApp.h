@@ -47,6 +47,7 @@ class testApp : public ofBaseApp {
     float Channel02_LinearPitch;
     vector<ofVec3f> PosList;
     ofEasyCam cam;
+    ofEasyCam preview;
     ofVec3f pos, tmp, lastpos;
     float lastChannel01_Attack;
     float lastChannel01_Amplitude;
@@ -54,5 +55,6 @@ class testApp : public ofBaseApp {
     ofxPostProcessing post;
     ofMaterial material;
     ofLight pointLight;
+    ofLight pointLight2;
     
 };

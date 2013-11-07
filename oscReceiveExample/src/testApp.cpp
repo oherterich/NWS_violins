@@ -3,6 +3,10 @@
 //--------------------------------------------------------------
 void testApp::setup(){
     
+    low_amp = 10000000;
+    low_atk = 10000000;
+    
+    
 	receiver.setup(PORT);
     
     
@@ -16,8 +20,32 @@ void testApp::setup(){
 void testApp::update(){
 
     GetOSC();
+    tick = tick+1;
+    agr_amp += Channel01_Amplitude;
+    agr_atk += Channel01_Attack;
+    
+    avr_amp = agr_amp/tick;
+    avr_atk = agr_atk/tick;
+    
+    if (Channel01_Attack > high_atk) {
+        high_atk = Channel01_Attack;
+    };
+    
+    if (Channel01_Amplitude > high_amp) {
+        high_amp = Channel01_Amplitude;
+    };
 
-
+    if (Channel01_Attack < low_atk) {
+        low_atk = Channel01_Attack;
+    };
+    
+    if (Channel01_Amplitude < low_amp) {
+        low_amp = Channel01_Amplitude;
+    };
+    
+    
+    
+    
 }
 
 
@@ -25,6 +53,20 @@ void testApp::update(){
 //--------------------------------------------------------------
 void testApp::draw(){
     AudioDebug();
+    
+  ofPushMatrix();
+    ofTranslate(10, 100);
+    ofDrawBitmapString("AttackTOP: " + ofToString(high_atk,4), 0,0);
+    ofDrawBitmapString("AttackAVR: " + ofToString(avr_atk,4), 0,20);
+    ofDrawBitmapString("AttackLOW: " + ofToString(low_atk,4), 0,40);
+    ofPopMatrix();
+    
+     ofPushMatrix();
+    ofTranslate(200, 100);
+    ofDrawBitmapString("AmplitudeLOW: " + ofToString(low_amp,4), 0,40);
+    ofDrawBitmapString("AmplitudeAVR: " + ofToString(avr_amp,4), 0,20);
+    ofDrawBitmapString("AmplitudeTOP: " + ofToString(high_amp,4), 0,0);
+ ofPopMatrix();
 }
 
 //--------------------------------------------------------------

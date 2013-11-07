@@ -6,14 +6,16 @@ void testApp::setup(){
 	receiver.setup(PORT);
     
     post.init(ofGetWidth(), ofGetHeight());
-    post.createPass<VerticalTiltShifPass>();
-    //post.createPass<DofPass>();
-    post.createPass<GodRaysPass>();
     post.createPass<FxaaPass>();
-    post.createPass<BloomPass>();
+    //post.createPass<VerticalTiltShifPass>();
+    post.createPass<DofAltPass>()->setFStop(5);
+    //post.createPass<GodRaysPass>();
     
+   // post.createPass<BloomPass>();
+    //post.createPass<ZoomBlurPass>();
     
-  
+    post.getPasses();
+    
     
 	ofBackground(0,0,20);
     ofEnableAlphaBlending();
@@ -26,7 +28,7 @@ void testApp::setup(){
     pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
 
     material.setShininess( 120 );
-    material.setAmbientColor(ofColor((255,0,127)));
+    material.setAmbientColor(ofColor((255)));
     // the light highlight of the material //
 	material.setSpecularColor(ofColor(255, 0, 255, 255));
 
@@ -39,7 +41,7 @@ void testApp::update(){
     GetOSC();
     
     pos.x = ofNoise(ofGetElapsedTimef()/10);
-    pos.y = ofNoise(ofGetElapsedTimef()/10+1000)+ofGetElapsedTimef()/10;
+    pos.y = ofNoise(ofGetElapsedTimef()/10+1000)+ofGetElapsedTimef()/100;
     pos.z = ofNoise(ofGetElapsedTimef()/10-1000);
     pos = pos*1000;
     
@@ -55,8 +57,8 @@ void testApp::update(){
     
     
     //cam.roll( ofRadToDeg(sin(ofGetElapsedTimef()/10)*TWO_PI));
-     cam.lookAt(tmp);
-
+    
+    
 
     tmp.x = tmp.x + cos(ofGetElapsedTimef())*Channel01_Attack*50;
     tmp.y = tmp.y + sin(ofGetElapsedTimef())*Channel01_Attack*50;
@@ -64,12 +66,12 @@ void testApp::update(){
     PosList.push_back(tmp);
    
     
-    if (PosList.size()>2000) {
+    if (PosList.size()>1000) {
         PosList.erase(PosList.begin());
     }
     
     ofVec3f xenoed = pos*0.1 + lastpos*0.9;
-    
+    cam.lookAt(tmp*0.2+PosList[PosList.size()-10]*0.8);
     cam.setPosition(xenoed.x, xenoed.y, xenoed.z);
     
    
@@ -80,24 +82,28 @@ void testApp::update(){
     lastChannel01_Attack = Channel01_Attack;
     
     pointLight.setPosition(pos);
-
+    preview.lookAt(tmp);
 }
 
 
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    AudioDebug();
+    //AudioDebug();
+    
+   // preview.begin();
+    cam.draw();
     
     post.begin(cam);
-    ofEnableLighting();
-    pointLight.enable();
+   // ofEnableLighting();
+//    pointLight.enable();
+//    pointLight.setAttenuation(2000);
     
     
-	material.begin();
-    //cam.begin();
+	//material.begin();
+
     
-    ofSetColor(255,0,127*(Channel01_Pitch/10));
+    ofSetColor(255,0,127);
     ofSetLineWidth(10);
     ofPolyline P;
     P.clear();
@@ -108,8 +114,10 @@ void testApp::draw(){
         
     }
     P.draw();
-    //cam.end();
+
     post.end();
+    
+  //  preview.end();
     
     //ofDrawBitmapString(ofToString(post. ), 20,20);
 }

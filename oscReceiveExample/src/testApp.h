@@ -45,6 +45,6 @@ class testApp : public ofBaseApp {
     float Channel01_LinearPitch;
     float Channel02_LinearPitch;
 
-    
+    float high_atk, high_amp, low_atk, low_amp, avr_atk, avr_amp, agr_atk, agr_amp, tick;
     
 };
