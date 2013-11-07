@@ -22,6 +22,7 @@ public:
     
     void applyForce( ofVec2f force );
     void update();
+    void wither();
     void draw(float pitch);
     int state;
     vector<ofVec3f> ps;
