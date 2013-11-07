@@ -18,8 +18,8 @@ Vine::Vine() {
     vel = ofVec3f(0,ofRandom(-1.0,-5.0));
     heightY = 250*sin(temp)+ofGetHeight()/2-45;
     color = ofColor(0,255,0);
-    color.setSaturation(ofRandomf());
-    color.setBrightness(ofRandom(150,255));
+    color.setSaturation(ofRandomf()*255);
+    color.setBrightness(ofRandom(50,75));
 
 }
 
@@ -58,12 +58,12 @@ void Vine::update(){
 
 }
 
-void Vine::draw() {
+void Vine::draw(float pitch) {
     ofPushStyle();
+    color.setHue(ofMap(pitch*2,0,3000,0,255));
     ofSetCircleResolution(5);
-    ofSetColor(255);
+    ofSetColor(color);
     for(int i=0; i<ps.size(); i++){
-        ofSetColor(color);
         ofCircle( ps[i], ofClamp(rs[i], 0, 10.0));
     }
     ofPopStyle();

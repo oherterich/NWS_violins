@@ -133,14 +133,19 @@ void Composition::draw(){
             g.draw(pitch01*2,pitch02);
         } else if (status == 2){
             g.draw(pitch01*2,pitch02);
+            material.setShininess( 10 );
             for(int i=0; i<vines.size(); i++){
-                vines[i].draw();
+                vines[i].draw((pitch01+pitch02)/2);
             }
+            material.setShininess( 500 );
         } else if (status == 3){
             g.draw(pitch01*2, pitch02);
+            material.setShininess( 200 );
+            material.setShininess( 10 );
             for(int i=0; i<vines.size(); i++){
-                vines[i].draw();
+                vines[i].draw((pitch01+pitch02)/2);
             }
+            material.setShininess( 500 );
         } else if (status == 4){
             g.drawLines();
         }
