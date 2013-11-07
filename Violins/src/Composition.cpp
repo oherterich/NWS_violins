@@ -19,6 +19,8 @@ void Composition::setup(){
         Vine v;
         vines.push_back(v);
     }
+    light1.set(1000.0, 2.0);
+    light2.set(1000.0, 2.0);
     post.init(ofGetWidth(), ofGetHeight());
     post.createPass<RimHighlightingPass>();
     post.createPass<VerticalTiltShifPass>();
@@ -33,19 +35,25 @@ void Composition::setup(){
     ofSetSmoothLighting(true);
     pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
     pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    pointLight.setSpotlight(800.0, 2.0);
+    pointLight.setSpotlight(light1.x, light1.y);
     pointLight2.setDiffuseColor( ofFloatColor(.85, .85, .55) );
     pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    pointLight2.setSpotlight(1000.0, 0.2);
+    pointLight2.setSpotlight(light2.x, light2.y);
     material.setShininess( 200 );
     material.setAmbientColor(ofColor((255)));
     // the light highlight of the material //
 	material.setSpecularColor(ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
 }
 
-void Composition::stationary(){
-    pointLight.setSpotlight(800.0, 200.0);
-    pointLight2.setSpotlight(1200.0, 200.0);
+void Composition::stationary(bool fading){
+    if(fading){
+        fadeLightOut();
+        pointLight.setSpotlight(light1.x, light1.y);
+        pointLight2.setSpotlight(light2.x, light2.y);
+    } else {
+        pointLight.setSpotlight(1200.0, 200.0);
+        pointLight2.setSpotlight(1200.0, 200.0);
+    }
     pointLight.setPosition(g.myCircle.pos);
     pointLight2.setPosition(g.myCircle.pos+200);
     material.setShininess( 500 );
@@ -57,8 +65,8 @@ void Composition::stationary(){
 void Composition::moving(){
     pointLight.setPosition(line1.pos);
     pointLight2.setPosition(line2.pos);
-    pointLight.setSpotlight(800.0, 2.0);
-    pointLight2.setSpotlight(1000.0, 0.2);
+    pointLight.setSpotlight(light1.x, light1.y);
+    pointLight2.setSpotlight(light2.x, light2.y);
     material.setShininess( 200 );
     ofVec3f xenoed = line1.pos*0.001 + line1.lastpos*0.999;
     cam.lookAt(line1.flat);
@@ -78,7 +86,7 @@ void Composition::transition(){
 
 void Composition::update(){
     if(track == 1){
-        stationary();
+        stationary(false);
         if(status == 1){
             g.update();
         } else if (status == 2){
@@ -118,19 +126,19 @@ void Composition::update(){
                 darts[i].update();
             }
         } else if (status == 4){
-            stationary();
+            stationary(false);
             g.update();
 //            line1.updatePiece();
 //            line2.updatePiece();
 
         } else if (status == 5){
-            stationary();
+            stationary(false);
             g.update();
             for(int i=0; i<vines.size(); i++){
                 vines[i].update();
             }
         } else if (status == 6){
-            stationary();
+            stationary(true);
             g.update();
             for(int i=0; i<vines.size(); i++){
                 vines[i].update();
@@ -226,4 +234,30 @@ void Composition::draw(){
         ofPopMatrix();
     }
     post.end();
+}
+
+void Composition::fadeLightOut(){
+    if(light1.x>0){
+        light1.set(light1.x-5, light1.y);
+    }
+    if(light2.x>0){
+        light2.set(light2.x-5, light2.y);
+    }
+    if(light1.y>0){
+        light1.set(light1.x, light1.y-0.2);
+    }
+    if(light2.y>0){
+        light2.set(light2.x, light2.y-0.2);
+    }
+    if(light1.x<=0 && light1.y <=0 && light2.x<=0 && light2.y <=0){
+        cam.setScale(cam.getScale()-0.1);
+    }
+}
+void Composition::fadeLightUp(float val){
+    if(light1.x<val){
+        light1.y+=1;
+    }
+    if(light2.x<val){
+        light2.y+=1;
+    }
 }

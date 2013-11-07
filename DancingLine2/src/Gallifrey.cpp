@@ -183,6 +183,18 @@ void Gallifrey::drawLines(float pitch1, float pitch2){
         }
     }
     
+    if(chainFix){
+        float thresh[cirList.size()-1];
+        for(int i=1; i<cirList.size();i++){
+            thresh[i]=ofRandom(ofGetHeight()/2)+ofGetHeight()/2;
+        }
+        
+        for(int i=1; i<cirList.size();i++){
+            if(i==cirList.size()-1) break;
+            else if(cirList[i].pos.y <= thresh[i]) cirList[i+1].fixing=true;
+        }
+    }
+    
     if(snow){
         //    if(ofGetElapsedTimeMillis()%3==0 ){
         addParticle();

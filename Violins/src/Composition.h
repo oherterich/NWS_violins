@@ -41,8 +41,11 @@ public:
     ofMaterial material;
     ofLight pointLight, pointLight2, pointLight3;
     
-    void stationary();
+    void stationary(bool fading);
     void moving();
     void transition();
-
+    
+    void fadeLightOut();
+    void fadeLightUp(float val);
+    ofVec2f light1, light2;
 };
