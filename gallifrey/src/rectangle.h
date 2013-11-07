@@ -12,6 +12,7 @@ public:
     void update();
     void addCircle(float r);
     void fall();
+    void antiFall();
     
     ofPoint pos;
     float rad;
@@ -35,5 +36,8 @@ public:
     bool stopped;
     
     bool falling;
+    bool fixing;
+    
+    bool touchdown;
     
 };

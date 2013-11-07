@@ -15,6 +15,7 @@ circle::circle(){
     grav= .5f;
     
     falling=false;
+    fixing=false;
     
 }
 
@@ -73,14 +74,15 @@ void circle::move(){
     
     angle+=sDisp;
     
-    if(!falling){
-    pos.x=(pRad*cos(angle))+ofGetWidth()/2;
-    pos.y=(pRad*sin(angle))+ofGetHeight()/2;
-    }else{
+    if(fixing){
+        falling=false;
+        antiFall();
+    } else if(falling){
         fall();
+    }else{
+        pos.x=(pRad*cos(angle))+ofGetWidth()/2;
+        pos.y=(pRad*sin(angle))+ofGetHeight()/2;
     }
-    
-    
 }
 
 void circle::rota(float a){
@@ -96,12 +98,38 @@ void circle::fall(){
         
         if(pos.y>=ofGetHeight()-rad){
             vel*=-.4;
+            pos.y=ofGetHeight()-rad-1;
+            touchdown=true;
         }
         
     }
     
 }
 
+void circle::antiFall(){
+ //       grav= -.5f;
+    
+    if(touchdown){
+        pos.y+=vel;
+        vel+=grav;
+        
+        if(pos.y>=ofGetHeight()-rad){
+            pos.y=ofGetHeight()-rad-1;
+            vel*=-1.6;
+        }
+    }
+    if(ofDist(pos.x, pos.y, (pRad*cos(angle))+ofGetWidth()/2,(pRad*sin(angle))+ofGetHeight()/2)<=50 ||
+       pos.y<=ofGetHeight()/2){
+        touchdown=false;
+        pos.x = .15 * ((pRad*cos(angle))+ofGetWidth()/2) + (1-.15) * pos.x;
+        pos.y = .15 * ((pRad*sin(angle))+ofGetHeight()/2) + (1-.15) * pos.y;
+        if(ofDist(pos.x, pos.y, (pRad*cos(angle))+ofGetWidth()/2,(pRad*sin(angle))+ofGetHeight()/2)<=5){
+            fixing=false;
+            pos.x=(pRad*cos(angle))+ofGetWidth()/2;
+            pos.y=(pRad*sin(angle))+ofGetHeight()/2;
+            }
+        }
+}
 void circle::drawLines(){
     ofNoFill();
     ofSetColor(c, t);
