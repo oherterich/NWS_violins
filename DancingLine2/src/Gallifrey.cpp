@@ -147,6 +147,8 @@ void Gallifrey::draw(float pitch1, float pitch2, int type){
 }
 
 void Gallifrey::U(){
+    chainFix=false;
+    chainFall=false;
     float x;
     float y;
     
@@ -187,6 +189,8 @@ void Gallifrey::U(){
 }
 
 void Gallifrey::I(){
+    chainFix=false;
+    chainFall=false;
     for(int i=0;i<cirList.size();i++){
         cirList[i].slowToStop=!cirList[i].slowToStop;
     }
