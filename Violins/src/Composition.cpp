@@ -51,7 +51,10 @@ void Composition::update(){
         pointLight2.setPosition(g.myCircle.pos+200);
         material.setShininess( 500 );
         cam.resetTransform();
-        cam.setPosition(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2);
+<<<<<<< HEAD
+=======
+        cam.setPosition(ofGetWidth()/2, ofGetHeight()/2, 1.5*ofGetWidth()/3+65);
+>>>>>>> SafetyBranch
         cam.roll(180);
         if(status == 1){
             g.update();
