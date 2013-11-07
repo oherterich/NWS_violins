@@ -49,5 +49,7 @@ public:
     
     ofVec2f damping;
     
+    bool consigned;
+    
     
 };

@@ -3,10 +3,10 @@
 #include "ofMain.h"
 #include "Particle.h"
 
-#include "fft.h"
-#include "FFTOctaveAnalyzer.h"
+#include "ofxOsc.h"
 
-#define BUFFER_SIZE 512
+// listen on port 12345
+#define PORT 12345
 
 class testApp : public ofBaseApp{
 
@@ -24,48 +24,58 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
-
+    
     void addLeftParticle( ofVec2f pos );
     void addRightParticle( ofVec2f pos );
-
+    
     vector<Particle> leftParticles;
     vector<Particle> rightParticles;
-
+    
     bool rightParticleSwitch;
     float rightParticleAmount;
-
+    
     bool colorLerpSwitch;
     bool suctionSwitch;
     bool bMain2;
     bool bSolo;
     bool bForce;
-    bool bRtParticleFromOut;
-    bool bSizing;
-
+    bool bRightParticleInside;
+    
     float maxParticlesLeft;
     float maxParticlesRight;
-
+    
+    float blueRepulsionStr;
+    
+    ofVec2f rtParticleInitC0;
+    ofVec2f rtParticleInitC1;
+    ofVec2f rtParticleInitC2;
+    ofVec2f rtParticleInitC3;
+    
     ofImage green;
     ofImage blue;
-
+    
     ofVec2f moveCenter;
-    float blueRepulsionStr;
+    
+    
+    //------AUDIO STUFF----------
+    
+    void GetOSC();
+    void AudioDebug();
+    
+	ofxOscReceiver receiver;
+    int Channel01_FFT_size;
+    int Channel02_FFT_size;
+    vector<float> Channel01_FFT;
+    vector<float> Channel02_FFT;
+    float Channel01_Pitch;
+    float Channel01_Attack;
+    float Channel01_Amplitude;
+    float Channel02_Pitch;
+    float Channel02_Attack;
+    float Channel02_Amplitude;
+    float Channel01_LinearPitch;
+    float Channel02_LinearPitch;
+    
 
-    //Audio stuff
-    void audioReceived 	(float * input, int bufferSize, int nChannels);
-
-    FFTOctaveAnalyzer FFTanalyzer;
-
-    float left[BUFFER_SIZE];
-    float right[BUFFER_SIZE];
-
-    fft		myfft;
-
-    float magnitude[BUFFER_SIZE];
-    float phase[BUFFER_SIZE];
-    float power[BUFFER_SIZE];
-    float freq[BUFFER_SIZE/2];
-
-    ofVec2f rtParticleInitC0, rtParticleInitC1, rtParticleInitC2, rtParticleInitC3;
-
+		
 };

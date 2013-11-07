@@ -4,124 +4,192 @@
 void testApp::setup(){
     
 	receiver.setup(PORT);
-    
-    post.init(ofGetWidth(), ofGetHeight());
-    post.createPass<VerticalTiltShifPass>();
-    //post.createPass<DofPass>();
-    post.createPass<GodRaysPass>();
-    post.createPass<FxaaPass>();
-    post.createPass<BloomPass>();
-    
-    
-  
-    
-	ofBackground(0,0,20);
+//	ofBackground(0,0,20);
     ofEnableAlphaBlending();
-    //ofEnableDepthTest();
-    ofSetSphereResolution(24);
-    
-    
-    ofSetSmoothLighting(true);
-    pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
-    pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-
-    material.setShininess( 120 );
-    material.setAmbientColor(ofColor((255,0,127)));
-    // the light highlight of the material //
-	material.setSpecularColor(ofColor(255, 0, 255, 255));
-
-    jitter = 3;
+    composition.setup();
+    ofSetFrameRate(60);
+    mastercam.setPosition(-ofGetWidth()/2,0,-8000);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
 
     GetOSC();
-    
-    pos.x = ofNoise(ofGetElapsedTimef()/10);
-    pos.y = ofNoise(ofGetElapsedTimef()/10+1000)+ofGetElapsedTimef()/10;
-    pos.z = ofNoise(ofGetElapsedTimef()/10-1000);
-    pos = pos*1000;
-    
-    tmp = pos;
-    
-//    Channel01_Attack = 0.1*Channel01_Attack + 0.9*lastChannel01_Attack;
-    
-
-    
-    tmp.x = tmp.x + sin(ofGetElapsedTimef())*100; //+ Channel01_Attack*100;
-    tmp.z = tmp.z + cos(ofGetElapsedTimef())*100;// + Channel01_Attack*-100;
-    //tmp.y = tmp.y + Channel01_Attack*100;
-    
-    
-    //cam.roll( ofRadToDeg(sin(ofGetElapsedTimef()/10)*TWO_PI));
-     cam.lookAt(tmp);
-
-
-    tmp.x = tmp.x + cos(ofGetElapsedTimef())*Channel01_Attack*50;
-    tmp.y = tmp.y + sin(ofGetElapsedTimef())*Channel01_Attack*50;
-    
-    PosList.push_back(tmp);
-   
-    
-    if (PosList.size()>2000) {
-        PosList.erase(PosList.begin());
-    }
-    
-    ofVec3f xenoed = pos*0.01 + lastpos*0.99;
-    
-    cam.setPosition(xenoed.x, xenoed.y, xenoed.z);
-    
-   
-   // cam.setPosition(xenoed+200);
-   
-    
-    lastpos = xenoed;
-    lastChannel01_Attack = Channel01_Attack;
-    
-    pointLight.setPosition(pos);
-
+    composition.update();
 }
 
 
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    AudioDebug();
-    
-    post.begin(cam);
-    ofEnableLighting();
-    pointLight.enable();
-    
-    
-	material.begin();
-    //cam.begin();
-    
-    ofSetColor(ofRandom(255),ofRandom(255),ofRandom(10)*(Channel01_Pitch/10));
-    ofSetLineWidth(10);
-    ofPolyline P;
-    P.clear();
-    
-    for( vector<ofVec3f>::iterator it=PosList.begin(); it!=PosList.end(); it++ ){
-        
-        P.addVertex( it->x, it->y, it->z );
-        
-    }
-    P.draw();
-    for(int i=0; i<20; i++){
-        ofTranslate(ofRandom(-jitter,jitter),ofRandom(-jitter,jitter),ofRandom(-jitter,jitter));
-        P.draw();
-    }
-    //cam.end();
-    post.end();
-    
-    //ofDrawBitmapString(ofToString(post. ), 20,20);
+//    AudioDebug();
+//    mastercam.begin();
+    composition.draw();
+//    mastercam.end();
 }
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
+    // Track 1
     
-
+    if(key == '1'){
+        composition.camstart = composition.cam.getGlobalPosition();
+        composition.track = 1;
+        composition.status = 1;
+        composition.g.flickering = false;
+        composition.vines.clear();
+        for(int i=0;i<30;i++){
+            Vine v;
+            composition.vines.push_back(v);
+        }
+    }
+    if(key == '2'){
+        composition.track = 1;
+        composition.status = 2;
+        composition.g.flickering = false;
+    }
+    if(key == '3'){
+        composition.track = 1;
+        composition.status = 3;
+        composition.g.flickering = true;
+    }
+    if(key == '4'){
+        composition.track = 1;
+        composition.status = 4;
+        composition.g.flickering = false;
+    }
+    
+    // Track 2
+    
+    if(key == 'q'){
+        composition.track = 2;
+        composition.status = 1;
+        composition.line1.PosList.clear();
+        composition.line2.PosList.clear();
+        composition.line1.separate = false;
+        composition.line2.separate = false;
+        composition.line1.rage = true;
+        composition.line2.rage = true;
+        composition.started = ofGetElapsedTimef();
+        composition.vines.clear();
+        for(int i=0;i<30;i++){
+            Vine v;
+            composition.vines.push_back(v);
+        }
+    }
+    if(key == 'w'){
+        composition.track = 2;
+        composition.status = 2;
+        composition.line1.separate = false;
+        composition.line2.separate = false;
+        composition.line1.rage = true;
+        composition.line2.rage = true;
+    }
+    if(key == 'e'){
+        composition.track = 2;
+        composition.status = 3;
+        composition.started = ofGetElapsedTimef();
+        composition.line1.separate = true;
+        composition.line2.separate = true;
+        composition.line1.rage = true;
+        composition.line2.rage = true;
+        composition.line1.floatList = composition.line1.PosList;
+        composition.line2.floatList = composition.line2.PosList;
+    }
+    if(key == 'r'){
+        composition.track = 2;
+        composition.status = 4;
+        composition.started = ofGetElapsedTimef();
+        composition.line1.explodeList.clear();
+        composition.line2.explodeList.clear();
+        composition.line1.separate = true;
+        composition.line2.separate = true;
+        composition.line1.rage = false;
+        composition.line2.rage = false;
+        composition.line1.explodeList = composition.line1.PosList;
+        composition.line2.explodeList = composition.line2.PosList;
+    }
+    if(key == 't'){
+        composition.track = 2;
+        composition.status = 5;
+    }
+    
+    if(key == 'y'){
+        composition.track = 2;
+        composition.status = 6;
+    }
+    
+    // Track 3
+    
+    if(key == 'a'){
+        composition.track = 3;
+        composition.status = 1;
+    }
+    if(key == 's'){
+        composition.track = 3;
+        composition.status = 2;
+    }
+    if(key == 'd'){
+        composition.track = 3;
+        composition.status = 3;
+    }
+    if(key == 'f'){
+        composition.track = 3;
+        composition.status = 4;
+    }
+    if(key == 'g'){
+        composition.track = 3;
+        composition.status = 5;
+    }
+    if(key == 'h'){
+        composition.track = 3;
+        composition.status = 6;
+    }
+    if(key == 'j'){
+        composition.track = 3;
+        composition.status = 7;
+    }
+    if(key == 'k'){
+        composition.track = 3;
+        composition.status = 8;
+    }
+    
+    // Track 4
+    
+    if(key == 'z'){
+        composition.track = 4;
+        composition.status = 1;
+    }
+    if(key == 'x'){
+        composition.track = 4;
+        composition.status = 2;
+    }
+    if(key == 'c'){
+        composition.track = 4;
+        composition.status = 3;
+    }
+    if(key == 'v'){
+        composition.track = 4;
+        composition.status = 4;
+    }
+    
+    if(key=='u'){
+        composition.g.U();
+    }
+    
+    if(key=='i'){
+        composition.g.I();
+    }
+    
+    if(key=='o'){
+        composition.g.O();
+    }
+    
+    if(key=='p'){
+        composition.g.P();
+    }
+    
+    
 }
 
 //--------------------------------------------------------------
@@ -183,6 +251,14 @@ void testApp::GetOSC(){
             Channel02_Attack = m.getArgAsFloat(2);
             Channel02_Amplitude = m.getArgAsFloat(0);
         }
+        
+        composition.amp01 = Channel01_Amplitude;
+        composition.amp02 = Channel02_Amplitude;
+        composition.pitch01 = Channel01_Pitch;
+        composition.pitch02 = Channel02_Pitch;
+        composition.attack01 = Channel01_Attack;
+        composition.attack02 = Channel02_Attack;
+        
         
         if(m.getAddress()=="/Channel01/FFT"){
             

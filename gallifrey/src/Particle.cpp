@@ -14,6 +14,7 @@ Particle::Particle() {
     age = 0;
     life = 0;
     transparency = 255;
+    consigned=false;
     
 }
 
@@ -177,7 +178,7 @@ void Particle::applyBounds(){
 
 bool Particle::dead() {
     
-    if (life!=0){
+    if (life>0){
         if(age >= life) {
             return true;
         }
@@ -189,6 +190,9 @@ bool Particle::dead() {
             pos.y<-initSize/2){
         return true;
     }
+    
+    if(consigned) return true;
+    
     else return false;
 }
 
@@ -204,5 +208,6 @@ void Particle::update() {
 
 void Particle::draw() {
     ofSetColor(c, transparency);
+    ofFill();
     ofCircle(pos.x, pos.y, size);
 }

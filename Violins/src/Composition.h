@@ -9,6 +9,10 @@
 #pragma once
 
 #include "ofMain.h"
+#include "DancingLine.h"
+#include "Dart.h"
+#include "Vine.h"
+#include "Gallifrey.h"
 
 class Composition {
     
@@ -17,30 +21,28 @@ public:
     void update();
     void draw();
     
-    void track1Order();
-    void track1Chaos();
-    void track1Join();
+    int track, status;
+    DancingLine line1, line2;
     
-    void track2Line();
-    void track2SmallLines();
-    void track2Order();
-    void track2KillLine();
-    void track2LineCorpseOrder();
+    float pitch01, pitch02, attack01, attack02, amp01, amp02;
     
-    void track3Main();
-    void track3Secondary();
-    void track3ColorChange();
-    void track3Implosion();
-    void track3Main2();
-    void track3Solo();
-    void track3Secondary2();
-    void track3Solo2();
-    void track3Burst();
-    void track3Implosion2();
+    double started;
+    vector<Dart> darts;
+    vector<Vine> vines;
+    Gallifrey g;
     
-    void track4Pattern1();
-    void track4Pattern2();
-    void track4Pattern3();
-    void track4Finale();
+    vector<ofVec3f> PosList, floatList, explodeList;
+    ofEasyCam cam;
+    ofVec3f pos, tmp, lastpos, camstart;
+    float lastChannel01_Attack;
+    float lastChannel01_Amplitude;
     
+    ofxPostProcessing post;
+    ofMaterial material;
+    ofLight pointLight, pointLight2, pointLight3;
+    
+    void stationary();
+    void moving();
+    void transition();
+
 };

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "ofMain.h"
-#include "pointMapper.h"
 #include "rectangle.h"
 #include "Particle.h"
 
@@ -24,12 +23,14 @@ class testApp : public ofBaseApp{
 		void gotMessage(ofMessage msg);
         void addParticle();
     
+    bool storm;
+    
     circle myCircle;
-    Mapper myMap;
     
-    float snowStart;
+    bool snow = false;
+    bool vac = false;
     
-    vector<ofVec2f> cirList;
+    vector<circle> cirList;
     vector<Particle> particleList;
     
     
