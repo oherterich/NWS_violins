@@ -45,6 +45,9 @@ void Composition::setup(){
 
 void Composition::update(){
     if(track == 1){
+        pointLight.setSpotlight(800.0, 200.0);
+        pointLight2.setSpotlight(1200.0, 200.0);
+        material.setShininess( 500 );
         cam.resetTransform();
         cam.setPosition(652, 384, 650);
         if(status == 1){
@@ -64,6 +67,9 @@ void Composition::update(){
         }
     } else if (track == 2){
         ofPushMatrix();
+        pointLight.setSpotlight(800.0, 2.0);
+        pointLight2.setSpotlight(1000.0, 0.2);
+        material.setShininess( 200 );
         if(status == 1){
             line1.update(attack01*2, started);
             line2.update(attack02, started);
@@ -88,7 +94,7 @@ void Composition::update(){
             
         }
         ofVec3f xenoed = line1.pos*0.001 + line1.lastpos*0.999;
-        cam.lookAt(line1.tmp);
+        cam.lookAt(line1.flat);
         cam.setPosition(xenoed.x+400, xenoed.y+400, xenoed.z+400);
         ofPopMatrix();
     } else if (track == 3){

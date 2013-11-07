@@ -35,4 +35,5 @@ public:
     double started;
     vector<LinePiece> pieces;
     ofColor c, lastc;
+    ofVec2f flat;
 };

@@ -13,39 +13,16 @@ Gallifrey::Gallifrey(){
     ofSetCircleResolution(1000);
     ofEnableSmoothing();
     ofEnableAlphaBlending();
-    
     ofBackground(0);
-    
+    w = ofGetWidth()/2;
+    h = ofGetHeight()/2;
     circle p;
     p.addCircle(250);
-    p.pos.x=ofGetWidth()/2;
-    p.pos.y=ofGetHeight()/2;
+    p.pos.x=w;
+    p.pos.y=h;
     p.pRad = 0;
     cirList.push_back(p);
     flickering = false;
-    post.init(ofGetWidth(), ofGetHeight());
-    post.createPass<RimHighlightingPass>();
-    post.createPass<VerticalTiltShifPass>();
-    post.createPass<GodRaysPass>();
-    //    post.createPass<ContrastPass>();
-    
-    post.createPass<FxaaPass>();
-    //    post.createPass<BloomPass>();
-    //    post.createPass<SSAOPass>();
-    
-    ofSetSphereResolution(24);
-    ofSetSmoothLighting(true);
-    pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
-    pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    pointLight.setSpotlight(800.0, 2.0);
-    pointLight2.setDiffuseColor( ofFloatColor(.85, .85, .55) );
-    pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
-    pointLight2.setSpotlight(1000.0, 2.0);
-    material.setShininess( 200 );
-    material.setAmbientColor(ofColor((255)));
-    // the light highlight of the material //
-	material.setSpecularColor(ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
-    cam.setPosition(0,0,4000);
 }
 
 void Gallifrey::addParticle() {
@@ -53,7 +30,7 @@ void Gallifrey::addParticle() {
     
     double ax = ofRandom(TWO_PI);
     
-    tmp.setParams(250*cos(ax)+ofGetWidth()/2, 250*sin(ax)+ofGetHeight()/2, 0, 0, 1.5);
+    tmp.setParams(250*cos(ax)+w, 250*sin(ax)+h, 0, 0, 1.5);
     
     tmp.life = 75;
     
@@ -62,22 +39,22 @@ void Gallifrey::addParticle() {
 
 //--------------------------------------------------------------
 void Gallifrey::update(){
-    
+
     for (vector<Particle>::iterator it = particleList.begin(); it != particleList.end();it++) {
         
         //  it->addNoise(ofMap(it->pos.y, ofGetHeight()+1+it->initSize/2, 0, 0, .3));
         
         
         if(storm){
-            it->addClockwiseForce(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2, .1);
-            it->addAttractionForce(ofGetWidth()/2, ofGetHeight()/2, ofGetWidth()/2,
-                                   ofMap(ofDist(it->pos.x, it->pos.y, ofGetWidth()/2,ofGetHeight()/2), ofGetWidth()/2, 0, .3,.1));
+            it->addClockwiseForce(w, h, w, .1);
+            it->addAttractionForce(w, h, w,
+                                   ofMap(ofDist(it->pos.x, it->pos.y, w,h), w, 0, .3,.1));
             
-            if(ofDist(it->pos.x, it->pos.y, ofGetWidth()/2, ofGetHeight()/2)>250){
-                it->pos-=ofVec2f(ofGetWidth()/2, ofGetHeight()/2).normalized()*2*it->vel;
+            if(ofDist(it->pos.x, it->pos.y, w, h)>250){
+                it->pos-=ofVec2f(w, h).normalized()*2*it->vel;
             }
             
-            if(ofDist(it->pos.x, it->pos.y, ofGetWidth()/2,ofGetHeight()/2)<50){
+            if(ofDist(it->pos.x, it->pos.y, w,h)<50){
                 it->consigned=true;
             }
             
@@ -100,11 +77,6 @@ void Gallifrey::update(){
 
 //--------------------------------------------------------------
 void Gallifrey::draw(){
-    post.begin();
-    ofEnableLighting();
-    pointLight.enable();
-    pointLight2.enable();
-	material.begin();
     ofPushStyle();
     if(flickering == true){
         ofSetCircleResolution((int)ofRandom(10));
@@ -129,15 +101,9 @@ void Gallifrey::draw(){
         // }
     }
     ofPopStyle();
-    post.end();
 }
 
 void Gallifrey::drawLines(){
-    post.begin();
-    ofEnableLighting();
-    pointLight.enable();
-    pointLight2.enable();
-	material.begin();
     ofPushStyle();
     if(flickering == true){
         ofSetCircleResolution((int)ofRandom(10));
@@ -162,7 +128,6 @@ void Gallifrey::drawLines(){
         // }
     }
     ofPopStyle();
-    post.end();
 }
 
 void Gallifrey::U(){
