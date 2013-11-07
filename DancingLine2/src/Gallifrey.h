@@ -24,6 +24,7 @@ public:
     void I();
     void O();
     void P();
+    void H();
     
     bool storm;
     
