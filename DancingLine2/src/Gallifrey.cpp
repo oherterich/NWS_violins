@@ -23,6 +23,7 @@ Gallifrey::Gallifrey(){
     p.pRad = 0;
     cirList.push_back(p);
     flickering = false;
+//    startR=350;
 }
 
 void Gallifrey::addParticle() {
@@ -191,8 +192,15 @@ void Gallifrey::I(){
 }
 
 void Gallifrey::O(){
-    cirList[3].falling=true;
-
+    float thresh[cirList.size()];
+    for(int i=1; i<cirList.size();i++){
+        thresh[i]=ofRandom(ofGetHeight()/2)+ofGetHeight()/2;
+    }
+    
+    for(int i=1; i<cirList.size();i++){
+        if(i==cirList.size()) break;
+        else if(cirList[i].pos.y >= thresh[i]) cirList[i+1].falling=true;
+    }
 }
 
 void Gallifrey::P(){

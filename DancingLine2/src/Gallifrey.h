@@ -47,5 +47,7 @@ public:
     float w,h;
     ofColor newc, lastc, c;
     void clearCircles();
+    
+ //   float startR;
 };
 

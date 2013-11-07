@@ -12,7 +12,7 @@ circle::circle(){
     disp=ofRandom(-.1f, .1f);
     fSpeed=ofRandom(.75, 2);
     vel=0;
-    grav= .8f;
+    grav= .5f;
     
     falling=false;
     
@@ -94,8 +94,8 @@ void circle::fall(){
     pos.y+=vel;
     vel+=grav;
         
-        if(pos.y>=ofGetHeight()+rad){
-            vel*=-.9;
+        if(pos.y>=ofGetHeight()-rad){
+            vel*=-.4;
         }
         
     }
