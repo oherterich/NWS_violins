@@ -62,6 +62,7 @@ void testApp::keyPressed(int key){
     // Track 2
     
     if(key == 'q'){
+        composition.g.clearCircles();
         composition.track = 2;
         composition.status = 1;
         composition.line1.PosList.clear();
@@ -97,6 +98,7 @@ void testApp::keyPressed(int key){
         composition.line2.floatList = composition.line2.PosList;
     }
     if(key == 'r'){
+        composition.g.clearCircles();
         composition.track = 2;
         composition.status = 4;
         composition.started = ofGetElapsedTimef();
@@ -109,78 +111,72 @@ void testApp::keyPressed(int key){
         composition.line1.explodeList = composition.line1.PosList;
         composition.line2.explodeList = composition.line2.PosList;
     }
-    if(key == 't'){
-        composition.track = 2;
-        composition.status = 5;
-    }
-    
-    if(key == 'y'){
-        composition.track = 2;
-        composition.status = 6;
-    }
-    
     if(key == 'a'){
         composition.track = 2;
-        composition.status = 7;
+        composition.status = 5;
     }
+    
     if(key == 's'){
+        composition.track = 2;
+        composition.status = 6;
+    }
+    
+    if(key == 'd'){
+        composition.g.clearCircles();
+        composition.track = 2;
+        composition.status = 9;
+        composition.line1.explodeList.clear();
+        composition.line2.explodeList.clear();
+        composition.line1.separate = true;
+        composition.line2.separate = true;
+        composition.line1.rage = false;
+        composition.line2.rage = false;
+        composition.line1.explodeList = composition.line1.PosList;
+        composition.line2.explodeList = composition.line2.PosList;
+    }
+    
+    if(key == 'z'){
+        composition.g.clearCircles();
+        composition.track = 2;
+        composition.status = 7;
+        composition.g.clearCircles();
+
+    }
+    if(key == 'x'){
         composition.track = 2;
         composition.status = 8;
     }
     
-    // Track 3
-    
-
-
-    if(key == 'd'){
-        composition.track = 3;
-        composition.status = 3;
+    if(key == '/'){
+        composition.dartson = !composition.dartson;
     }
+    
+    
+    
     if(key == 'f'){
-        composition.track = 3;
-        composition.status = 4;
     }
+    
     if(key == 'g'){
-        composition.track = 3;
-        composition.status = 5;
     }
+    
     if(key == 'h'){
-        composition.track = 3;
-        composition.status = 6;
-    }
-    if(key == 'j'){
-        composition.track = 3;
-        composition.status = 7;
-    }
-    if(key == 'k'){
-        composition.track = 3;
-        composition.status = 8;
     }
     
-    // Track 4
     
-    if(key == 'z'){
-        composition.track = 4;
-        composition.status = 1;
-    }
-    if(key == 'x'){
-        composition.track = 4;
-        composition.status = 2;
-    }
+    
     if(key == 'c'){
-        composition.track = 4;
-        composition.status = 3;
-    }
-    if(key == 'v'){
-        composition.track = 4;
-        composition.status = 4;
     }
     
-    if(key=='u'){
+    if(key == 'v'){
+    }
+    
+
+    
+    if(key == 'u'){
         composition.g.U();
     }
     
-    if(key=='i'){
+    if(key == 'i'){
         composition.g.I();
     }
     
@@ -191,11 +187,15 @@ void testApp::keyPressed(int key){
     if(key=='p'){
         composition.g.P();
     }
-    if(key=='h'){
-        composition.g.H();
+    
+    
+    
+    if(key=='j'){
     }
-    
-    
+    if(key=='k'){
+    }
+    if(key=='l'){
+    }
 }
 
 //--------------------------------------------------------------

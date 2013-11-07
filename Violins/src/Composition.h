@@ -48,4 +48,6 @@ public:
     void fadeLightOut();
     void fadeLightUp(float val);
     ofVec2f light1, light2;
+    bool dartson;
+
 };

@@ -93,7 +93,7 @@ void DancingLine::draw(float pitch){
                     } else {
                         float r = ofRandom(10.0);
                         if(r>9.97){
-                            it->x = 0;
+                            it->x = -2000;
                             it->y = 0;
                             it->z = 0;
                         }

@@ -61,8 +61,6 @@ void circle::update(){
         sDisp+=((disp*mod)-sDisp)/150;
         if(stopped) mod+=.003;
     }
-    
-    
 }
 
 void circle::move(){
