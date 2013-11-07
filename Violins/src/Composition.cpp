@@ -69,6 +69,7 @@ void Composition::update(){
             g.update();
         }
     } else if (track == 2){
+        g.clearCircles();
         ofPushMatrix();
         pointLight.setPosition(line1.pos);
         pointLight2.setPosition(line2.pos);
