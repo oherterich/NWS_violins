@@ -4,6 +4,7 @@
 #include "ofxOsc.h"
 #include "ofxPostProcessing.h"
 #include "Composition.h"
+#include "ofxSyphon.h"
 
 // listen on port 12345
 #define PORT 12345
