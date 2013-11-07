@@ -35,7 +35,7 @@ void circle::drawCircle(){
     ofPushStyle();
     ofNoFill();
     ofSetLineWidth(10);
-    ofSetColor(c, t);
+//    ofSetColor(c, t);
     ofCircle(pos.x, pos.y, rad);
     ofPopStyle();
 }

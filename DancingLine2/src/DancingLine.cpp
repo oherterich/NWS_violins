@@ -60,10 +60,6 @@ void DancingLine::update(float attack, double start){
     
     lastpos = xenoed;
     lastChannel01_Attack = attack;
-    
-    pointLight.setPosition(pos);
-    pointLight2.setPosition(pos+200);
-
 
 }
 

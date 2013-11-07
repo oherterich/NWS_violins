@@ -47,6 +47,8 @@ void Composition::update(){
     if(track == 1){
         pointLight.setSpotlight(800.0, 200.0);
         pointLight2.setSpotlight(1200.0, 200.0);
+        pointLight.setPosition(g.myCircle.pos);
+        pointLight2.setPosition(g.myCircle.pos+200);
         material.setShininess( 500 );
         cam.resetTransform();
         cam.setPosition(652, 384, 650);
@@ -67,6 +69,8 @@ void Composition::update(){
         }
     } else if (track == 2){
         ofPushMatrix();
+        pointLight.setPosition(line1.pos);
+        pointLight2.setPosition(line2.pos);
         pointLight.setSpotlight(800.0, 2.0);
         pointLight2.setSpotlight(1000.0, 0.2);
         material.setShininess( 200 );
@@ -126,14 +130,14 @@ void Composition::draw(){
 	material.begin();
     if(track == 1){
         if(status == 1){
-            g.draw();
+            g.draw(pitch01*2,pitch02);
         } else if (status == 2){
-            g.draw();
+            g.draw(pitch01*2,pitch02);
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw();
             }
         } else if (status == 3){
-            g.draw();
+            g.draw(pitch01*2, pitch02);
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw();
             }
