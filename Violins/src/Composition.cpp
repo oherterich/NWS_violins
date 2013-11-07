@@ -278,6 +278,7 @@ void Composition::fadeLightOut(){
         light1.set(light1.x, (.79) * light1.y);
         if( light1.y < 0.01){
             light1.set(light1.x,0);
+            ofLog()<<"Arf";
         }
 //        pos.x = ;
 //        pos.y = .15 * ((pRad*sin(angle))+ofGetHeight()/2) + (1-.15) * pos.y;
@@ -287,6 +288,7 @@ void Composition::fadeLightOut(){
         light2.set(light2.x, (.79) * light2.y);
         if(light2.y < 0.01){
             light2.set(light2.x,0);
+            ofLog()<<"Bark";
         }
 
     }

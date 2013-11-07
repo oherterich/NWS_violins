@@ -59,7 +59,6 @@ void circle::update(){
             }
         }
     }else if(!slowToStop && abs(sDisp)<abs(disp*mod)){
-        ofLog()<<"Arf";
         sDisp+=((disp*mod)-sDisp)/150;
         if(stopped) mod+=.003;
     }
