@@ -38,7 +38,7 @@ void DancingLine::update(float attack, double start){
     tmp.z = tmp.z + cos(ofGetElapsedTimef()-start)*100;// + Channel01_Attack*-100;
     //tmp.y = tmp.y + Channel01_Attack*100;
     
-    
+    flat = tmp;
     //cam.roll( ofRadToDeg(sin(ofGetElapsedTimef()/10)*TWO_PI));
     
     tmp.x = tmp.x + cos(ofGetElapsedTimef()-start)*attack*ofRandom(30,80);

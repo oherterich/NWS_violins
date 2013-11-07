@@ -43,5 +43,7 @@ public:
     ofxPostProcessing post;
     ofMaterial material;
     ofLight pointLight, pointLight2, pointLight3;
+    
+    float w,h;
 };
 
