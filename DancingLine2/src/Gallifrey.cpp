@@ -76,7 +76,7 @@ void Gallifrey::update(){
 }
 
 //--------------------------------------------------------------
-void Gallifrey::draw(){
+void Gallifrey::draw(float pitch1, float pitch2){
     ofPushStyle();
     if(flickering == true){
         ofSetCircleResolution((int)ofRandom(10));
@@ -88,7 +88,20 @@ void Gallifrey::draw(){
     ofNoFill();
     ofSetColor(255, 255, 255, 255);
     for (int i = 0; i<cirList.size(); i++) {
-        
+        float pitch;
+        if(i==0){
+            pitch = pitch1;
+        } else {
+            pitch = pitch2;
+        }
+        ofColor newc = ofColor(255,0,0);
+        newc.setHue(ofClamp(ofMap(pitch,0,3000,0,255),0,255));
+        c=lastc;
+        c.lerp(newc, 50);
+        lastc = newc;
+        // c = ofColor(ofClamp(ofMap(pitch,0,3000,0,255),0,255),ofClamp(ofMap(pitch,0,3000,0,255),0,255),ofClamp(ofMap(pitch,0,3000,0,255),0,255));
+        cout<<ofToString(i) + " " + ofToString(ofClamp(ofMap(pitch,0,3000,0,255),0,255))<<endl;
+        ofSetColor(newc);
         cirList[i].drawCircle();
         cirList[i].update();
         cirList[i].move();

@@ -16,7 +16,7 @@ class Gallifrey {
 public:
     Gallifrey();
     void update();
-    void draw();
+    void draw(float pitch1, float pitch2);
     void drawLines();
     void addParticle();
     
@@ -45,5 +45,6 @@ public:
     ofLight pointLight, pointLight2, pointLight3;
     
     float w,h;
+    ofColor newc, lastc, c;
 };
 
