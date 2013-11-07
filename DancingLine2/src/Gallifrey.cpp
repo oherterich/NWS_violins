@@ -192,7 +192,7 @@ void Gallifrey::I(){
 }
 
 void Gallifrey::O(){
-    cirList[5].fall();
+    cirList[3].falling=true;
 
 }
 
