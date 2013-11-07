@@ -22,7 +22,7 @@ void testApp::setup(){
     green.loadImage("white-small.png");
     blue.loadImage("white.png");
 
-    ofEnableBlendMode(OF_BLENDMODE_ADD);
+    
 
     moveCenter.set(300,300);
     blueRepulsionStr = 10.f;

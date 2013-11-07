@@ -1,0 +1,184 @@
+BillboardParticle::BillboardParticle(){
+    
+  //  LineWidth = 10;
+    
+    
+}
+
+
+void BillboardParticle::setup(){
+    
+    billboards.setUsage( GL_DYNAMIC_DRAW );
+	billboards.setMode(OF_PRIMITIVE_POINTS);
+	billboards.getVertices();
+	
+	// load the bilboard shader
+	// this is used to change the
+	// size of the particle
+	if(ofGetGLProgrammableRenderer()){
+		billboardShader.load("shadersGL3/Billboard");
+	}else{
+		billboardShader.load("shadersGL2/Billboard");
+	}
+	
+	// we need to disable ARB textures in order to use normalized texcoords
+	ofDisableArbTex();
+	
+    
+    CurrentColor = ofColor(255,0,127);
+    
+    
+}
+
+
+void BillboardParticle::addParticle(ofVec3f pos){
+    
+    Particle tmp;
+    tmp.pos = pos;
+    tmp.vel.set(0);
+    tmp.bornTime = ofGetElapsedTimef();
+    tmp.NormRenderSize = 5;
+    
+    
+    billboards.getVertices().push_back(tmp.pos);
+    ofColor tmpColor;
+    tmpColor.setHsb(CurrentColor.getHue()*ofRandom(0.95, 1), CurrentColor.getSaturation(), CurrentColor.getBrightness());
+    billboards.getColors().push_back(tmpColor);
+    billboards.getNormals().push_back(ofVec3f(tmp.NormRenderSize,0,0));
+    
+    PartList.push_back(tmp);
+}
+
+
+void BillboardParticle::update(){
+
+    // making sure than the mesh for billboarding stays in size
+    
+    while (PartList.size() < billboards.getVertices().size()) {
+        
+        billboards.getVertices().erase(billboards.getVertices().begin());
+        billboards.getColors().erase(billboards.getColors().begin());
+        billboards.getNormals().erase(billboards.getNormals().begin());
+        
+    }
+    
+    
+    
+     for (int i = 0; i< PartList.size(); i++) {
+         billboards.getVertices()[i].set(PartList[i].pos);
+         billboards.getNormals()[i].set(ofVec3f(PartList[i].CurrentRenderSize,0,0));
+     }
+    
+}
+
+
+
+void BillboardParticle::updateLife(){
+    
+    for( vector<Particle>::iterator it=PartList.begin(); it!=PartList.end(); it++ ){
+        
+        it->update();
+        if( it->CheckLife() == true){
+            it->bornTime = ofGetElapsedTimef();
+            it->pos.set(ofRandom(-boxSize, boxSize),
+                        ofRandom(-boxSize, boxSize),
+                        ofRandom(-boxSize, boxSize));
+            it->pos = it->pos+pos;
+            
+            it->vel.set(ofRandomf(),
+                        ofRandomf(),
+                        ofRandomf());
+            it->vel = it->vel*0.2;
+        }
+        it->SizeOverLife();
+    }
+
+    
+}
+
+
+
+void BillboardParticle::setupRandom(){
+    
+    for (int i = 0; i< Size; i++) {
+        
+    
+    Particle tmp;
+    tmp.pos.set(ofRandom(-boxSize, boxSize),
+                  ofRandom(-boxSize, boxSize),
+                  ofRandom(-boxSize, boxSize));
+        
+        tmp.vel.set(ofRandomf(),
+                    ofRandomf(),
+                    ofRandomf());
+        tmp.vel = tmp.vel*0.2;
+   
+        tmp.bornTime = ofGetElapsedTimef();
+        
+    billboards.getVertices().push_back(tmp.pos);
+   
+    ofColor tmpColor;
+    tmpColor.setHsb(CurrentColor.getHue()*ofRandom(0.95, 1), CurrentColor.getSaturation(), CurrentColor.getBrightness());
+    billboards.getColors().push_back(tmpColor);
+    billboards.getNormals().push_back(ofVec3f(tmp.NormRenderSize,0,0));
+        
+    PartList.push_back(tmp);
+    
+    }
+    
+    
+    
+}
+
+void BillboardParticle::setSize(int PartSize, int PartTrail){
+    
+    Size = PartSize;
+    Trail = PartTrail;
+    
+    // in case were making it smaller.
+    
+    while (Size < PartList.size()) {
+        PartList.erase(PartList.begin());
+    }
+    
+}
+
+void BillboardParticle::setRenderSize(int RenderSize){
+    for( vector<Particle>::iterator it=PartList.begin(); it!=PartList.end(); it++ ){
+        
+        it->NormRenderSize = RenderSize;
+    }
+    
+}
+
+void BillboardParticle::setLife(int life){
+    
+    for( vector<Particle>::iterator it=PartList.begin(); it!=PartList.end(); it++ ){
+        
+        it->life = life*ofRandom(0.3,1);
+    }
+    
+    
+}
+
+
+void BillboardParticle::drawBillBoards(){
+    
+   
+    
+}
+
+
+void BillboardParticle::drawLine(){
+    ofSetColor(CurrentColor);
+    ofSetLineWidth(LineWidth);
+    P.clear();
+    
+    for( vector<Particle>::iterator it=PartList.begin(); it!=PartList.end(); it++ ){
+        
+        P.addVertex( it->pos.x, it->pos.y, it->pos.z );
+        
+    }
+    P.draw();
+
+//}
