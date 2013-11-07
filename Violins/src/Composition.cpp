@@ -15,6 +15,7 @@ void Composition::setup(){
     status = 0;
     for(int i=0;i<30;i++){
         Dart d;
+        d.pos = ofVec3f(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()), ofRandom(ofGetWidth()));
         darts.push_back(d);
         Vine v;
         vines.push_back(v);
@@ -116,13 +117,13 @@ void Composition::update(){
         } else if (status == 2){
             for(int i=0; i<darts.size(); i++){
                 darts[i].state = 0;
-                darts[i].pos = line1.pos;
+                darts[i].pos = darts[i].pos * 0.995 + line1.pos * 0.005;
                 darts[i].update();
             }
         } else if (status == 3){
             for(int i=0; i<darts.size(); i++){
                 darts[i].state = 1;
-                darts[i].pos = line1.pos;
+                darts[i].pos = darts[i].pos * 0.9 + ofVec3f(ofRandom(ofGetWidth()), ofRandom(ofGetHeight()), ofRandom(ofGetWidth()))*0.1;
                 darts[i].update();
             }
         } else if (status == 4){
@@ -138,12 +139,18 @@ void Composition::update(){
                 vines[i].update();
             }
         } else if (status == 6){
-            stationary(true);
+            stationary(false);
             g.update();
             for(int i=0; i<vines.size(); i++){
                 vines[i].update();
                 vines[i].wither();
             }
+        } else if (status == 7){
+            stationary(false);
+            g.update();
+        } else if (status == 8){
+            stationary(true);
+            g.update();
         }
 
         ofPopMatrix();
@@ -217,19 +224,23 @@ void Composition::draw(){
         } else if (status == 4){
             line1.draw(pitch01);
             line2.draw(pitch02);
-            g.drawLines(pitch01, pitch02);
+            g.draw(pitch01, pitch02, 1);
 //            line1.drawPiece();
 //            line2.drawPiece();
         } else if (status == 5){
-            g.drawLines(pitch01*2, pitch02);
+            g.draw(pitch01*2, pitch02, 1);
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw((pitch01+pitch02)/2);
             }
         } else if (status == 6){
-            g.drawLines(pitch01*2, pitch02);
+            g.draw(pitch01*2, pitch02, 1);
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw((pitch01+pitch02)/2);
             }
+        } else if (status == 7){
+            g.draw(pitch01*2, pitch02, 2);
+        } else if (status == 8){
+            g.draw(pitch01*2, pitch02, 2);
         }
         ofPopMatrix();
     }

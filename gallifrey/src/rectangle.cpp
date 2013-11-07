@@ -141,3 +141,15 @@ void circle::drawLines(){
         ofLine(pos.x+ofRandom(-jitter, jitter)-rad, pos.y+ofRandom(-jitter, jitter), ofRandom(-100,100), pos.x+ofRandom(-jitter, jitter)+(rad), pos.y+ofRandom(-jitter, jitter), ofRandom(-100,100));
     }
 }
+
+void circle::drawCircles(){
+    ofNoFill();
+    //    ofSetColor(c, t);
+    //    ofCircle(pos.x, pos.y, rad);
+    ofSetLineWidth(10);
+    for(int i=0; i<10; i++){
+        float jitter = 10.0;
+        // use mesh here
+        ofEllipse(pos.x+ofRandom(-jitter, jitter), pos.y+ofRandom(-jitter, jitter), ofRandom(-100,100), rad+ofRandom(-jitter, jitter), rad+ofRandom(-jitter, jitter));
+    }
+}

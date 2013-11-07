@@ -7,6 +7,7 @@ public:
     circle();
     void drawCircle();
     void drawLines();
+    void drawCircles();
     void move();
     void rota(float a);
     void update();

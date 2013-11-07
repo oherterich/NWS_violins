@@ -119,16 +119,19 @@ void testApp::keyPressed(int key){
         composition.status = 6;
     }
     
-    // Track 3
-    
     if(key == 'a'){
-        composition.track = 3;
-        composition.status = 1;
+        composition.track = 2;
+        composition.status = 7;
     }
     if(key == 's'){
-        composition.track = 3;
-        composition.status = 2;
+        composition.track = 2;
+        composition.status = 8;
     }
+    
+    // Track 3
+    
+
+
     if(key == 'd'){
         composition.track = 3;
         composition.status = 3;

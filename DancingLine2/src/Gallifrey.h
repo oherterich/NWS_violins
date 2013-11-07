@@ -16,8 +16,9 @@ class Gallifrey {
 public:
     Gallifrey();
     void update();
-    void draw(float pitch1, float pitch2);
+    void draw(float pitch1, float pitch2, int type=0);
     void drawLines(float pitch1, float pitch2);
+    void drawCircles(float pitch1, float pitch2);
     void addParticle();
     
     void U();
@@ -49,7 +50,6 @@ public:
     float w,h;
     ofColor newc, lastc, c;
     void clearCircles();
-    
  //   float startR;
 };
 
