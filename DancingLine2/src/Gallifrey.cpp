@@ -321,6 +321,7 @@ void Gallifrey::I(){
 
 void Gallifrey::O(){
 //    for(int i=1;i<cirList.size();i++){
+    chainFix=false;
     chainFall=!chainFall;
 //    }
 
@@ -331,6 +332,13 @@ void Gallifrey::P(){
     chainFix=!chainFix;
     
 //    vac=!vac;
+}
+
+void Gallifrey::H(){
+    
+    snow=!snow;
+    storm=!storm;
+    
 }
 
 

@@ -191,6 +191,9 @@ void testApp::keyPressed(int key){
     if(key=='p'){
         composition.g.P();
     }
+    if(key=='h'){
+        composition.g.H();
+    }
     
     
 }
