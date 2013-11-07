@@ -215,7 +215,8 @@ void Gallifrey::P(){
 }
 
 void Gallifrey::H(){
-    
+    chainFix=false;
+    chainFall=false;
     snow=!snow;
     storm=!storm;
     
