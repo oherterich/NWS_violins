@@ -23,9 +23,11 @@ public:
     void applyForce( ofVec2f force );
     void update();
     void wither();
+    void regen();
     void draw(float pitch);
     int state;
     vector<ofVec3f> ps;
     vector<float> rs;
     ofColor color;
+    bool alive;
 };

@@ -37,9 +37,10 @@ void testApp::keyPressed(int key){
         composition.track = 1;
         composition.status = 1;
         composition.g.flickering = false;
-        for(int i=0; i<composition.vines.size(); i++){
-            composition.vines[i].ps.clear();
-            composition.vines[i].rs.clear();
+        composition.vines.clear();
+        for(int i=0;i<30;i++){
+            Vine v;
+            composition.vines.push_back(v);
         }
     }
     if(key == '2'){
@@ -70,6 +71,11 @@ void testApp::keyPressed(int key){
         composition.line1.rage = true;
         composition.line2.rage = true;
         composition.started = ofGetElapsedTimef();
+        composition.vines.clear();
+        for(int i=0;i<30;i++){
+            Vine v;
+            composition.vines.push_back(v);
+        }
     }
     if(key == 'w'){
         composition.track = 2;
@@ -106,6 +112,11 @@ void testApp::keyPressed(int key){
     if(key == 't'){
         composition.track = 2;
         composition.status = 5;
+    }
+    
+    if(key == 'y'){
+        composition.track = 2;
+        composition.status = 6;
     }
     
     // Track 3

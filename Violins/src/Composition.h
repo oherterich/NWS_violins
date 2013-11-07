@@ -40,5 +40,9 @@ public:
     ofxPostProcessing post;
     ofMaterial material;
     ofLight pointLight, pointLight2, pointLight3;
+    
+    void stationary();
+    void moving();
+    void transition();
 
 };
