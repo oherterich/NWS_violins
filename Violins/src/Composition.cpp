@@ -52,6 +52,7 @@ void Composition::update(){
         material.setShininess( 500 );
         cam.resetTransform();
         cam.setPosition(652, 384, 650);
+        cam.roll(180);
         if(status == 1){
             g.update();
         } else if (status == 2){
