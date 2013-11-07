@@ -27,6 +27,12 @@ void Vine::applyForce(ofVec2f force){
     acc += (force / mass);
 }
 
+void Vine::wither(){
+    for(int i=0; i<ps.size(); i++){
+        rs[i] -= 0.1;
+    }
+}
+
 void Vine::update(){
     if(ps.size()>0){
         pos.x = ps[ps.size()-1].x;
