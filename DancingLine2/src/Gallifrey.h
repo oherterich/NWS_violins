@@ -31,6 +31,7 @@ public:
     
     bool snow = false;
     bool vac = false;
+    bool chainFall= false;
     
     vector<circle> cirList;
     vector<Particle> particleList;

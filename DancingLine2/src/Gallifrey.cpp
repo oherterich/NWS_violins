@@ -106,8 +106,19 @@ void Gallifrey::draw(float pitch1, float pitch2){
         cirList[i].update();
         cirList[i].move();
         
-    }
+}
     
+    if(chainFall){
+        float thresh[cirList.size()];
+        for(int i=1; i<cirList.size();i++){
+            thresh[i]=ofRandom(ofGetHeight()/2)+ofGetHeight()/2;
+        }
+        
+        for(int i=1; i<cirList.size();i++){
+        if(i==cirList.size()) break;
+        else if(cirList[i].pos.y >= thresh[i]) cirList[i+1].falling=true;
+        }
+    }
     if(snow){
         //    if(ofGetElapsedTimeMillis()%3==0 ){
         addParticle();
@@ -192,15 +203,10 @@ void Gallifrey::I(){
 }
 
 void Gallifrey::O(){
-    float thresh[cirList.size()];
-    for(int i=1; i<cirList.size();i++){
-        thresh[i]=ofRandom(ofGetHeight()/2)+ofGetHeight()/2;
-    }
-    
-    for(int i=1; i<cirList.size();i++){
-        if(i==cirList.size()) break;
-        else if(cirList[i].pos.y >= thresh[i]) cirList[i+1].falling=true;
-    }
+//    for(int i=1;i<cirList.size();i++){
+    chainFall=!chainFall;
+//    }
+
 }
 
 void Gallifrey::P(){
