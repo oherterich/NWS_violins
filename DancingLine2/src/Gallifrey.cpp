@@ -100,7 +100,6 @@ void Gallifrey::draw(float pitch1, float pitch2){
         c.lerp(newc, 50);
         lastc = newc;
         // c = ofColor(ofClamp(ofMap(pitch,0,3000,0,255),0,255),ofClamp(ofMap(pitch,0,3000,0,255),0,255),ofClamp(ofMap(pitch,0,3000,0,255),0,255));
-        cout<<ofToString(i) + " " + ofToString(ofClamp(ofMap(pitch,0,3000,0,255),0,255))<<endl;
         ofSetColor(newc);
         cirList[i].drawCircle();
         cirList[i].update();
@@ -198,4 +197,12 @@ void Gallifrey::O(){
 
 void Gallifrey::P(){
 //    vac=!vac;
+}
+
+
+void Gallifrey::clearCircles(){
+    for(int i=1;i<cirList.size();i++){
+        cirList.pop_back();
+    }
+    cout<<cirList.size()<<endl;
 }
