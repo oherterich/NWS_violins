@@ -222,6 +222,16 @@ void Gallifrey::H(){
     
 }
 
+void Gallifrey::K(){
+    fadeNow=true;
+    resetLights=false;
+}
+
+void Gallifrey::L(){
+    fadeNow=false;
+    resetLights=true;
+}
+
 
 void Gallifrey::clearCircles(){
     circle c;

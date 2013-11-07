@@ -102,6 +102,11 @@ void Composition::update(){
                 vines[i].update();
             }
         } else if (status == 4){
+            if(g.fadeNow) {stationary(true);}
+            if(g.resetLights){
+                pointLight.setSpotlight(1200.0, 200.0);
+                pointLight2.setSpotlight(1200.0, 200.0);
+            }
             g.update();
             for(int i=0; i<vines.size(); i++){
                 vines[i].update();
@@ -269,6 +274,10 @@ void Composition::draw(){
 void Composition::fadeLightOut(){
     if(light1.x>0){
         light1.set(light1.x-5, light1.y);
+        
+//        pos.x = (1-.15) * light1.x;
+//        pos.y = .15 * ((pRad*sin(angle))+ofGetHeight()/2) + (1-.15) * pos.y;
+
     }
     if(light2.x>0){
         light2.set(light2.x-5, light2.y);
@@ -285,9 +294,15 @@ void Composition::fadeLightOut(){
 }
 void Composition::fadeLightUp(float val){
     if(light1.x<val){
-        light1.y+=1;
+        light1.x+=1;
     }
     if(light2.x<val){
+        light2.x+=1;
+    }
+    if(light1.y<val){
+        light1.y+=1;
+    }
+    if(light2.y<val){
         light2.y+=1;
     }
 }

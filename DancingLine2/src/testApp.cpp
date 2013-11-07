@@ -193,9 +193,12 @@ void testApp::keyPressed(int key){
     if(key=='j'){
     }
     if(key=='k'){
+        composition.g.K();
     }
     if(key=='l'){
+        composition.g.L();
     }
+    
 }
 
 //--------------------------------------------------------------
