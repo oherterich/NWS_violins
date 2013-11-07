@@ -12,7 +12,9 @@ circle::circle(){
     disp=ofRandom(-.1f, .1f);
     fSpeed=ofRandom(.75, 2);
     vel=0;
-    grav=.08f;
+    grav= -.1f;
+    
+    falling=false;
     
 }
 
@@ -71,8 +73,13 @@ void circle::move(){
     
     angle+=sDisp;
     
+    if(!falling){
     pos.x=(pRad*cos(angle))+ofGetWidth()/2;
     pos.y=(pRad*sin(angle))+ofGetHeight()/2;
+    }else{
+        fall();
+    }
+    
     
 }
 
@@ -80,15 +87,16 @@ void circle::rota(float a){
     ofRotate(a);
 }
 
+
 void circle::fall(){
+    
     if(slowToStop){
     pos.y+=vel;
     vel+=grav;
         
-        if(pos.x>=ofGetHeight()-rad){
+        if(pos.x<=rad){
             vel*=-.9;
         }
-        
         
     }
     
