@@ -150,12 +150,8 @@ void Gallifrey::drawLines(float pitch1, float pitch2){
     }
     
     ofNoFill();
-<<<<<<< HEAD
     ofSetColor(255, 255, 255, 255);
-    
-=======
 
->>>>>>> 0ad7c97b289ad7ad26a62128ee79d55379e18d1b
     for (int i = 0; i<cirList.size(); i++) {
         float pitch;
         if(i==0){
