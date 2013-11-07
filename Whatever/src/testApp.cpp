@@ -5,14 +5,12 @@ void testApp::setup(){
     ofSetVerticalSync( true );
     ofBackground( 0 );
     ofEnableAlphaBlending();
-    ofHideCursor();
     
     rightParticleSwitch = false;
     rightParticleAmount = 15.0;
     
     suctionSwitch = false;
     colorLerpSwitch = false;
-    bBegin = false;
     bMain2 = false;
     bSolo = false;
     bRightParticleInside = false;
@@ -29,20 +27,46 @@ void testApp::setup(){
     blueRepulsionStr = 10.0;
     
     
+    //-----POST PROCESSING------
+    post.init(ofGetWidth(), ofGetHeight());
+    post.createPass<RimHighlightingPass>();
+    post.createPass<VerticalTiltShifPass>();
+    post.createPass<GodRaysPass>();
+    //    post.createPass<ContrastPass>();
+    
+    post.createPass<FxaaPass>();
+    //    post.createPass<BloomPass>();
+    //    post.createPass<SSAOPass>();
+    
+    ofSetSphereResolution(24);
+    ofSetSmoothLighting(true);
+    pointLight.setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    pointLight.setSpotlight(800.0, 2.0);
+    pointLight2.setDiffuseColor( ofFloatColor(.85, .85, .55) );
+    pointLight2.setSpecularColor( ofFloatColor(1.f, 1.f, 1.f));
+    pointLight2.setSpotlight(1000.0, 0.2);
+    material.setShininess( 200 );
+    material.setAmbientColor(ofColor((255)));
+    // the light highlight of the material //
+	material.setSpecularColor(ofColor(ofRandom(255), ofRandom(255), ofRandom(255), 255));
+
+    
+    
     //-----AUDIO--------
     receiver.setup(PORT);
+    
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-
-    if (bBegin) {
     
     //-----AUDIO---------------
     
     GetOSC();
     
     //-------------------------
+    
     
     
     for (vector<Particle>::iterator it = leftParticles.begin(); it != leftParticles.end(); ) {
@@ -73,17 +97,16 @@ void testApp::update(){
                 it->burst(it->pos.x, it->pos.y, 50.0);
             }
             
-            if (Channel01_Attack > 12.0) {
-                float strength = ofMap(Channel01_Attack, 12.0, 50.0, 5.0, 15.0);
-                it->addRepulsionForce(moveCenter.x, moveCenter.y, 100, strength);
+            if (Channel01_Attack > 2.6) {
+                it->addRepulsionForce(moveCenter.x, moveCenter.y, 100, 15.0);
             }
             
             else {
-                it->attractionForce( moveCenter.x, moveCenter.y, 0.5 );
+                it->attractionForce( moveCenter.x, moveCenter.y, 0.8 );
                 
                 it->addForce( wind );
-                it->addClockwiseForce(moveCenter.x, moveCenter.y, 300, ofMap(rightParticles.size(), 0, 3000, 0, 1.0));
-                it->addNoise(ofMap(rightParticles.size(), 0, 3000, 0, 10.0));
+                it->addClockwiseForce(moveCenter.x, moveCenter.y, 300, ofMap(rightParticles.size(), 0, 3000, 0, 10.0));
+                it->addNoise(ofMap(rightParticles.size(), 0, 3000, 0, 20.0));
             }
         }
         it->addDamping();
@@ -92,7 +115,7 @@ void testApp::update(){
             it->lerpToColor(it->c, ofColor(255,150,130), 0.005);
         }
         else {
-            it->lerpToColor(it->c, ofColor(220,250,220), 0.01);
+            it->lerpToColor(it->c, ofColor(235,150,240), 0.01);
         }
         
         it->update();
@@ -120,15 +143,7 @@ void testApp::update(){
         else if (!bRightParticleInside){
             it->attractionForce( moveCenter.x, moveCenter.y, 0.5);
             radius = ofMap(leftParticles.size(), 0, 1000, 0, 250);
-            
-            if (Channel02_Attack > 12.0) {
-                float strength = ofMap(Channel01_Attack, 12.0, 50.0, 10.0, 20.0);
-                it->addRepulsionForce(moveCenter.x, moveCenter.y, 100, strength);
-            }
         }
-        
-
-        
         else {
             it->lerpToColor(it->c, ofColor(240,100,120), 0.02);
             blueRepulsionStr = ofRandom( 0.2f, 1.0f );
@@ -256,10 +271,10 @@ void testApp::update(){
     float moveCenterSpeed;
     
     if (bSolo) {
-        moveCenterSpeed = 0.4;
+        moveCenterSpeed = 0.7;
     }
     else {
-        moveCenterSpeed = ofMap(sin(ofGetElapsedTimef() * 0.3), -1, 1, 0.08, .13);
+        moveCenterSpeed = ofMap(sin(ofGetElapsedTimef() * 0.1), -1, 1, 0.08, .2);
     }
     
     moveCenter.x = ofNoise(ofGetElapsedTimef() * moveCenterSpeed) * ofGetWindowWidth();
@@ -267,15 +282,19 @@ void testApp::update(){
     
     bForce = false;
 
-    }
+    
 }
 
 //--------------------------------------------------------------
 void testApp::draw(){
-    
-    if (bBegin) {
-    
     AudioDebug();
+    
+//    post.begin(cam);
+//    ofEnableLighting();
+//    pointLight.enable();
+//    pointLight2.enable();
+//	material.begin();
+
     
     //Loop through vectors and draw particles
     for ( vector<Particle>::iterator it = leftParticles.begin(); it != leftParticles.end(); it++ ) {
@@ -284,6 +303,9 @@ void testApp::draw(){
     for ( vector<Particle>::iterator it = rightParticles.begin(); it != rightParticles.end(); it++ ) {
         it->draw();
     }
+    
+   // post.end();
+
     
 //    ofSetColor(255, 255, 0);
 //    ofCircle(moveCenter, 10);
@@ -299,7 +321,6 @@ void testApp::draw(){
 //    
 //    ofSetColor(255, 255);
 //    ofDrawBitmapString(ofToString(rightParticleAmount), ofPoint(ofGetWindowWidth() / 2 - 10, 40));
-    }
 }
 
 void testApp::addLeftParticle( ofVec2f pos ) {
@@ -333,10 +354,6 @@ void testApp::addRightParticle( ofVec2f pos ) {
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-    if (key == 'a' || key == 'A') {
-        bBegin = !bBegin;
-    }
-    
     if (key == 's' || key == 'S') {
         rightParticleSwitch = !rightParticleSwitch;
     }

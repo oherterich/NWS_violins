@@ -4,6 +4,7 @@
 #include "Particle.h"
 
 #include "ofxOsc.h"
+#include "ofxPostProcessing.h"
 
 
 // listen on port 12345
@@ -37,7 +38,6 @@ class testApp : public ofBaseApp{
     
     bool colorLerpSwitch;
     bool suctionSwitch;
-    bool bBegin;
     bool bMain2;
     bool bSolo;
     bool bForce;
@@ -58,6 +58,14 @@ class testApp : public ofBaseApp{
     ofImage blue;
     
     ofVec2f moveCenter;
+    
+    //------POST PROCESSING------
+    ofEasyCam cam;
+    ofxPostProcessing post;
+    ofMaterial material;
+    ofLight pointLight, pointLight2, pointLight3;
+
+    
     
     
     //------AUDIO STUFF----------
