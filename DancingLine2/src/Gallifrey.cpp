@@ -214,10 +214,10 @@ void Gallifrey::I(){
 }
 
 void Gallifrey::O(){
+    cirList[5].fall();
 
 }
 
 void Gallifrey::P(){
-    snow=!snow;
-    storm=!storm;
+//    vac=!vac;
 }

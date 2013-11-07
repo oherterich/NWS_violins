@@ -11,6 +11,8 @@ circle::circle(){
     
     disp=ofRandom(-.1f, .1f);
     fSpeed=ofRandom(.75, 2);
+    vel=0;
+    grav=.08f;
     
 }
 
@@ -57,6 +59,7 @@ void circle::update(){
         if(stopped) mod+=.003;
     }
     
+    
 }
 
 void circle::move(){
@@ -75,6 +78,20 @@ void circle::move(){
 
 void circle::rota(float a){
     ofRotate(a);
+}
+
+void circle::fall(){
+    if(slowToStop){
+    pos.y+=vel;
+    vel+=grav;
+        
+        if(pos.x>=ofGetHeight()-rad){
+            vel*=-.9;
+        }
+        
+        
+    }
+    
 }
 
 void circle::drawLines(){

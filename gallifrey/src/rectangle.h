@@ -11,6 +11,7 @@ public:
     void rota(float a);
     void update();
     void addCircle(float r);
+    void fall();
     
     ofPoint pos;
     float rad;
@@ -21,7 +22,9 @@ public:
     float disp;
     float sDisp;
     float mod;
-    
+    float vel;
+    float grav;
+    float dt;
     
     ofColor c;
     
