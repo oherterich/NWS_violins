@@ -13,6 +13,7 @@ circle::circle(){
     fSpeed=ofRandom(.75, 2);
     vel=0;
     grav= .5f;
+    mod=1;
     
     falling=false;
     fixing=false;
@@ -58,6 +59,7 @@ void circle::update(){
             }
         }
     }else if(!slowToStop && abs(sDisp)<abs(disp*mod)){
+        ofLog()<<"Arf";
         sDisp+=((disp*mod)-sDisp)/150;
         if(stopped) mod+=.003;
     }

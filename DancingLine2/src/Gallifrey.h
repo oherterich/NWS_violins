@@ -26,6 +26,8 @@ public:
     void O();
     void P();
     void H();
+    void K();
+    void L();
     
     bool storm;
     
@@ -53,5 +55,8 @@ public:
     void clearCircles();
     float state, state_motion, state_time;
  //   float startR;
+    
+    bool fadeNow;
+    bool resetLights;
 };
 

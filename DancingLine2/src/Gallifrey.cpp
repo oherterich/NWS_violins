@@ -215,10 +215,21 @@ void Gallifrey::P(){
 }
 
 void Gallifrey::H(){
-    
+    chainFix=false;
+    chainFall=false;
     snow=!snow;
     storm=!storm;
     
+}
+
+void Gallifrey::K(){
+    fadeNow=true;
+    resetLights=false;
+}
+
+void Gallifrey::L(){
+    fadeNow=false;
+    resetLights=true;
 }
 
 
