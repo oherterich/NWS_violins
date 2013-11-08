@@ -269,26 +269,50 @@ void Composition::draw(){
 }
 
 void Composition::fadeLightOut(){
-    ofLog()<<light1 << " " << light2<<endl;
+    cout<<light1.x<<" "<<light1.y<<" "<<light2.x<<" "<<light2.y<<endl;
     if(light1.x>0){
-        
-        light1.set(light1.x, (.79) * light1.y);
-        if( light1.y < 0.01){
-            light1.set(light1.x,0);
-            ofLog()<<"Arf";
+        light1.x = light1.x*0.90;
+        if( light1.x < 100.01){
+            light1.x = 0;
+            light1.y = 0;
         }
-//        pos.x = ;
-//        pos.y = .15 * ((pRad*sin(angle))+ofGetHeight()/2) + (1-.15) * pos.y;
-
+    }
+    if(light1.y>0){
+        light1.y = light1.y*0.93;
+        if( light1.y < 0.01){
+            light1.y = 0;
+        }
     }
     if(light2.x>0){
-        light2.set(light2.x, (.79) * light2.y);
-        if(light2.y < 0.01){
-            light2.set(light2.x,0);
-            ofLog()<<"Bark";
+        light2.x = light2.x*0.90;
+        if( light2.x < 100.01){
+            light2.x = 0;
+            light2.y = 0;
         }
-
     }
+    if(light2.y>0){
+        light2.y = light2.y*0.93;
+        if( light2.y < 0.01){
+            light2.y = 0;
+        }
+    }
+//    
+//    if(light1.x>0){
+//        light1.set(light1.x*0.95, light1.y);
+//        if( light1.y < 0.01){
+//            light1.set(light1.x,0);
+//        }
+////        pos.x = ;
+////        pos.y = .15 * ((pRad*sin(angle))+ofGetHeight()/2) + (1-.15) * pos.y;
+//
+//    }
+//    if(light2.x>0){
+//        light2.set(light2.x, (.79) * light2.y);
+//        if(light2.y < 0.01){
+//            light2.set(light2.x,0);
+//        }
+//
+//    }
 //    if(light1.y>0){
 //        light1.set((1-.99) * light1.x, (1-.99) * light1.y);
 //    }
