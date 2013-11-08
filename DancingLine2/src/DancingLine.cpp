@@ -24,7 +24,7 @@ void DancingLine::update(float attack, double start){
     pos.x = sin((ofGetElapsedTimef()-start)/10);
     pos.y = cos((ofGetElapsedTimef()-start)/10+1000)+(ofGetElapsedTimef()-start)/10;
 //    pos.z = sin(ofGetElapsedTimef()/10-1000);
-    pos.z = 0;
+//    pos.z = sin((ofGetElapsedTimef()-start)/10+10000);;
 
     pos = pos*1000;
     
@@ -35,7 +35,7 @@ void DancingLine::update(float attack, double start){
     
     
     tmp.x = tmp.x + sin(ofGetElapsedTimef()-start)*100; //+ Channel01_Attack*100;
-    tmp.z = tmp.z + cos(ofGetElapsedTimef()-start)*100;// + Channel01_Attack*-100;
+//    tmp.z = tmp.z + cos(ofGetElapsedTimef()-start)*100;// + Channel01_Attack*-100;
     //tmp.y = tmp.y + Channel01_Attack*100;
     
     flat = tmp;
@@ -78,7 +78,7 @@ void DancingLine::draw(float pitch){
         if(separate){
 //            ofTranslate(sin(ofNoise(ofGetElapsedTimeMillis(), ofGetElapsedTimeMillis())), cos(ofNoise(ofGetElapsedTimeMillis(), ofGetElapsedTimeMillis())));
             float counter = 0;
-            for(int i=0; i<100; i++){
+            for(int i=0; i<80; i++){
                 ofPolyline P;
                 P.clear();
                 for( vector<ofVec3f>::iterator it=floatList.begin(); it!=floatList.end(); it++ ){

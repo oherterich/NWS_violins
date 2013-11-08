@@ -60,4 +60,5 @@ class testApp : public ofBaseApp {
     ofxPostProcessing post;
     ofMaterial material;
     ofLight pointLight, pointLight2, pointLight3;
+    int space;
 };

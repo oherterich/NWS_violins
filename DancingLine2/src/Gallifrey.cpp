@@ -98,7 +98,7 @@ void Gallifrey::draw(float pitch1, float pitch2, int type){
             pitch = pitch2;
         }
         ofColor newc = ofColor(255,0,0);
-        newc.setHue(ofClamp(ofMap(pitch,0,3000,0,255),0,255));
+        newc.setHue(ofClamp(ofMap(pitch,0,3000,0,255),20,100));
         c=lastc;
         c.lerp(newc, 50);
         lastc = newc;

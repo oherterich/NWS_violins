@@ -9,6 +9,7 @@ void testApp::setup(){
     composition.setup();
     ofSetFrameRate(60);
     mastercam.setPosition(-ofGetWidth()/2,0,-8000);
+    space = 0;
 }
 
 //--------------------------------------------------------------
@@ -151,6 +152,125 @@ void testApp::keyPressed(int key){
         composition.dartson = !composition.dartson;
     }
     
+
+    if(key == ' '){
+        switch(space){
+            case 0:
+                composition.camstart = composition.cam.getGlobalPosition();
+                composition.track = 1;
+                composition.status = 1;
+                composition.g.flickering = false;
+                composition.vines.clear();
+                for(int i=0;i<30;i++){
+                    Vine v;
+                    composition.vines.push_back(v);
+                }
+                break;
+            case 1:
+                composition.track = 1;
+                composition.status = 2;
+                composition.g.flickering = false;
+                break;
+            case 2:
+                composition.track = 1;
+                composition.status = 4;
+                composition.g.flickering = false;
+                break;
+            case 3:
+                composition.g.clearCircles();
+                composition.track = 2;
+                composition.status = 1;
+                composition.line1.PosList.clear();
+                composition.line2.PosList.clear();
+                composition.line1.separate = false;
+                composition.line2.separate = false;
+                composition.line1.rage = true;
+                composition.line2.rage = true;
+                composition.started = ofGetElapsedTimef();
+                composition.vines.clear();
+                for(int i=0;i<30;i++){
+                    Vine v;
+                    composition.vines.push_back(v);
+                }
+                break;
+            case 4:
+                composition.track = 2;
+                composition.status = 2;
+                composition.line1.separate = false;
+                composition.line2.separate = false;
+                composition.line1.rage = true;
+                composition.line2.rage = true;
+                break;
+            case 5:
+                composition.track = 2;
+                composition.status = 3;
+                composition.started = ofGetElapsedTimef();
+                composition.line1.separate = true;
+                composition.line2.separate = true;
+                composition.line1.rage = true;
+                composition.line2.rage = true;
+                composition.line1.floatList = composition.line1.PosList;
+                composition.line2.floatList = composition.line2.PosList;
+                break;
+            case 6:
+                composition.g.clearCircles();
+                composition.track = 2;
+                composition.status = 4;
+                composition.started = ofGetElapsedTimef();
+                composition.line1.explodeList.clear();
+                composition.line2.explodeList.clear();
+                composition.line1.separate = true;
+                composition.line2.separate = true;
+                composition.line1.rage = false;
+                composition.line2.rage = false;
+                composition.line1.explodeList = composition.line1.PosList;
+                composition.line2.explodeList = composition.line2.PosList;
+                break;
+            case 7:
+                composition.track = 2;
+                composition.status = 5;
+                break;
+            case 8:
+                composition.track = 2;
+                composition.status = 6;
+                break;
+            case 9:
+                composition.track = 2;
+                composition.status = 3;
+                composition.started = ofGetElapsedTimef();
+                composition.line1.separate = true;
+                composition.line2.separate = true;
+                composition.line1.rage = true;
+                composition.line2.rage = true;
+                composition.line1.floatList = composition.line1.PosList;
+                composition.line2.floatList = composition.line2.PosList;
+                break;
+            case 10:
+                composition.g.clearCircles();
+                composition.track = 2;
+                composition.status = 9;
+                composition.line1.explodeList.clear();
+                composition.line2.explodeList.clear();
+                composition.line1.separate = true;
+                composition.line2.separate = true;
+                composition.line1.rage = false;
+                composition.line2.rage = false;
+                composition.line1.explodeList = composition.line1.PosList;
+                composition.line2.explodeList = composition.line2.PosList;
+                break;
+            case 11:
+                composition.track = 2;
+                composition.status = 8;
+                break;
+            default:
+                break;
+        }
+        if(space==11){
+            space = 0;
+        } else {
+            space++;
+        }
+    }
     
     
     if(key == 'f'){

@@ -199,7 +199,7 @@ void Composition::draw(){
         if(status == 1){
             g.draw(pitch01*2,pitch02,0);
         } else if (status == 2){
-            g.draw(pitch01*2,pitch02);
+            g.draw(pitch01*2,pitch02,0);
             material.setShininess( 10 );
             for(int i=0; i<vines.size(); i++){
                 vines[i].draw((pitch01+pitch02)/2);
@@ -221,23 +221,23 @@ void Composition::draw(){
     } else if (track == 2){
         ofPushMatrix();
         if(status == 1){
-            line1.draw(pitch01*2);
-            line2.draw(pitch02);
+            line1.draw(pitch01);
+            line2.draw(pitch02*2);
         } else if (status == 2){
             line1.draw(pitch01);
-            line2.draw(pitch02);
+            line2.draw(pitch02*2);
             for(int i=0; i<darts.size(); i++){
                 darts[i].draw();
             }
         } else if (status == 3){
             line1.draw(pitch01);
-            line2.draw(pitch02);
+            line2.draw(pitch02*2);
             for(int i=0; i<darts.size(); i++){
                 darts[i].draw();
             }
         } else if (status == 4){
             line1.draw(pitch01);
-            line2.draw(pitch02);
+            line2.draw(pitch02*2);
             g.draw(pitch01, pitch02, 1);
 //            line1.drawPiece();
 //            line2.drawPiece();
@@ -260,10 +260,7 @@ void Composition::draw(){
             g.draw(pitch01*2, pitch02, 2);
         } else if (status == 9){
             line1.draw(pitch01);
-            line2.draw(pitch02);
-            g.draw(pitch01, pitch02, 2);
-            //            line1.drawPiece();
-            //            line2.drawPiece();
+            line2.draw(pitch02*2);
             g.draw(pitch01*2, pitch02, 2);
         }
         ofPopMatrix();
