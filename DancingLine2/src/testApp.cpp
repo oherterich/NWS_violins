@@ -2,7 +2,10 @@
 
 //--------------------------------------------------------------
 void testApp::setup(){
-    
+    // hide mouse cursor hack
+//    #ifdef __APPLE__
+//        CGDisplayHideCursor(NULL); // <- OK
+//    #endif
 	receiver.setup(PORT);
 //	ofBackground(0,0,20);
     ofEnableAlphaBlending();
@@ -10,11 +13,12 @@ void testApp::setup(){
     ofSetFrameRate(60);
     mastercam.setPosition(-ofGetWidth()/2,0,-8000);
     space = 0;
+    dancingline.setName("Violins Tracks 1 & 2");
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
-
+    ofSetWindowTitle(ofToString(ofGetFrameRate()));
     GetOSC();
     composition.update();
 }
@@ -23,10 +27,8 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
-//    AudioDebug();
-//    mastercam.begin();
     composition.draw();
-//    mastercam.end();
+    dancingline.publishScreen();
 }
 
 //--------------------------------------------------------------

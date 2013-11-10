@@ -25,11 +25,11 @@ void Composition::setup(){
     light2.set(1000.0, 2.0);
     post.init(ofGetWidth(), ofGetHeight());
     post.createPass<RimHighlightingPass>();
-    post.createPass<VerticalTiltShifPass>();
+//    post.createPass<VerticalTiltShifPass>();
     post.createPass<GodRaysPass>();
     //    post.createPass<ContrastPass>();
     
-    post.createPass<FxaaPass>();
+//    post.createPass<FxaaPass>();
     //    post.createPass<BloomPass>();
     //    post.createPass<SSAOPass>();
     

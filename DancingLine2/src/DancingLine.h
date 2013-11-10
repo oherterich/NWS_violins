@@ -36,4 +36,5 @@ public:
     vector<LinePiece> pieces;
     ofColor c, lastc;
     ofVec2f flat;
+//    ofPolyline P;
 };

@@ -61,4 +61,5 @@ class testApp : public ofBaseApp {
     ofMaterial material;
     ofLight pointLight, pointLight2, pointLight3;
     int space;
+    ofxSyphonServer dancingline;
 };

@@ -82,6 +82,7 @@ void DancingLine::draw(float pitch){
                 ofPolyline P;
                 P.clear();
                 for( vector<ofVec3f>::iterator it=floatList.begin(); it!=floatList.end(); it++ ){
+                    if(floatList.end()-80<it){
                     float x = it->x+i/20*ofRandom(-jitter,jitter);
                     float y = it->y+i/20*ofRandom(-jitter,jitter);
                     float z = it->z+i/20*ofRandom(-jitter,jitter);
@@ -97,6 +98,7 @@ void DancingLine::draw(float pitch){
                             it->y = 0;
                             it->z = 0;
                         }
+                    }
                     }
                 }
                 P.draw();
